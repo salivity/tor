@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tor Traffic Volume After Silk Road Closure - tor</title>
+    <meta name="description" content="When the FBI seized the Silk Road marketplace in October 2013, many assumed the Tor network would experience a devastating decline in activity. However, the closure did not cause a significant drop in authentic Tor traffic. While network metrics showed a">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tor-traffic-volume-after-silk-road-closure">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tor Traffic Volume After Silk Road Closure - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tor-traffic-volume-after-silk-road-closure" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When the FBI seized the Silk Road marketplace in October 2013, many assumed the Tor network would experience a devastating decline in activity. However, the closure did not cause a significant drop in authentic Tor traffic. While network metrics showed a" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tor-traffic-volume-after-silk-road-closure">Tor Traffic Volume
+After Silk Road Closure</h1>
+<p>When the FBI seized the Silk Road marketplace in October 2013, many
+assumed the Tor network would experience a devastating decline in
+activity. However, the closure did not cause a significant drop in
+authentic Tor traffic. While network metrics showed a sharp drop in
+connections around the same time, this reduction was driven by the
+dismantling of an unrelated malware botnet, not the disappearance of the
+darknet marketplace.</p>
+<p>In late August 2013, just weeks before the Silk Road seizure, Tor's
+daily user count mysteriously jumped from roughly one million to over
+five million users. This massive spike was not caused by drug buyers or
+privacy advocates, but by the Sefnit (or Mevade) botnet, which used
+Tor's infrastructure to control infected computers. In late September
+and October, security researchers and antivirus providers disabled the
+botnet's Tor communication capabilities. This caused Tor connection
+numbers to plummet back to their baseline levels, coinciding almost
+exactly with the Silk Road's shutdown on October 2, 2013.</p>
+<p>Beyond the statistical distortion caused by the botnet, the
+fundamental architecture and usage patterns of Tor prevented the Silk
+Road's closure from harming total traffic. Onion services (hidden
+services) historically account for only a small fraction—estimated
+between 1.5% to 5%—of the overall bandwidth on the Tor network. The vast
+majority of Tor users rely on the network to access the standard
+internet anonymously through exit nodes, meaning the loss of any single
+hidden service has a minimal impact on total data flow.</p>
+<p>Additionally, user demand for darknet commerce did not evaporate with
+the Silk Road. Within weeks of the seizure, buyers and vendors migrated
+to alternative platforms such as Black Market Reloaded, Sheep
+Marketplace, and the quickly launched Silk Road 2.0. This rapid
+migration redistributed hidden service traffic rather than eliminating
+it, ensuring that actual human participation across the Tor ecosystem
+remained stable.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

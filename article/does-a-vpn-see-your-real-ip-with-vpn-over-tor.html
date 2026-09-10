@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does a VPN See Your Real IP with VPN Over Tor? - tor</title>
+    <meta name="description" content="In a VPN over Tor configuration, your internet traffic is routed through the Tor network before it connects to a VPN server. Because the connection is relayed through multiple encrypted Tor nodes first, the VPN provider cannot see your real IP address; i">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-a-vpn-see-your-real-ip-with-vpn-over-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does a VPN See Your Real IP with VPN Over Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-a-vpn-see-your-real-ip-with-vpn-over-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In a VPN over Tor configuration, your internet traffic is routed through the Tor network before it connects to a VPN server. Because the connection is relayed through multiple encrypted Tor nodes first, the VPN provider cannot see your real IP address; i" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-a-vpn-see-your-real-ip-with-vpn-over-tor">Does a VPN See
+Your Real IP with VPN Over Tor?</h1>
+<p>In a VPN over Tor configuration, your internet traffic is routed
+through the Tor network before it connects to a VPN server. Because the
+connection is relayed through multiple encrypted Tor nodes first, the
+VPN provider cannot see your real IP address; it only sees the IP
+address of the Tor exit node. This article explains how this routing
+mechanism works, what the VPN provider can and cannot see, and the
+practical implications of this privacy setup.</p>
+<h2 id="how-vpn-over-tor-routes-your-traffic">How VPN Over Tor Routes
+Your Traffic</h2>
+<p>To understand what information is exposed, it is necessary to look at
+the step-by-step path your data travels in a true VPN over Tor
+setup:</p>
+<ol type="1">
+<li><strong>Your Device to Tor Guard Node:</strong> Your computer
+establishes a connection to the Tor network. The first Tor server (the
+Guard or Entry node) sees your real public IP address provided by your
+Internet Service Provider (ISP).</li>
+<li><strong>Tor Middle and Exit Nodes:</strong> The traffic passes
+through intermediate nodes, stripping layers of encryption along the
+way.</li>
+<li><strong>Tor Exit Node to VPN Server:</strong> The Tor exit node
+forwards your connection to the VPN server.</li>
+<li><strong>VPN Server to Destination:</strong> The VPN server decrypts
+the final layer and routes the traffic to the destination website or
+service.</li>
+</ol>
+<p>Because the VPN server is placed <em>after</em> the Tor network, the
+incoming connection originates directly from the Tor exit node.
+Consequently, the VPN provider's logs will only register the exit node's
+IP address.</p>
+<h2 id="what-the-vpn-provider-actually-sees">What the VPN Provider
+Actually Sees</h2>
+<p>While your real IP address remains hidden from the VPN, the provider
+still has access to certain data points:</p>
+<ul>
+<li><strong>Tor Exit Node IP:</strong> The provider sees the specific IP
+address of the Tor server initiating the connection.</li>
+<li><strong>Traffic Destination:</strong> The VPN server sees the
+unencrypted destination of your traffic (the websites or servers you
+visit), unless those destinations use end-to-end encryption like
+HTTPS.</li>
+<li><strong>Account Identifiers:</strong> If you log into a VPN account
+that is tied to your real name, email address, or non-anonymous payment
+methods (such as a credit card or PayPal), the provider can still
+associate your activity with your identity, regardless of the masked IP
+address.</li>
+</ul>
+<h2 id="distinction-vpn-over-tor-vs-tor-over-vpn">Distinction: VPN Over
+Tor vs. Tor Over VPN</h2>
+<p>It is common to confuse "VPN over Tor" with "Tor over VPN," but the
+privacy implications for your IP address are entirely different:</p>
+<ul>
+<li><strong>VPN over Tor (User → Tor → VPN → Internet):</strong> The Tor
+entry node sees your real IP. The VPN provider does <strong>not</strong>
+see your real IP.</li>
+<li><strong>Tor over VPN (User → VPN → Tor → Internet):</strong> The VPN
+provider <strong>does</strong> see your real IP address, but the Tor
+network and the destination websites do not.</li>
+</ul>
+<h2 id="practical-considerations">Practical Considerations</h2>
+<p>While a VPN over Tor setup successfully conceals your IP address from
+the VPN provider, it introduces specific challenges:</p>
+<ul>
+<li><strong>Configuration Complexity:</strong> Setting up VPN over Tor
+requires advanced network configuration, often requiring a dedicated
+virtual machine or specialized router firmware to force VPN traffic
+through a Tor proxy.</li>
+<li><strong>Severe Speed Reductions:</strong> Routing data through three
+Tor nodes and subsequently through an encrypted VPN tunnel introduces
+substantial latency and drastically decreases download and upload
+speeds.</li>
+<li><strong>Anonymity Limits:</strong> Masking your IP from the VPN
+provider only provides full anonymity if your VPN registration, payment
+method, and browsing behavior are also completely decoupled from your
+real-world identity.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

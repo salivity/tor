@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Identifies and Removes Bad Exit Nodes - tor</title>
+    <meta name="description" content="The Tor network relies on thousands of volunteer-run relays to route encrypted traffic, but malicious actors occasionally deploy "bad exit nodes" to spy on users, tamper with unencrypted traffic, or execute man-in-the-middle attacks. To protect user priv">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-identifies-and-removes-bad-exit-nodes">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Identifies and Removes Bad Exit Nodes - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-identifies-and-removes-bad-exit-nodes" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network relies on thousands of volunteer-run relays to route encrypted traffic, but malicious actors occasionally deploy "bad exit nodes" to spy on users, tamper with unencrypted traffic, or execute man-in-the-middle attacks. To protect user priv" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-identifies-and-removes-bad-exit-nodes">How Tor
+Identifies and Removes Bad Exit Nodes</h1>
+<p>The Tor network relies on thousands of volunteer-run relays to route
+encrypted traffic, but malicious actors occasionally deploy "bad exit
+nodes" to spy on users, tamper with unencrypted traffic, or execute
+man-in-the-middle attacks. To protect user privacy and network
+integrity, the Tor Project utilizes a combination of automated scanning
+tools, community monitoring, and a consensus-based flagging mechanism to
+detect, restrict, and remove rogue exit relays from the network.</p>
+<h3 id="what-constitutes-a-bad-exit-node">What Constitutes a Bad Exit
+Node?</h3>
+<p>An exit node is the final relay in a Tor circuit, responsible for
+sending the user's traffic to the destination website. A bad exit node
+is one that actively harms user privacy or security. Common malicious
+activities include:</p>
+<ul>
+<li><strong>Traffic Sniffing and Logging:</strong> Recording unencrypted
+plain text (HTTP) requests, credentials, or metadata.</li>
+<li><strong>SSL Stripping and MITM Attacks:</strong> Downgrading HTTPS
+connections to HTTP or presenting forged TLS certificates.</li>
+<li><strong>Content Injection:</strong> Modifying website code to inject
+advertisements, tracking scripts, or malware.</li>
+<li><strong>Cryptocurrency Address Swapping:</strong> Replacing Bitcoin
+or Monero addresses on web pages with addresses controlled by the
+attacker.</li>
+<li><strong>Sybil Attacks:</strong> Deploying large fleets of exit
+relays simultaneously to increase the probability of intercepting
+targeted user traffic.</li>
+</ul>
+<h3 id="automated-detection-and-scanning">Automated Detection and
+Scanning</h3>
+<p>The Tor Project and independent security researchers actively audit
+exit relays using specialized automated testing suites:</p>
+<ul>
+<li><strong>Active Probing Tools:</strong> Tools such as
+<code>exitmap</code> probe exit nodes by routing controlled requests
+through individual relays and analyzing the responses. If an exit node
+returns modified HTML, altered headers, or stripped encryption compared
+to a direct connection, it is flagged as compromised.</li>
+<li><strong>Heuristic Analysis:</strong> Automated monitoring systems
+look for suspicious operational patterns, such as thousands of relays
+appearing simultaneously from the same Autonomous System Number (ASN) or
+sharing nearly identical configurations and cryptographic keys.</li>
+</ul>
+<h3 id="community-reporting-and-the-network-health-team">Community
+Reporting and the Network Health Team</h3>
+<p>Detection is also driven by community vigilance and internal
+oversight:</p>
+<ul>
+<li><strong>Tor Network Health Team:</strong> A dedicated team within
+the Tor Project actively monitors relay behavior, investigates
+anomalies, and tracks coordinated attacks.</li>
+<li><strong>User and Researcher Reports:</strong> Anyone who detects
+altered traffic or suspicious relay activity can submit reports directly
+to the Tor Project via their issue tracker or the dedicated
+<code>bad-relays</code> mailing list with evidence such as network
+captures and relay fingerprints.</li>
+</ul>
+<h3 id="the-removal-process-the-badexit-flag-and-consensus">The Removal
+Process: The <code>BadExit</code> Flag and Consensus</h3>
+<p>Once a relay is confirmed to be malicious or misconfigured, it
+undergoes a formal mitigation process through Tor’s decentralized
+consensus:</p>
+<ol type="1">
+<li><strong>Assigning the <code>BadExit</code> Flag:</strong> Tor relies
+on a set of trusted Directory Authorities—independent servers managed by
+distinct organizations. When a bad exit is identified, these authorities
+vote to append the <code>BadExit</code> flag to the node’s cryptographic
+identity in the network consensus document.</li>
+<li><strong>Client-Side Enforcement:</strong> When Tor clients download
+the latest consensus (updated hourly), they automatically exclude any
+relay marked with <code>BadExit</code> from being chosen as an exit
+node.</li>
+<li><strong>Complete Blacklisting:</strong> In cases of severe or
+persistent malicious behavior, Directory Authorities can reject the
+relay entirely, preventing it from functioning as an entry guard or
+middle relay as well.</li>
+</ol>
+<p>Through continuous automated probing, rapid community reporting, and
+hourly consensus updates, the Tor Project systematically purges hostile
+exit nodes to maintain a secure and private routing environment.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

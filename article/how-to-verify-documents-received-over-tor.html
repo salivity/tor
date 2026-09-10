@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Verify Documents Received Over Tor - tor</title>
+    <meta name="description" content="Receiving sensitive files through anonymous networks like Tor or SecureDrop protects whistleblowers, but it presents a unique verification challenge because the sender's identity cannot be directly confirmed. Authenticating these leaks requires a rigorou">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-verify-documents-received-over-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Verify Documents Received Over Tor - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-verify-documents-received-over-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Receiving sensitive files through anonymous networks like Tor or SecureDrop protects whistleblowers, but it presents a unique verification challenge because the sender's identity cannot be directly confirmed. Authenticating these leaks requires a rigorou" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-verify-documents-received-over-tor">How to Verify
+Documents Received Over Tor</h1>
+<p>Receiving sensitive files through anonymous networks like Tor or
+SecureDrop protects whistleblowers, but it presents a unique
+verification challenge because the sender's identity cannot be directly
+confirmed. Authenticating these leaks requires a rigorous combination of
+digital forensics, content analysis, cryptographic checks, and
+traditional investigative reporting. By following a structured
+verification process, journalists can ensure that the documents they
+receive are genuine, unaltered, and safe to report on.</p>
+<h3 id="1-maintain-digital-safety-and-isolation">1. Maintain Digital
+Safety and Isolation</h3>
+<p>Before inspecting the files, isolate them to prevent potential
+malware infections or tracking beacons that could compromise your system
+or reveal your identity:</p>
+<ul>
+<li>Transfer the files to an air-gapped computer (a device physically
+disconnected from the internet and local networks).</li>
+<li>Scan files for embedded malware, tracking pixels, or hidden macros
+using tools like Dangerzone or specialized sandboxes.</li>
+<li>Convert complex files (such as <code>.docx</code> or
+<code>.pdf</code>) into safe, flat formats (like images or plain text)
+before broader analysis.</li>
+</ul>
+<h3 id="2-perform-digital-metadata-analysis">2. Perform Digital Metadata
+Analysis</h3>
+<p>Metadata reveals critical information about how and when a document
+was created:</p>
+<ul>
+<li>Use command-line tools like <code>exiftool</code> to inspect file
+properties, including creation dates, modification timestamps, author
+usernames, printer serial numbers, and the software versions used to
+generate the file.</li>
+<li>Cross-check metadata against known timelines. Anachronisms—such as
+software versions that did not exist on the alleged creation date—are
+immediate red flags.</li>
+<li>Recognize that metadata can be deliberately spoofed, so it should be
+used to rule out fakes rather than serve as sole proof of
+authenticity.</li>
+</ul>
+<h3 id="3-check-for-cryptographic-signatures-and-hashes">3. Check for
+Cryptographic Signatures and Hashes</h3>
+<p>Digital signatures provide strong mathematical proof of
+authenticity:</p>
+<ul>
+<li>Check if the document or email is digitally signed with an
+established PGP key, S/MIME certificate, or internal organization
+cryptographic signature.</li>
+<li>Verify any attached checksums (SHA-256 or MD5) against known,
+publicly available file hashes from the originating organization.</li>
+<li>Inspect headers in leaked email files (<code>.eml</code> or
+<code>.msg</code>) for valid DKIM (DomainKeys Identified Mail)
+signatures, which prove the email originated from the stated server and
+was not altered in transit.</li>
+</ul>
+<h3 id="4-scrutinize-internal-content-and-formatting">4. Scrutinize
+Internal Content and Formatting</h3>
+<p>Authentic internal documents usually follow specific bureaucratic or
+institutional conventions:</p>
+<ul>
+<li>Compare formatting, fonts, headers, footers, classified markings,
+and logos with confirmed authentic documents from the same
+organization.</li>
+<li>Verify internal organizational details such as employee IDs,
+department codes, internal email routing addresses, project codenames,
+and office locations.</li>
+<li>Look for anachronistic language, unusual jargon, or stylistic
+inconsistencies that deviate from the organization's standard
+practices.</li>
+</ul>
+<h3 id="5-corroborate-facts-through-independent-reporting">5.
+Corroborate Facts Through Independent Reporting</h3>
+<p>Technical analysis must be supported by classic investigative
+methods:</p>
+<ul>
+<li>Fact-check verifiable events, dates, flight logs, weather reports,
+financial figures, or calendar entries mentioned within the text.</li>
+<li>Contact independent sources within or adjacent to the organization
+to confirm that the described events, meetings, or decisions actually
+occurred.</li>
+<li>Approach the originating organization or the individuals named in
+the document for comment prior to publication, presenting specific
+excerpts to gauge their response or confirm receipt of the original
+communications.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

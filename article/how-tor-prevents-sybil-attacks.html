@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Prevents Sybil Attacks - tor</title>
+    <meta name="description" content="A Sybil attack occurs when an adversary creates a large number of pseudonymous identities to gain disproportionate control over a decentralized network. In the Tor network, a massive Sybil attack could allow an attacker to control both the entry (Guard)">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-prevents-sybil-attacks">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Prevents Sybil Attacks - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-prevents-sybil-attacks" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Sybil attack occurs when an adversary creates a large number of pseudonymous identities to gain disproportionate control over a decentralized network. In the Tor network, a massive Sybil attack could allow an attacker to control both the entry (Guard)" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-prevents-sybil-attacks">How Tor Prevents Sybil
+Attacks</h1>
+<p>A Sybil attack occurs when an adversary creates a large number of
+pseudonymous identities to gain disproportionate control over a
+decentralized network. In the Tor network, a massive Sybil attack could
+allow an attacker to control both the entry (Guard) and exit relays of a
+circuit, effectively deanonymizing user traffic. To defend against this
+threat, Tor relies on a trusted group of Directory Authorities
+(DirAuths) that manage relay admission, validate relay capabilities, and
+reach a cryptographic consensus every hour to neutralize attempts at
+mass infiltration.</p>
+<h3 id="1-consensus-voting-and-relay-flags">1. Consensus Voting and
+Relay Flags</h3>
+<p>The Tor network is governed by a small, geographically distributed
+set of Directory Authorities operated by independent, trusted
+individuals. Every hour, these authorities independently evaluate the
+state of the network and produce a signed document known as the
+<em>consensus</em>.</p>
+<p>For a newly created relay to participate in the network, authorities
+must vote to assign it specific status flags, primarily
+<code>Valid</code> and <code>Running</code>. Without these flags,
+clients will not select the relay for circuits. Because individual
+authorities independently probe and verify relays, an attacker cannot
+simply register thousands of fake nodes simultaneously and have them
+instantly routed into user circuits.</p>
+<h3 id="2-earning-guard-and-exit-status">2. Earning Guard and Exit
+Status</h3>
+<p>The most dangerous Sybil attacks require controlling both the entry
+and exit points of a Tor circuit. Directory authorities enforce strict
+performance and stability requirements before granting relays the
+critical <code>Guard</code> and <code>Exit</code> flags:</p>
+<ul>
+<li><strong>Guard Flag Requirements:</strong> A relay must maintain high
+uptime, prove continuous reliability over days or weeks, and demonstrate
+significant bandwidth. This delay prevents an attacker from rapidly
+spinning up thousands of temporary nodes to capture traffic.</li>
+<li><strong>Exit Flag Restrictions:</strong> Exit relays must explicitly
+publish exit policies permitting outbound traffic to the public
+internet, exposing malicious infrastructure to abuse complaints and
+external scrutiny.</li>
+</ul>
+<h3 id="3-ip-subnet-and-family-grouping">3. IP Subnet and Family
+Grouping</h3>
+<p>To prevent an entity from launching thousands of relays from a single
+cloud provider or IP block, Tor enforces network diversity rules:</p>
+<ul>
+<li><strong>Subnet Restrictions:</strong> Clients and authorities treat
+all relays in the same <code>/16</code> IPv4 prefix (or <code>/32</code>
+IPv6 prefix) as a single entity. Clients will never choose two relays
+from the same subnet in a single circuit.</li>
+<li><strong>MyFamily Configuration:</strong> Relays operated by the same
+administrator must declare each other in their <code>MyFamily</code>
+configuration. Authorities and clients use this information to ensure
+that relays belonging to the same operator are never placed in the same
+path.</li>
+</ul>
+<h3 id="4-active-bandwidth-measurement">4. Active Bandwidth
+Measurement</h3>
+<p>In early versions of Tor, relays self-reported their available
+bandwidth, creating a vulnerability where an attacker could advertise
+massive capacity to attract traffic without spending real resources.
+Today, directory authorities utilize dedicated bandwidth measurement
+scanners (such as <em>sbws</em>).</p>
+<p>These scanners continuously measure the actual throughput of relays
+from the outside. Authorities assign relay weights based on measured
+capacity rather than self-reported claims, forcing attackers to invest
+genuine, sustained bandwidth to attract significant amounts of network
+traffic.</p>
+<h3 id="5-automated-heuristics-and-manual-vetting">5. Automated
+Heuristics and Manual Vetting</h3>
+<p>Tor Directory Authority operators and the Tor Network Health Team
+actively monitor the network for anomalies. They utilize heuristic
+analysis tools to detect suspicious registration patterns,
+including:</p>
+<ul>
+<li>Hundreds of new relays appearing within the same short
+timeframe.</li>
+<li>Clusters of relays sharing identical cryptographic key parameters,
+operating system versions, or contact information.</li>
+<li>Sudden mass configuration changes across seemingly unrelated
+relays.</li>
+</ul>
+<p>When coordinated Sybil clusters are detected, directory authority
+operators can quickly reject or blacklist the offending relays by adding
+them to bad-relay lists (<code>BadExit</code> or outright exclusion from
+the consensus), neutralizing the attack before it can compromise user
+privacy.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

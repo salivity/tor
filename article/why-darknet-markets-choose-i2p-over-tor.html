@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Darknet Markets Choose I2P Over Tor - tor</title>
+    <meta name="description" content="While the Tor network has historically been the primary standard for darknet market hosting, recurring network instability and persistent distributed denial-of-service (DDoS) attacks have forced operators to seek more reliable alternatives. The Invisible">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-darknet-markets-choose-i2p-over-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Darknet Markets Choose I2P Over Tor - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-darknet-markets-choose-i2p-over-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While the Tor network has historically been the primary standard for darknet market hosting, recurring network instability and persistent distributed denial-of-service (DDoS) attacks have forced operators to seek more reliable alternatives. The Invisible" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-darknet-markets-choose-i2p-over-tor">Why Darknet Markets
+Choose I2P Over Tor</h1>
+<p>While the Tor network has historically been the primary standard for
+darknet market hosting, recurring network instability and persistent
+distributed denial-of-service (DDoS) attacks have forced operators to
+seek more reliable alternatives. The Invisible Internet Project (I2P)
+has emerged as a preferred substitute due to its fundamentally different
+architecture, superior handling of internal traffic, and enhanced
+resistance to network-wide disruptions.</p>
+<h3 id="distributed-architecture-and-ddos-resilience">Distributed
+Architecture and DDoS Resilience</h3>
+<p>Tor relies on a semi-centralized system of Directory Authorities to
+maintain a consensus of network relays. Because of this structure,
+attackers have frequently targeted the rendezvous and introduction
+points of Onion services, rendering marketplaces inaccessible for days
+or weeks.</p>
+<p>In contrast, I2P operates on a fully decentralized distributed hash
+table (DHT), known as "NetDB." Because there is no central authority
+governing the routing paths, it is significantly more difficult for
+attackers to coordinate large-scale denial-of-service campaigns against
+a single host or choke the network infrastructure.</p>
+<h3 id="native-focus-on-hidden-services">Native Focus on Hidden
+Services</h3>
+<p>Tor was originally engineered to allow users inside a network to
+access the open internet (clearnet) anonymously through exit relays;
+Onion services were implemented as an extension of this design.</p>
+<p>I2P was designed from the ground up as a closed, self-contained
+network intended for hosting internal sites (known as "eepsites") and
+peer-to-peer applications. Because I2P does not inherently focus on
+exit-node routing to the clearnet, its internal communication protocols
+are optimized specifically for hidden services, resulting in lower
+overhead and better optimization for site-to-user traffic.</p>
+<h3 id="unidirectional-tunnels">Unidirectional Tunnels</h3>
+<p>Tor uses bidirectional virtual circuits, meaning incoming and
+outgoing data travel along the exact same path of three relays. This
+makes traffic analysis and timing attacks theoretically easier if an
+adversary controls or monitors both ends of the circuit.</p>
+<p>I2P implements unidirectional tunnels. Data sent from a client to a
+server travels through one set of peers (the outbound tunnel), while the
+server’s response returns through a completely distinct set of peers
+(the inbound tunnel). This split routing mechanism doubles the number of
+relays involved in an exchange, creating a higher barrier against
+traffic-correlation attacks.</p>
+<h3 id="peer-to-peer-bandwidth-contribution">Peer-to-Peer Bandwidth
+Contribution</h3>
+<p>In the Tor network, a user typically acts solely as a client unless
+they explicitly configure their machine to be a volunteer relay or
+bridge. This creates a supply-and-demand imbalance where millions of
+users rely on a comparatively small number of relay operators.</p>
+<p>I2P operates on a peer-to-peer model where every participant natively
+acts as a router and routes traffic for other network participants. By
+default, any market user or operator accessing the network also
+contributes bandwidth to the network mesh. This design distributes
+traffic loads more evenly and scales network capacity automatically as
+user numbers increase.</p>
+<h3 id="diversification-and-risk-mitigation">Diversification and Risk
+Mitigation</h3>
+<p>Relying exclusively on Tor exposes market operators to single points
+of failure, including zero-day vulnerabilities in the Tor protocol,
+targeted law enforcement surveillance techniques, or prolonged
+protocol-level outages. Adopting I2P provides operators with operational
+redundancy, ensuring that even if access via Tor is severed or degraded,
+the platform remains accessible to its user base.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

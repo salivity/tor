@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does a Tor Snowflake Proxy See Your Traffic? - tor</title>
+    <meta name="description" content="The short answer is no; a Tor Snowflake proxy cannot see your unencrypted web traffic or the websites you visit. Tor uses multiple layers of encryption before your data ever leaves your computer, meaning volunteer proxies only act as temporary, blind con">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-a-tor-snowflake-proxy-see-your-traffic">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does a Tor Snowflake Proxy See Your Traffic? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-a-tor-snowflake-proxy-see-your-traffic" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The short answer is no; a Tor Snowflake proxy cannot see your unencrypted web traffic or the websites you visit. Tor uses multiple layers of encryption before your data ever leaves your computer, meaning volunteer proxies only act as temporary, blind con" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-a-tor-snowflake-proxy-see-your-traffic">Does a Tor
+Snowflake Proxy See Your Traffic?</h1>
+<p>The short answer is no; a Tor Snowflake proxy cannot see your
+unencrypted web traffic or the websites you visit. Tor uses multiple
+layers of encryption before your data ever leaves your computer, meaning
+volunteer proxies only act as temporary, blind conduits designed to
+bypass internet censorship. This article explains how the Snowflake
+system handles your data, what information a proxy operator can and
+cannot see, and why this design keeps both users and volunteers
+secure.</p>
+<h3 id="how-snowflake-handles-data">How Snowflake Handles Data</h3>
+<p>Snowflake is an anti-censorship tool designed to help users in
+restricted regions connect to the Tor network. It uses WebRTC (the same
+protocol used for browser-based video calls) to route traffic through
+temporary, volunteer-run browser proxies to a central Tor bridge.</p>
+<p>When you browse using Snowflake, the process follows these steps:</p>
+<ol type="1">
+<li>Your Tor Browser encrypts your web request in multiple layers (the
+"onion" layers).</li>
+<li>The encrypted packet is sent via WebRTC to a volunteer running the
+Snowflake extension or standalone proxy.</li>
+<li>The Snowflake proxy simply forwards these encrypted packets to a
+dedicated Tor bridge.</li>
+<li>The Tor network decrypts the layers sequentially through Guard,
+Middle, and Exit relays before sending the final request to the target
+website.</li>
+</ol>
+<h3 id="what-the-snowflake-proxy-can-see">What the Snowflake Proxy Can
+See</h3>
+<p>Because the proxy acts as a bridge, it only has access to minimal
+metadata necessary to establish the connection:</p>
+<ul>
+<li><strong>The user's IP address:</strong> Since WebRTC creates a
+peer-to-peer connection, the proxy generally knows the IP address
+connecting to it.</li>
+<li><strong>Volume and timing of traffic:</strong> The proxy can observe
+how much encrypted data is being sent and when the connection is
+active.</li>
+<li><strong>Tor bridge destination:</strong> The proxy knows it is
+forwarding data to an official Tor bridge.</li>
+</ul>
+<h3 id="what-the-snowflake-proxy-cannot-see">What the Snowflake Proxy
+Cannot See</h3>
+<p>The Snowflake proxy cannot access any sensitive browsing data because
+of Tor's end-to-end layered encryption:</p>
+<ul>
+<li><strong>Websites visited:</strong> The proxy has no visibility into
+URLs, domain names, or search queries.</li>
+<li><strong>Browsing content:</strong> Passwords, messages, page
+content, and downloads remain completely encrypted.</li>
+<li><strong>The final destination:</strong> The proxy only knows that
+data is going to the Tor network, not where it goes after leaving the
+network.</li>
+</ul>
+<h3 id="why-snowflake-proxies-carry-low-risk">Why Snowflake Proxies
+Carry Low Risk</h3>
+<p>Unlike Tor exit nodes—which decrypt traffic and interact directly
+with target websites—Snowflake proxies never touch the open web on
+behalf of a user. The volunteer proxy merely routes opaque, encrypted
+traffic into the entry point of the Tor network. As a result, Snowflake
+operators cannot spy on users, and they cannot be held responsible for
+the web traffic generated after the data enters the Tor network.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

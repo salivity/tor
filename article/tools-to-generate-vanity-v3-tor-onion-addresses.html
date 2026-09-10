@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools to Generate Vanity V3 Tor Onion Addresses - tor</title>
+    <meta name="description" content="Generating custom or "vanity" V3 Tor onion addresses allows website operators to create recognizable .onion domain prefixes instead of purely random strings. While Version 3 onion services use robust 56-character Ed25519 public keys that make long-string">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tools-to-generate-vanity-v3-tor-onion-addresses">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tools to Generate Vanity V3 Tor Onion Addresses - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tools-to-generate-vanity-v3-tor-onion-addresses" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Generating custom or "vanity" V3 Tor onion addresses allows website operators to create recognizable .onion domain prefixes instead of purely random strings. While Version 3 onion services use robust 56-character Ed25519 public keys that make long-string" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tools-to-generate-vanity-v3-tor-onion-addresses">Tools to
+Generate Vanity V3 Tor Onion Addresses</h1>
+<p>Generating custom or "vanity" V3 Tor onion addresses allows website
+operators to create recognizable <code>.onion</code> domain prefixes
+instead of purely random strings. While Version 3 onion services use
+robust 56-character Ed25519 public keys that make long-string
+customization cryptographically impossible, specialized open-source
+brute-force tools make it feasible to generate short custom prefixes
+using modern CPU and GPU hardware.</p>
+<h2 id="how-v3-onion-address-generation-works">How V3 Onion Address
+Generation Works</h2>
+<p>A Tor V3 address is derived from a 32-byte Ed25519 public key encoded
+in Base32 (the characters <code>a-z</code> and <code>2-7</code>),
+followed by a checksum and version byte, ending in
+<code>.onion</code>.</p>
+<p>Because the address is mathematically bound to a private
+cryptographic key, you cannot simply choose a custom name. Instead,
+vanity address generation works through brute force: a tool continuously
+creates random private/public keypairs at high speed until it discovers
+an address starting with the specific characters you request.</p>
+<h2 id="popular-tools-for-generating-v3-vanity-addresses">Popular Tools
+for Generating V3 Vanity Addresses</h2>
+<p>Several dedicated, open-source tools are designed to efficiently
+search for V3 onion addresses:</p>
+<h3 id="1-mkp224o">1. mkp224o</h3>
+<p><strong>mkp224o</strong> is the standard and most widely used tool
+for V3 vanity address generation.</p>
+<ul>
+<li><strong>Architecture:</strong> Written in C for maximum
+efficiency.</li>
+<li><strong>Hardware Acceleration:</strong> Highly optimized for modern
+CPUs utilizing SIMD instructions (SSE2, AVX2, AVX-512, and ARM
+NEON).</li>
+<li><strong>Key Feature:</strong> It includes batch processing, regex
+filtering, and multi-threading across all available CPU cores.</li>
+</ul>
+<h3 id="2-oniongen-go">2. oniongen-go</h3>
+<p><strong>oniongen-go</strong> is a lightweight, cross-platform
+generator written in Go.</p>
+<ul>
+<li><strong>Architecture:</strong> Built using native Go concurrency
+(goroutines).</li>
+<li><strong>Key Feature:</strong> Easy to compile and run across
+different operating systems without complex dependency setups, though it
+generally achieves lower hash rates than SIMD-optimized C
+implementations like <code>mkp224o</code>.</li>
+</ul>
+<h2 id="time-and-computational-feasibility">Time and Computational
+Feasibility</h2>
+<p>Because Base32 contains 32 possible characters, each additional
+vanity character increases the search difficulty exponentially by a
+factor of 32 (<span class="math inline">\(32^n\)</span>).</p>
+<ul>
+<li><strong>1–4 Characters (e.g., <code>wiki...</code>):</strong>
+Instant to a few seconds on a standard multi-core CPU.</li>
+<li><strong>5 Characters (e.g., <code>forum...</code>):</strong> A few
+seconds to several minutes depending on hardware.</li>
+<li><strong>6 Characters (e.g., <code>market...</code>):</strong> A few
+hours to several days on high-performance consumer hardware.</li>
+<li><strong>7 Characters (e.g., <code>service...</code>):</strong>
+Several weeks to months on a multi-core setup; feasible with high-end
+server clusters.</li>
+<li><strong>8+ Characters:</strong> Computationally impractical for
+standard hardware, often requiring specialized mining rigs or extensive
+cloud clusters.</li>
+</ul>
+<h2 id="critical-security-considerations">Critical Security
+Considerations</h2>
+<ul>
+<li><strong>Generate Locally:</strong> Never use online or third-party
+generation services. Anyone generating the keys on their machine
+possesses the private key and can hijack or impersonate your hidden
+service.</li>
+<li><strong>Compile from Source:</strong> Build generation tools
+directly from verified, open-source repositories on an isolated or
+trusted machine.</li>
+<li><strong>Secure the Output:</strong> Once a matching key is found,
+the generation tool outputs the public address, the secret key, and the
+public key file. Move the <code>hs_ed25519_secret_key</code> directly to
+your Tor hidden service directory with strict file permissions
+(<code>chmod 600</code> or <code>chmod 700</code>).</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

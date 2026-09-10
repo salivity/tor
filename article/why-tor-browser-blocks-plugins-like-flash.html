@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Tor Browser Blocks Plugins Like Flash - tor</title>
+    <meta name="description" content="Tor Browser blocks browser plugins such as Adobe Flash, Java, and QuickTime primarily to protect user anonymity and prevent security exploits. These legacy plugins can execute code outside the browser's controlled environment, potentially leaking the use">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-tor-browser-blocks-plugins-like-flash">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Tor Browser Blocks Plugins Like Flash - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-tor-browser-blocks-plugins-like-flash" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Browser blocks browser plugins such as Adobe Flash, Java, and QuickTime primarily to protect user anonymity and prevent security exploits. These legacy plugins can execute code outside the browser's controlled environment, potentially leaking the use" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-tor-browser-blocks-plugins-like-flash">Why Tor Browser
+Blocks Plugins Like Flash</h1>
+<p>Tor Browser blocks browser plugins such as Adobe Flash, Java, and
+QuickTime primarily to protect user anonymity and prevent security
+exploits. These legacy plugins can execute code outside the browser's
+controlled environment, potentially leaking the user's real IP address,
+exposing unique system hardware configurations, and allowing malicious
+actors to bypass the Tor network entirely.</p>
+<h3 id="bypassing-the-tor-proxy-and-leaking-real-ip-addresses">Bypassing
+the Tor Proxy and Leaking Real IP Addresses</h3>
+<p>The fundamental purpose of the Tor Browser is to route all Internet
+traffic through an encrypted, multi-layered circuit of relays so
+destination servers cannot see the user's real IP address. However,
+traditional plugins like Flash run as separate executable applications
+on the host operating system. Because they operate outside the browser's
+internal network stack, these plugins can establish direct network
+connections to remote servers, completely bypassing Tor routing and
+revealing the user's true IP address and geographic location.</p>
+<h3 id="system-level-security-vulnerabilities">System-Level Security
+Vulnerabilities</h3>
+<p>Plugins have historically been major vectors for remote code
+execution vulnerabilities. When a user visits a compromised or malicious
+website, a malicious payload delivered through a plugin can compromise
+the underlying operating system. Once an attacker achieves system-level
+access, they can bypass all browser-level privacy protections, install
+tracking software, or remotely control the machine.</p>
+<h3 id="device-fingerprinting">Device Fingerprinting</h3>
+<p>Tor Browser works by making every user's browser look identical to
+prevent tracking through device fingerprinting. Standard plugins often
+query the operating system for specific details, including installed
+system fonts, screen resolutions, audio configurations, and hardware
+architectures. Transmitting these unique combinations of system data
+allows third-party trackers to construct a unique digital fingerprint,
+tracking users across the web even without cookies or persistent
+storage.</p>
+<h3 id="incompatibility-with-modern-sandboxing">Incompatibility with
+Modern Sandboxing</h3>
+<p>Modern web technologies, such as HTML5 video and audio, operate
+inside strictly restricted browser sandboxes with tight permissions and
+predictable network routing. Legacy plugins lack modern sandboxing
+standards, making it impossible for the Tor project to guarantee that a
+plugin will not compromise user security. By disabling plugins entirely,
+Tor Browser ensures that all web interaction remains sandboxed,
+standardized, and strictly routed through the Tor network.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can a VPN Provider See You Are Using Tor? - tor</title>
+    <meta name="description" content="Whether a VPN provider knows you are using Tor depends entirely on the sequence in which you establish your connection. In the most common configuration—connecting to a VPN first and then launching the Tor Browser—your VPN provider can easily see tha">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-a-vpn-provider-see-you-are-using-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can a VPN Provider See You Are Using Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-a-vpn-provider-see-you-are-using-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Whether a VPN provider knows you are using Tor depends entirely on the sequence in which you establish your connection. In the most common configuration—connecting to a VPN first and then launching the Tor Browser—your VPN provider can easily see tha" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-a-vpn-provider-see-you-are-using-tor">Can a VPN Provider See
+You Are Using Tor?</h1>
+<p>Whether a VPN provider knows you are using Tor depends entirely on
+the sequence in which you establish your connection. In the most common
+configuration—connecting to a VPN first and then launching the Tor
+Browser—your VPN provider can easily see that you are connecting to the
+Tor network. While the VPN provider cannot see your encrypted traffic or
+the specific websites you visit, the use of Tor itself is visible to
+them.</p>
+<h3 id="tor-over-vpn-standard-setup">Tor Over VPN (Standard Setup)</h3>
+<p>In a standard "Tor over VPN" configuration, your device connects to
+the VPN server before routing traffic into the Tor network:</p>
+<p><code>Your Device → VPN Server → Tor Entry Node → Tor Relays → Internet</code></p>
+<p>In this setup:</p>
+<ul>
+<li><strong>What the VPN sees:</strong> The VPN provider handles the
+encrypted data leaving your computer and directs it toward the first Tor
+relay (known as the Entry Guard or Bridge). Because public Tor relay IP
+addresses are openly published in public directories, the VPN provider
+can cross-reference the destination IP address and immediately recognize
+that you are connecting to a Tor node. Additionally, Tor traffic
+exhibits distinct packet signatures and timing patterns that deep packet
+inspection (DPI) can identify.</li>
+<li><strong>What the VPN cannot see:</strong> The VPN provider cannot
+decrypt the multiple layers of Tor encryption. They cannot see your
+final destination, the websites you browse, the content of your
+communications, or the subsequent relays your traffic passes
+through.</li>
+</ul>
+<p>If you use Tor Bridges (especially pluggable transports like
+<code>obfs4</code>) instead of standard entry nodes, you make it much
+harder for the VPN provider to identify the traffic as Tor, since
+bridges are not publicly listed and the traffic is disguised to look
+like regular HTTPS or random data.</p>
+<h3 id="vpn-over-tor-advanced-setup">VPN Over Tor (Advanced Setup)</h3>
+<p>In an advanced "VPN over Tor" setup, you route your traffic through
+the Tor network first and then connect to a VPN:</p>
+<p><code>Your Device → Tor Network → VPN Server → Destination Website</code></p>
+<p>In this setup:</p>
+<ul>
+<li><strong>What the VPN sees:</strong> The VPN provider only sees an
+incoming encrypted connection originating from a Tor Exit Node rather
+than your real home IP address. The VPN provider still knows Tor is
+involved because the connection originates from a known Tor exit IP, but
+they cannot link the activity back to your physical identity or
+ISP.</li>
+<li><strong>What the VPN cannot see:</strong> The VPN provider has no
+visibility into your real IP address or your actual location.</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<p>In almost all standard implementations, a VPN provider knows that you
+are using Tor because your traffic is being forwarded directly to a
+known Tor network relay. However, your privacy remains intact: the VPN
+provider knows only <em>that</em> you are using Tor, not <em>what</em>
+you are doing on it.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is a Meek Bridge in Tor? - tor</title>
+    <meta name="description" content="A meek bridge is a specialized pluggable transport designed for the Tor network to help users bypass heavy internet censorship. It utilizes a technique called "domain fronting" to disguise Tor traffic as legitimate, everyday HTTPS connections to major cl">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-a-meek-bridge-in-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is a Meek Bridge in Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-a-meek-bridge-in-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A meek bridge is a specialized pluggable transport designed for the Tor network to help users bypass heavy internet censorship. It utilizes a technique called "domain fronting" to disguise Tor traffic as legitimate, everyday HTTPS connections to major cl" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-a-meek-bridge-in-tor">What Is a Meek Bridge in Tor?</h1>
+<p>A meek bridge is a specialized pluggable transport designed for the
+Tor network to help users bypass heavy internet censorship. It utilizes
+a technique called "domain fronting" to disguise Tor traffic as
+legitimate, everyday HTTPS connections to major cloud service providers.
+This article explains how meek bridges function, why they are effective
+at evading deep packet inspection, and the limitations associated with
+their use.</p>
+<h3 id="how-a-meek-bridge-works">How a Meek Bridge Works</h3>
+<p>Standard Tor bridges simply use hidden IP addresses to evade basic
+IP-blocking mechanisms. However, sophisticated firewalls can still
+detect and block standard Tor traffic patterns through deep packet
+inspection (DPI).</p>
+<p>Meek solves this problem through domain fronting by taking advantage
+of Content Delivery Networks (CDNs) and large cloud platforms:</p>
+<ol type="1">
+<li><strong>Outer Request:</strong> When a user initiates a connection,
+the unencrypted parts of the TLS handshake (such as the Server Name
+Indication, or SNI, and DNS queries) point to an innocuous,
+high-reputation domain hosted on a major cloud platform, such as
+Microsoft Azure.</li>
+<li><strong>Encrypted Inner Request:</strong> Once the secure TLS
+connection is established, meek sends an encrypted HTTP request with a
+hidden <code>Host</code> header pointing to a Tor bridge backend hosted
+on that same cloud service.</li>
+<li><strong>Traffic Forwarding:</strong> The cloud provider reads the
+inner <code>Host</code> header and proxies the traffic to the Tor
+bridge, which then forwards the connection into the broader Tor
+network.</li>
+</ol>
+<h3 id="why-meek-bridges-evade-censorship">Why Meek Bridges Evade
+Censorship</h3>
+<p>To a censor or network observer, the traffic appears to be a
+standard, encrypted connection to a critical cloud service or popular
+commercial website.</p>
+<p>Because many essential services, businesses, and government websites
+share the same cloud infrastructure, a censor cannot easily block meek
+traffic without blocking access to the entire cloud platform. This makes
+blocking meek economically and politically costly for state censors.</p>
+<h3 id="limitations-of-meek-bridges">Limitations of Meek Bridges</h3>
+<p>While highly effective, meek bridges come with specific
+drawbacks:</p>
+<ul>
+<li><strong>Slower Speeds:</strong> Because traffic is routed through
+intermediary cloud services before reaching the Tor network, meek
+bridges introduce higher latency and slower connection speeds compared
+to direct bridges like obfs4.</li>
+<li><strong>Cost:</strong> Running meek backends incurs bandwidth costs
+on commercial cloud providers, making them expensive to maintain
+compared to volunteer-run relays.</li>
+<li><strong>Provider Restrictions:</strong> Several major cloud
+providers have restricted or disabled domain fronting on their platforms
+to prevent misuse, which has reduced the number of available services
+that can support meek bridges.</li>
+</ul>
+<p>Despite these constraints, meek remains a critical fallback option in
+regions with advanced, nation-scale firewalls where standard obfuscation
+techniques fail.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does a VPN Protect You From Malicious Tor Guards? - tor</title>
+    <meta name="description" content="Using a Virtual Private Network (VPN) before connecting to the Tor network (Tor over VPN) prevents a malicious entry guard from discovering your real IP address. While this setup successfully conceals your true location and network provider from a compro">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-a-vpn-protect-you-from-malicious-tor-guards">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does a VPN Protect You From Malicious Tor Guards? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-a-vpn-protect-you-from-malicious-tor-guards" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Using a Virtual Private Network (VPN) before connecting to the Tor network (Tor over VPN) prevents a malicious entry guard from discovering your real IP address. While this setup successfully conceals your true location and network provider from a compro" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-a-vpn-protect-you-from-malicious-tor-guards">Does a VPN
+Protect You From Malicious Tor Guards?</h1>
+<p>Using a Virtual Private Network (VPN) before connecting to the Tor
+network (Tor over VPN) prevents a malicious entry guard from discovering
+your real IP address. While this setup successfully conceals your true
+location and network provider from a compromised first node, it does not
+offer complete immunity against sophisticated traffic analysis or
+end-to-end correlation attacks.</p>
+<h2 id="the-role-of-a-tor-entry-guard">The Role of a Tor Entry
+Guard</h2>
+<p>When you connect to the Tor network, your traffic passes through
+three encrypted relays: the entry guard, the middle relay, and the exit
+node. The entry guard is the only node that can see your incoming IP
+address.</p>
+<p>If an entry guard is malicious or operated by an adversary, it
+can:</p>
+<ul>
+<li>Log the IP address connecting to it.</li>
+<li>Record connection timestamps and data volume.</li>
+<li>Attempt traffic correlation attacks in coordination with a colluding
+exit node to deanonymize your browsing session.</li>
+</ul>
+<h2 id="how-a-vpn-protects-you">How a VPN Protects You</h2>
+<p>When you use a VPN before connecting to Tor, your traffic is routed
+through the VPN server first: <strong>Your Device → VPN Server → Tor
+Entry Guard → Middle Node → Exit Node → Destination</strong>.</p>
+<p>In this configuration:</p>
+<ul>
+<li><strong>IP Masking:</strong> The malicious entry guard only sees the
+IP address of the VPN server, not your true residential or mobile
+IP.</li>
+<li><strong>Target Isolation:</strong> If an adversary compromises an
+entry node to log visitors, your identity remains protected behind the
+VPN's shared IP address.</li>
+<li><strong>ISP Protection:</strong> Your Internet Service Provider
+(ISP) only knows you are connecting to a VPN, not that you are accessing
+the Tor network.</li>
+</ul>
+<h2 id="limitations-of-using-a-vpn">Limitations of Using a VPN</h2>
+<p>While a VPN mitigates direct IP logging by a malicious guard, it does
+not solve every vulnerability:</p>
+<ol type="1">
+<li><strong>Traffic Analysis and Timing Attacks:</strong> A
+sophisticated adversary controlling both the entry guard and the exit
+node can analyze packet sizes, intervals, and transmission times. Adding
+a VPN tunnel does not significantly alter these timing characteristics,
+meaning correlation attacks can still succeed mathematically.</li>
+<li><strong>Shift of Trust:</strong> You transfer the initial trust from
+your ISP and the Tor entry guard to your VPN provider. If the VPN logs
+user activity or is coerced by an adversary, the IP protection is
+neutralized.</li>
+<li><strong>Guard Fingerprinting:</strong> If you consistently connect
+to the same entry guard through the same VPN server, an adversary can
+still correlate separate browsing sessions to a single recurring entity,
+even if they do not know your real name or home address.</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>A VPN provides a valuable layer of defense against a malicious Tor
+entry guard by preventing direct IP exposure. However, it is not a
+complete shield against advanced adversaries capable of global network
+monitoring or end-to-end traffic correlation.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

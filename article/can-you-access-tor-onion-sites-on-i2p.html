@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can You Access Tor Onion Sites on I2P? - tor</title>
+    <meta name="description" content="You cannot natively access Tor onion sites using the I2P (Invisible Internet Project) network. Tor and I2P are distinct, incompatible privacy networks built on fundamentally different protocols, routing mechanisms, and naming systems. While third-party b">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-you-access-tor-onion-sites-on-i2p">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can You Access Tor Onion Sites on I2P? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-you-access-tor-onion-sites-on-i2p" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="You cannot natively access Tor onion sites using the I2P (Invisible Internet Project) network. Tor and I2P are distinct, incompatible privacy networks built on fundamentally different protocols, routing mechanisms, and naming systems. While third-party b" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-you-access-tor-onion-sites-on-i2p">Can You Access Tor Onion
+Sites on I2P?</h1>
+<p>You cannot natively access Tor onion sites using the I2P (Invisible
+Internet Project) network. Tor and I2P are distinct, incompatible
+privacy networks built on fundamentally different protocols, routing
+mechanisms, and naming systems. While third-party bridge proxies and
+specialized gateways can theoretically connect the two, standard I2P
+software cannot resolve or route traffic to <code>.onion</code>
+addresses on its own.</p>
+<h3 id="key-differences-between-tor-and-i2p">Key Differences Between Tor
+and I2P</h3>
+<p>Tor and I2P were designed with different architectural goals, which
+prevents native cross-compatibility:</p>
+<ul>
+<li><strong>Routing Protocols:</strong> Tor uses "onion routing,"
+establishing bidirectional circuits where traffic flows back and forth
+along the same path. I2P uses "garlic routing" with unidirectional
+tunnels, meaning outgoing and incoming data travel along separate
+paths.</li>
+<li><strong>Addressing Systems:</strong> Tor uses cryptographic
+<code>.onion</code> addresses managed through Tor directory authorities
+and distributed hash tables. I2P uses <code>.i2p</code> domain names
+paired with cryptographic base64/base32 destination keys.</li>
+<li><strong>Network Purpose:</strong> Tor is optimized for anonymous
+outproxying (accessing the clearnet anonymously) as well as hidden
+services. I2P is optimized as an internal, self-contained network for
+hosting internal services (eepsites) and peer-to-peer applications.</li>
+</ul>
+<h3 id="bridging-the-networks-with-outproxies">Bridging the Networks
+with Outproxies</h3>
+<p>The only way to reach a Tor <code>.onion</code> site from an I2P
+client is through a specialized bridge or outproxy. In this setup, an
+I2P user sends traffic through an I2P tunnel to a proxy server that also
+runs a Tor client. That proxy then fetches the requested
+<code>.onion</code> site over the Tor network and returns the data back
+through I2P.</p>
+<p>However, using bridges introduces major privacy and security
+risks:</p>
+<ul>
+<li><strong>Loss of End-to-End Encryption:</strong> The bridge operator
+can view and manipulate unencrypted HTTP traffic passing between the two
+networks.</li>
+<li><strong>Metadata Leakage:</strong> Routing traffic through multiple
+distinct overlays increases exposure to timing and correlation
+attacks.</li>
+<li><strong>Reliability Issues:</strong> Public Tor-to-I2P gateways are
+rare, frequently targeted, and often unmaintained.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>To safely and reliably access <code>.onion</code> services, you
+should use the official Tor Browser. To access <code>.i2p</code>
+services, you should run an I2P router alongside a configured browser.
+Keeping the two networks separate ensures that the cryptographic privacy
+and security models of both ecosystems remain intact.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What to Do If You Hit a Malicious Tor Exit Node - tor</title>
+    <meta name="description" content="Tor exit nodes are the final gateway between the Tor network and the open internet, making them prime targets for malicious actors looking to intercept, alter, or snoop on unencrypted traffic. If you suspect you have connected through a compromised or ma">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-to-do-if-you-hit-a-malicious-tor-exit-node">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What to Do If You Hit a Malicious Tor Exit Node - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-to-do-if-you-hit-a-malicious-tor-exit-node" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor exit nodes are the final gateway between the Tor network and the open internet, making them prime targets for malicious actors looking to intercept, alter, or snoop on unencrypted traffic. If you suspect you have connected through a compromised or ma" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-to-do-if-you-hit-a-malicious-tor-exit-node">What to Do If
+You Hit a Malicious Tor Exit Node</h1>
+<p>Tor exit nodes are the final gateway between the Tor network and the
+open internet, making them prime targets for malicious actors looking to
+intercept, alter, or snoop on unencrypted traffic. If you suspect you
+have connected through a compromised or malicious exit node—due to
+unexpected certificate warnings, altered web content, or suspicious
+redirects—you must act immediately. This guide outlines the essential
+steps to disconnect, assess potential exposure, secure your accounts,
+and report the compromised relay.</p>
+<h2 id="1-terminate-the-current-circuit-immediately">1. Terminate the
+Current Circuit Immediately</h2>
+<p>The quickest way to cut off a compromised exit node is to force the
+Tor Browser to build a new path through the network.</p>
+<ul>
+<li><strong>Request a New Identity:</strong> Click the "New Identity"
+button (the broom icon) or press <code>Ctrl + Shift + U</code>
+(Windows/Linux) or <code>Cmd + Shift + U</code> (macOS). This restarts
+the browser, clears cookies, cache, and all active circuits.</li>
+<li><strong>Request a New Tor Circuit for this Site:</strong> If you
+only want to switch paths for the specific website you are viewing,
+click the circuit icon in the URL bar and select "New Tor Circuit for
+this Site" (or press <code>Ctrl + Shift + L</code>).</li>
+</ul>
+<h2 id="2-assess-what-data-was-exposed">2. Assess What Data Was
+Exposed</h2>
+<p>Exit nodes can only intercept data passing between the exit node and
+the destination server. Determine what was exposed based on the
+connection type:</p>
+<ul>
+<li><strong>HTTPS Sites with No Warnings:</strong> If you were using
+end-to-end encryption (HTTPS) and received no SSL/TLS warnings, your
+payloads, passwords, and sensitive data remained encrypted. The exit
+node could only see the IP address/domain of the server you
+contacted.</li>
+<li><strong>HTTP Sites (Unencrypted):</strong> Any plaintext traffic
+(searches, unencrypted credentials, downloaded files, form inputs) was
+completely visible to the exit node and could have been captured or
+modified.</li>
+<li><strong>Bypassed Certificate Warnings:</strong> If you encountered
+an SSL/TLS error and proceeded anyway, an attacker may have performed a
+Man-in-the-Middle (MitM) attack or SSL stripping, potentially
+compromising encrypted data.</li>
+</ul>
+<h2 id="3-secure-compromised-accounts">3. Secure Compromised
+Accounts</h2>
+<p>If you entered credentials, tokens, or personal information while
+connected through the suspected node:</p>
+<ol type="1">
+<li><strong>Change Passwords Immediately:</strong> Use a clean, secure
+connection (or a new, verified Tor identity) to change passwords for any
+services accessed during the session.</li>
+<li><strong>Terminate Active Sessions:</strong> Log into your account
+settings and select "Log out of all other sessions" or revoke active
+authentication tokens.</li>
+<li><strong>Enable Two-Factor Authentication (2FA):</strong> Ensure
+hardware- or app-based 2FA is active on all critical accounts to block
+unauthorized logins even if credentials were leaked.</li>
+</ol>
+<h2 id="4-report-the-malicious-relay">4. Report the Malicious Relay</h2>
+<p>The Tor Project actively tracks and removes malicious relays to
+protect the community. If you have evidence of a bad exit node (such as
+injected scripts, forged certificates, or traffic tampering):</p>
+<ul>
+<li>Note down the exit node's IP address or fingerprint (available in
+the Tor circuit display in your browser URL bar).</li>
+<li>Email the details to <code>bad-relays@lists.torproject.org</code> or
+file an issue through the Tor Project’s GitLab portal, including the
+node's fingerprint and a description of the malicious behavior.</li>
+</ul>
+<h2 id="5-prevent-future-exit-node-attacks">5. Prevent Future Exit Node
+Attacks</h2>
+<ul>
+<li><strong>Keep HTTPS-Only Mode Enabled:</strong> Ensure HTTPS-Only
+Mode is turned on in Tor Browser settings to block unencrypted
+connections automatically.</li>
+<li><strong>Never Bypass Certificate Errors:</strong> An SSL/TLS warning
+on Tor is a strong indicator of exit node tampering.</li>
+<li><strong>Use Onion Services (.onion):</strong> When possible, access
+websites via their native <code>.onion</code> addresses. Onion-to-onion
+traffic is end-to-end encrypted within the network and does not use exit
+nodes at all.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

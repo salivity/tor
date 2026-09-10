@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Is Tor Slower Than Regular Browsing? - tor</title>
+    <meta name="description" content="Browsing the internet using the Tor network is significantly slower than using a standard web browser because of how it routes and encrypts your traffic. Instead of establishing a direct connection between your device and the destination server, Tor send">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-is-tor-slower-than-regular-browsing">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Is Tor Slower Than Regular Browsing? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-is-tor-slower-than-regular-browsing" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Browsing the internet using the Tor network is significantly slower than using a standard web browser because of how it routes and encrypts your traffic. Instead of establishing a direct connection between your device and the destination server, Tor send" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-is-tor-slower-than-regular-browsing">Why Is Tor Slower Than
+Regular Browsing?</h1>
+<p>Browsing the internet using the Tor network is significantly slower
+than using a standard web browser because of how it routes and encrypts
+your traffic. Instead of establishing a direct connection between your
+device and the destination server, Tor sends your data through a
+decentralized chain of three encrypted volunteer-operated servers known
+as nodes or relays. This multi-hop architecture, combined with layered
+encryption, geographic distance, and volunteer bandwidth limits,
+introduces inherent latency and throughput constraints that reduce
+overall browsing speed.</p>
+<h3 id="multi-hop-routing-and-physical-distance">Multi-Hop Routing and
+Physical Distance</h3>
+<p>Standard web browsing uses a direct route: your computer sends a
+request to your Internet Service Provider (ISP), which sends it straight
+to the website's host server. Tor replaces this direct path with a
+circuit consisting of three relays:</p>
+<ol type="1">
+<li><strong>Guard/Entry Node:</strong> Receives your encrypted
+data.</li>
+<li><strong>Middle Relay:</strong> Passes the data along without knowing
+the origin or the final destination.</li>
+<li><strong>Exit Node:</strong> Decrypts the final layer and delivers
+the request to the target website.</li>
+</ol>
+<p>Because these nodes are distributed worldwide, your traffic may
+travel across several continents before reaching its destination. For
+example, a request from the United States might bounce through a guard
+node in Germany, a middle node in Brazil, and an exit node in Canada
+before reaching a server in the United States. This physical distance
+increases latency (ping time) significantly.</p>
+<h3 id="multi-layered-encryption-overhead">Multi-Layered Encryption
+Overhead</h3>
+<p>Tor uses "onion routing," which wraps your data in three distinct
+layers of encryption. Your device must encrypt the payload three
+separate times. As the data travels through the circuit:</p>
+<ul>
+<li>The Guard Node decrypts the outer layer to find the Middle Node's
+address.</li>
+<li>The Middle Node decrypts the second layer to find the Exit Node's
+address.</li>
+<li>The Exit Node decrypts the final layer to send the raw request to
+the website.</li>
+</ul>
+<p>The return traffic undergoes the same process in reverse. The
+constant encryption and decryption across multiple stops add processing
+overhead and delay data transmission.</p>
+<h3 id="volunteer-bandwidth-and-network-congestion">Volunteer Bandwidth
+and Network Congestion</h3>
+<p>The Tor network relies entirely on thousands of servers hosted by
+volunteers. The speed of any Tor connection is limited by the slowest
+node in the three-node circuit. If your data passes through a single
+node that has low bandwidth, limited processing power, or high network
+congestion, your entire connection slows down to match that bottleneck.
+While high-bandwidth nodes exist, network demand frequently exceeds the
+capacity of available exit relays.</p>
+<h3 id="lack-of-performance-optimizations">Lack of Performance
+Optimizations</h3>
+<p>Standard modern browsers use aggressive caching, Content Delivery
+Networks (CDNs), and protocols like UDP (used in HTTP/3 and QUIC) to
+maximize loading speeds. Tor routes all traffic strictly over TCP to
+maintain privacy and prevent leaks. Furthermore, Tor Browser
+deliberately disables certain caching mechanisms, hardware acceleration
+features, and script execution behaviors to prevent tracking and browser
+fingerprinting, sacrificing performance for anonymity.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is VPN Over Tor Slower Than Tor Over VPN? - tor</title>
+    <meta name="description" content="Both "Tor over VPN" and "VPN over Tor" significantly reduce connection speeds compared to standard internet browsing, but VPN over Tor is generally slower and more unstable than Tor over VPN. Combining the multi-node onion routing of the Tor network with">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/is-vpn-over-tor-slower-than-tor-over-vpn">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Is VPN Over Tor Slower Than Tor Over VPN? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/is-vpn-over-tor-slower-than-tor-over-vpn" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Both "Tor over VPN" and "VPN over Tor" significantly reduce connection speeds compared to standard internet browsing, but VPN over Tor is generally slower and more unstable than Tor over VPN. Combining the multi-node onion routing of the Tor network with" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="is-vpn-over-tor-slower-than-tor-over-vpn">Is VPN Over Tor Slower
+Than Tor Over VPN?</h1>
+<p>Both "Tor over VPN" and "VPN over Tor" significantly reduce
+connection speeds compared to standard internet browsing, but
+<strong>VPN over Tor is generally slower and more unstable than Tor over
+VPN</strong>. Combining the multi-node onion routing of the Tor network
+with the encryption overhead of a Virtual Private Network (VPN)
+introduces latency and packet overhead. However, the order in which
+traffic is routed drastically alters connection stability, throughput,
+and protocol efficiency.</p>
+<h3 id="how-tor-over-vpn-works">How Tor Over VPN Works</h3>
+<p>In a Tor over VPN setup, your device connects to the VPN server
+first, and your traffic is then routed through the Tor network before
+reaching its final destination (User → VPN → Tor → Internet).</p>
+<ul>
+<li><strong>Speed Impact:</strong> The VPN client establishes a direct,
+high-speed connection with the VPN server. From there, your traffic
+enters the entry guard of the Tor network. Because the VPN tunnel is
+stable, the primary bottleneck is simply the standard latency of Tor’s
+three-node relay system.</li>
+<li><strong>Ease of Use:</strong> This is the default behavior when you
+turn on a VPN client and open the Tor Browser.</li>
+</ul>
+<h3 id="how-vpn-over-tor-works">How VPN Over Tor Works</h3>
+<p>In a VPN over Tor configuration, your connection is routed through
+the Tor network first, and it exits through a VPN server before reaching
+the internet (User → Tor → VPN → Internet).</p>
+<ul>
+<li><strong>Speed Impact:</strong> Your VPN client must establish and
+maintain an encrypted tunnel <em>through</em> the Tor network. Because
+Tor circuits frequently change and experience variable latency, the VPN
+connection often suffers from extreme speed drops, frequent packet loss,
+and high ping.</li>
+<li><strong>Configuration:</strong> This setup requires complex manual
+configuration, typically using specialized operating systems like Whonix
+or custom router firmware.</li>
+</ul>
+<h3 id="why-vpn-over-tor-is-slower">Why VPN Over Tor Is Slower</h3>
+<ol type="1">
+<li><strong>The TCP-over-TCP Problem:</strong> Tor operates exclusively
+over TCP. When you run a standard VPN protocol (which often uses TCP to
+bypass firewalls) through Tor, it creates a "TCP meltdown." Lost packets
+cause both the VPN protocol and the Tor protocol to simultaneously
+attempt retransmissions, exponentially increasing latency and choking
+bandwidth.</li>
+<li><strong>Tunnel Handshake Delays:</strong> Maintaining a VPN tunnel
+requires continuous keep-alive packets and low-latency handshakes.
+Routing this traffic across three decentralized Tor nodes often leads to
+timeouts and dropped VPN connections.</li>
+<li><strong>Exit Node Bottlenecks:</strong> In a VPN over Tor setup, all
+VPN traffic must pass through a single Tor exit relay to reach the VPN
+server. If that exit node is congested, the entire VPN tunnel slows
+down.</li>
+</ol>
+<h3 id="summary">Summary</h3>
+<p>While neither method is built for high bandwidth, <strong>Tor over
+VPN</strong> is the faster and more practical option. <strong>VPN over
+Tor</strong> is noticeably slower due to packet encapsulation overhead,
+routing instability, and protocol conflicts.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

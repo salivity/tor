@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Routes Traffic to Hidden Services Without an IP - tor</title>
+    <meta name="description" content="Tor routes traffic to hidden services (officially called Onion Services) without exposing IP addresses through a multi-step cryptographic handshake involving Introduction Points and Rendezvous Points. Instead of resolving a domain name to a physical IP a">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-routes-traffic-to-hidden-services-without-an-ip">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Routes Traffic to Hidden Services Without an IP - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-routes-traffic-to-hidden-services-without-an-ip" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor routes traffic to hidden services (officially called Onion Services) without exposing IP addresses through a multi-step cryptographic handshake involving Introduction Points and Rendezvous Points. Instead of resolving a domain name to a physical IP a" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-routes-traffic-to-hidden-services-without-an-ip">How Tor
+Routes Traffic to Hidden Services Without an IP</h1>
+<p>Tor routes traffic to hidden services (officially called Onion
+Services) without exposing IP addresses through a multi-step
+cryptographic handshake involving Introduction Points and Rendezvous
+Points. Instead of resolving a domain name to a physical IP address via
+standard DNS, Tor uses public-key cryptography to verify identity and
+relies on temporary, multi-hop relay circuits to bridge the client and
+the service anonymously.</p>
+<h3 id="1-cryptographic-identity-and-the-onion-address">1. Cryptographic
+Identity and the Onion Address</h3>
+<p>An Onion Service does not rely on a traditional domain registrar or
+IP address. Instead, its <code>.onion</code> address is a cryptographic
+hash derived directly from the service's public key. This public key
+acts as the service's permanent, verifiable identity.</p>
+<h3 id="2-setting-up-introduction-points">2. Setting Up Introduction
+Points</h3>
+<p>When an Onion Service starts, it selects several random Tor relays to
+act as its <strong>Introduction Points</strong>.</p>
+<ul>
+<li>The service builds standard, encrypted three-hop Tor circuits to
+each of these relays.</li>
+<li>It tells these relays to listen for incoming connection requests
+intended for its public key.</li>
+<li>The Introduction Points only know their end of the circuit; they do
+not know the real IP address of the service.</li>
+</ul>
+<h3 id="3-publishing-the-service-descriptor">3. Publishing the Service
+Descriptor</h3>
+<p>The service creates a signed data packet called an <strong>Onion
+Descriptor</strong>. This descriptor contains:</p>
+<ul>
+<li>The service’s public key.</li>
+<li>The list of its chosen Introduction Points.</li>
+</ul>
+<p>The service then publishes this descriptor to Tor’s distributed hash
+table (DHT), known as the Hidden Service Directory (HSDir).</p>
+<h3
+id="4-client-fetches-the-descriptor-and-sets-up-a-rendezvous-point">4.
+Client Fetches the Descriptor and Sets Up a Rendezvous Point</h3>
+<p>When a user attempts to access a <code>.onion</code> address:</p>
+<ol type="1">
+<li>The client looks up the address in the DHT and downloads the
+service’s Onion Descriptor.</li>
+<li>The client selects a random Tor relay to act as a <strong>Rendezvous
+Point</strong> (RP) and builds a three-hop circuit to it.</li>
+<li>The client gives the Rendezvous Point a randomly generated,
+single-use authorization token (a "cookie").</li>
+</ol>
+<h3 id="5-establishing-the-introduction">5. Establishing the
+Introduction</h3>
+<p>To notify the hidden service:</p>
+<ol type="1">
+<li>The client builds an encrypted circuit to one of the
+<strong>Introduction Points</strong> listed in the descriptor.</li>
+<li>The client sends a message containing the address of its chosen
+Rendezvous Point and the authorization cookie. This entire message is
+encrypted with the hidden service’s public key.</li>
+<li>The Introduction Point forwards this encrypted payload to the hidden
+service without being able to read its contents.</li>
+</ol>
+<h3 id="6-bridging-the-connection">6. Bridging the Connection</h3>
+<ol type="1">
+<li>The hidden service decrypts the message using its private key,
+learning the location of the Rendezvous Point and the cookie.</li>
+<li>The service builds its own three-hop Tor circuit to that Rendezvous
+Point and presents the cookie.</li>
+<li>The Rendezvous Point matches the cookie from the service with the
+cookie from the client and bridges the two separate three-hop circuits
+together.</li>
+</ol>
+<p>Traffic flows through a complete six-hop circuit: three hops from the
+client to the Rendezvous Point, and three hops from the Rendezvous Point
+to the hidden service. As a result, the client and the service
+communicate securely, neither knowing the other’s IP address.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

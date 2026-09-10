@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can You Install Firefox Extensions on Tor Browser? - tor</title>
+    <meta name="description" content="While you can technically install standard Firefox extensions on the Tor Browser because it is built on Mozilla Firefox Extended Support Release (ESR), doing so is strongly discouraged. Adding third-party extensions undermines the core purpose of the Tor">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-you-install-firefox-extensions-on-tor-browser">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can You Install Firefox Extensions on Tor Browser? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-you-install-firefox-extensions-on-tor-browser" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While you can technically install standard Firefox extensions on the Tor Browser because it is built on Mozilla Firefox Extended Support Release (ESR), doing so is strongly discouraged. Adding third-party extensions undermines the core purpose of the Tor" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-you-install-firefox-extensions-on-tor-browser">Can You
+Install Firefox Extensions on Tor Browser?</h1>
+<p>While you can technically install standard Firefox extensions on the
+Tor Browser because it is built on Mozilla Firefox Extended Support
+Release (ESR), doing so is strongly discouraged. Adding third-party
+extensions undermines the core purpose of the Tor Browser by
+compromising your anonymity, creating unique tracking fingerprints, and
+potentially leaking your true IP address.</p>
+<h3 id="the-technical-reality">The Technical Reality</h3>
+<p>Because the Tor Browser shares its underlying codebase with Firefox,
+the browser technically allows you to visit the Firefox Add-ons store
+and install extensions just as you would on standard Firefox. However,
+the Tor Project intentionally restricts and warns against this behavior
+during installation.</p>
+<h3 id="why-you-should-avoid-installing-extensions">Why You Should Avoid
+Installing Extensions</h3>
+<ol type="1">
+<li><p><strong>Browser Fingerprinting:</strong> Tor Browser is designed
+to make all users look identical to web servers. When you install an
+extra extension, you modify your browser’s unique configuration (its
+"fingerprint"). This allows websites and tracking networks to
+distinguish your session from millions of other Tor users, effectively
+defeating your privacy.</p></li>
+<li><p><strong>IP and DNS Leaks:</strong> Standard Firefox add-ons are
+not tested or audited for use with the Tor network. A rogue or poorly
+coded extension can make direct HTTP/HTTPS requests that bypass the Tor
+proxy entirely, exposing your real IP address and location to third
+parties.</p></li>
+<li><p><strong>Invasive Permissions:</strong> Many extensions require
+broad permissions to read, modify, and transmit data from every webpage
+you visit. This can compromise sensitive accounts, decrypt secure
+traffic locally, and expose browsing habits.</p></li>
+</ol>
+<h3 id="built-in-extensions">Built-in Extensions</h3>
+<p>The Tor Browser comes pre-configured with essential, heavily audited
+privacy tools out of the box, such as NoScript. These native components
+are fine-tuned to work seamlessly with the Tor routing protocol without
+leaking identifiable data.</p>
+<p>To maintain maximum anonymity and security, rely strictly on the
+default configuration and avoid adding any external Firefox
+extensions.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

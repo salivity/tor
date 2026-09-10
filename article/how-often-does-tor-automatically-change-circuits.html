@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Often Does Tor Automatically Change Circuits? - tor</title>
+    <meta name="description" content="The Tor network protects online anonymity by routing internet traffic through a chain of three encrypted relays known as a circuit. To prevent eavesdroppers from linking different activities to the same identity over extended periods, Tor automatically c">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-often-does-tor-automatically-change-circuits">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Often Does Tor Automatically Change Circuits? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-often-does-tor-automatically-change-circuits" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network protects online anonymity by routing internet traffic through a chain of three encrypted relays known as a circuit. To prevent eavesdroppers from linking different activities to the same identity over extended periods, Tor automatically c" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-often-does-tor-automatically-change-circuits">How Often Does
+Tor Automatically Change Circuits?</h1>
+<p>The Tor network protects online anonymity by routing internet traffic
+through a chain of three encrypted relays known as a circuit. To prevent
+eavesdroppers from linking different activities to the same identity
+over extended periods, Tor automatically changes these circuits every 10
+minutes by default. However, several operational factors—such as active
+downloads, tab isolation, and manual user requests—can modify exactly
+how and when circuit transitions occur.</p>
+<h3 id="the-10-minute-rotation-cycle">The 10-Minute Rotation Cycle</h3>
+<p>Tor uses an internal timer to manage circuit lifecycles. Once a
+circuit is first used to transmit data, Tor marks it as "dirty." The
+software will continue to assign new outbound requests to this circuit
+for up to 10 minutes. Once the 10-minute threshold is reached, Tor marks
+the circuit as expired, builds a new one using different relays, and
+assigns all subsequent network requests to the new path.</p>
+<h3 id="how-active-connections-are-handled">How Active Connections Are
+Handled</h3>
+<p>Circuit rotation does not abruptly sever active connections. If you
+are downloading a large file, streaming media, or actively submitting a
+form when the 10-minute timer expires, Tor keeps the old circuit open
+exclusively for that ongoing stream until it finishes. Any new requests
+or website loads made after the 10-minute mark will automatically use
+the newly created circuit.</p>
+<h3 id="domain-level-circuit-isolation">Domain-Level Circuit
+Isolation</h3>
+<p>Modern versions of the Tor Browser employ "First-Party Isolation."
+Instead of routing all your open browser tabs through a single shared
+circuit, the browser automatically builds a unique circuit for every
+individual domain you visit. If you have three different websites open
+simultaneously, Tor maintains three distinct circuits at the same time,
+rotating each one independently on its own 10-minute schedule.</p>
+<h3 id="manual-circuit-reset-options">Manual Circuit Reset Options</h3>
+<p>While automatic rotation happens every 10 minutes, users can manually
+force a circuit change at any moment within the Tor Browser:</p>
+<ul>
+<li><strong>New Tor Circuit for this Site:</strong> Resets the circuit
+specifically for the active tab without affecting other tabs or clearing
+browser data.</li>
+<li><strong>New Identity:</strong> Closes all open tabs and windows,
+clears all cookies and cache, and forces Tor to generate entirely new
+circuits for all future traffic.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

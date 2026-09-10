@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Malicious Tor Exit Nodes Intercept User Traffic - tor</title>
+    <meta name="description" content="The Tor network protects user anonymity by routing traffic through three randomized relays—the guard, middle, and exit nodes—wrapping each hop in layers of encryption. However, because the exit node is the final gateway connecting the Tor circuit to">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-malicious-tor-exit-nodes-intercept-user-traffic">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Malicious Tor Exit Nodes Intercept User Traffic - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-malicious-tor-exit-nodes-intercept-user-traffic" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network protects user anonymity by routing traffic through three randomized relays—the guard, middle, and exit nodes—wrapping each hop in layers of encryption. However, because the exit node is the final gateway connecting the Tor circuit to" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-malicious-tor-exit-nodes-intercept-user-traffic">How
+Malicious Tor Exit Nodes Intercept User Traffic</h1>
+<p>The Tor network protects user anonymity by routing traffic through
+three randomized relays—the guard, middle, and exit nodes—wrapping each
+hop in layers of encryption. However, because the exit node is the final
+gateway connecting the Tor circuit to the public internet, it must
+completely decrypt the outer layer of traffic before forwarding it to
+the destination server. If an exit node is operated by a malicious
+actor, this position allows them to monitor, alter, or redirect any
+unencrypted data passing through the node.</p>
+<h3 id="eavesdropping-on-unencrypted-traffic">Eavesdropping on
+Unencrypted Traffic</h3>
+<p>When a user visits a website that does not use transport layer
+security (plain HTTP, FTP, or unencrypted IMAP/SMTP), the payload
+travels from the exit node to the destination server in plaintext. A
+malicious exit node operator can use standard packet-sniffing tools
+(such as Wireshark or tcpdump) to capture everything within those
+packets. This includes usernames, passwords, session cookies, private
+messages, and the specific pages viewed.</p>
+<h3 id="ssl-stripping-attacks">SSL Stripping Attacks</h3>
+<p>Even when a user intends to connect via HTTPS, a malicious exit node
+can perform an SSL/TLS stripping attack. Using automated tools like
+SSLStrip, the exit node intercepts the initial HTTP request, establishes
+an encrypted HTTPS connection with the destination server on the user’s
+behalf, but serves the response back to the user over unsecure HTTP.
+Unless the browser enforces HTTP Strict Transport Security (HSTS), the
+user may not notice that their connection was downgraded, allowing the
+exit node to read and modify all subsequent traffic.</p>
+<h3 id="man-in-the-middle-mitm-certificate-spoofing">Man-in-the-Middle
+(MitM) Certificate Spoofing</h3>
+<p>For HTTPS traffic where stripping fails, a malicious exit node can
+attempt an active Man-in-the-Middle attack by presenting a counterfeit
+or self-signed SSL certificate to the client. If the user ignores
+browser certificate warnings, the exit node terminates the user's TLS
+connection, inspects or modifies the decrypted data, and re-encrypts it
+in a separate session with the actual web server.</p>
+<h3 id="dns-spoofing-and-phishing">DNS Spoofing and Phishing</h3>
+<p>Exit nodes typically handle DNS resolution for the user's requests to
+prevent DNS leaks. A compromised node can spoof DNS responses, directing
+the user to a clone of the intended website operated by the attacker.
+This technique is frequently used to hijack cryptocurrency transactions
+by replacing legitimate wallet addresses on web pages with the
+attacker’s addresses.</p>
+<h3 id="content-and-payload-injection">Content and Payload
+Injection</h3>
+<p>Because the exit node handles the raw response stream returning from
+unencrypted web servers, it can alter the code before it reaches the
+user. Attackers can inject malicious JavaScript, exploit payloads, or
+malicious advertisements into plain HTML pages. This can lead to browser
+fingerprinting, cross-site scripting (XSS), or drive-by malware
+downloads aimed at de-anonymizing the user’s real IP address.</p>
+<h3 id="mitigating-exit-node-interception">Mitigating Exit Node
+Interception</h3>
+<p>The threat posed by malicious exit nodes is mitigated primarily by
+end-to-end encryption. When end-to-end HTTPS is enforced, the exit node
+can only see the IP address of the destination server and the size of
+the encrypted packets, not the content, URLs, or credentials.
+Furthermore, accessing native Tor hidden services (.onion addresses)
+bypasses exit nodes entirely, as all traffic remains encrypted inside
+the Tor network from the client to the server.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

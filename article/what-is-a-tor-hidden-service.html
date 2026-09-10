@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is a Tor Hidden Service? - tor</title>
+    <meta name="description" content="A Tor hidden service, officially known as an Onion service, is a network service or website that operates entirely within the Tor network to provide mutual anonymity and end-to-end encryption. Unlike traditional web services that expose their public IP a">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-a-tor-hidden-service">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is a Tor Hidden Service? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-a-tor-hidden-service" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Tor hidden service, officially known as an Onion service, is a network service or website that operates entirely within the Tor network to provide mutual anonymity and end-to-end encryption. Unlike traditional web services that expose their public IP a" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-a-tor-hidden-service">What Is a Tor Hidden Service?</h1>
+<p>A Tor hidden service, officially known as an Onion service, is a
+network service or website that operates entirely within the Tor network
+to provide mutual anonymity and end-to-end encryption. Unlike
+traditional web services that expose their public IP address to direct
+traffic, hidden services allow publishers to host websites, messaging
+platforms, or databases without revealing their physical location,
+network address, or server identity to visitors or internet service
+providers. This article explains how Tor hidden services work, their
+primary security benefits, and their practical use cases.</p>
+<h2 id="the-core-concept-of-onion-services">The Core Concept of Onion
+Services</h2>
+<p>In a standard internet connection, a client sends a request directly
+to a server's IP address, allowing both parties—and any network
+intermediaries—to identify who is communicating with whom. Tor hidden
+services disrupt this model by establishing connections through the Tor
+overlay network.</p>
+<p>Hidden services are identified by special addresses ending with the
+<code>.onion</code> top-level domain (for example,
+<code>expyuz5wqqfdgah56...onion</code>). These addresses are not
+standard domain names resolved by the traditional Domain Name System
+(DNS). Instead, an onion address is a cryptographic public key generated
+automatically when the service is configured. Because the address itself
+contains the public key, connections to onion services are
+self-authenticating and inherently encrypted.</p>
+<h2 id="how-a-tor-hidden-service-works">How a Tor Hidden Service
+Works</h2>
+<p>The connection between a user and an onion service relies on a
+multi-step cryptographic handshake:</p>
+<ol type="1">
+<li><strong>Setting Up Introduction Points:</strong> When a hidden
+service starts, it chooses several random Tor relays to act as its
+"introduction points" and builds encrypted circuits to them.</li>
+<li><strong>Publishing a Service Descriptor:</strong> The service signs
+a descriptor containing its public key and the list of its introduction
+points, then publishes this descriptor to Tor's distributed hash table
+(DHT).</li>
+<li><strong>Client Lookup:</strong> When a user enters a
+<code>.onion</code> address into a Tor-enabled browser, the client
+retrieves the service descriptor using the address as the lookup
+key.</li>
+<li><strong>Establishing a Rendezvous Point:</strong> The client selects
+an independent Tor relay to serve as a "rendezvous point," builds a
+circuit to it, and assigns a one-time secret authorization token.</li>
+<li><strong>Connecting Through Introduction Points:</strong> The client
+sends an encrypted message to one of the service's introduction points,
+asking it to forward the rendezvous point details and the secret token
+to the hidden service.</li>
+<li><strong>The Rendezvous:</strong> The hidden service connects to the
+chosen rendezvous point via its own multi-hop circuit. The rendezvous
+point joins the two circuits together without knowing the identity or IP
+address of either party.</li>
+</ol>
+<p>Through this design, the client never learns the server's IP address,
+and the server never learns the client's IP address.</p>
+<h2 id="key-benefits-of-tor-hidden-services">Key Benefits of Tor Hidden
+Services</h2>
+<ul>
+<li><strong>Bidirectional Anonymity:</strong> Both the publisher and the
+consumer remain completely anonymous to one another and to network
+observers.</li>
+<li><strong>End-to-End Encryption:</strong> Traffic inside the Tor
+network between the client and the onion service is multi-layered and
+fully encrypted, removing the strict necessity for third-party SSL/TLS
+certificate authorities.</li>
+<li><strong>NAT and Firewall Traversal:</strong> Because hidden services
+establish only outgoing connections to Tor relays, they can run behind
+firewalls, NAT routers, or non-routable private networks without
+requiring open inbound ports or port forwarding.</li>
+<li><strong>Resistance to Censorship and Spoofing:</strong> Because
+<code>.onion</code> addresses are cryptographically tied to the server's
+private key, domain hijacking and man-in-the-middle attacks become
+virtually impossible within the Tor protocol.</li>
+</ul>
+<h2 id="common-use-cases">Common Use Cases</h2>
+<p>Tor hidden services are used in a variety of contexts where privacy,
+security, and resistance to censorship are paramount:</p>
+<ul>
+<li><strong>Journalism and Whistleblowing:</strong> Platforms like
+SecureDrop rely on hidden services to allow sources to submit sensitive
+documents to journalists without leaving a digital footprint.</li>
+<li><strong>Circumventing Censorship:</strong> Major news organizations
+(such as the BBC and The New York Times) and search engines (such as
+DuckDuckGo) host onion mirrors to allow users in restrictive regimes to
+access unfiltered information.</li>
+<li><strong>Secure Communications:</strong> Decentralized chat
+applications and peer-to-peer networks utilize onion routing to prevent
+surveillance and metadata harvesting.</li>
+<li><strong>System Administration:</strong> Administrators use hidden
+services to access SSH servers and internal management consoles securely
+without exposing open ports to the public internet.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

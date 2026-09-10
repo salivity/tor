@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Circuit Key Exchange Works - tor</title>
+    <meta name="description" content="This article provides a technical overview of how encryption keys are negotiated within the Tor network. Tor relies on an incremental "telescoping" mechanism combined with the ntor handshake protocol to establish separate, layered encryption keys between">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-circuit-key-exchange-works">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Circuit Key Exchange Works - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-circuit-key-exchange-works" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides a technical overview of how encryption keys are negotiated within the Tor network. Tor relies on an incremental "telescoping" mechanism combined with the ntor handshake protocol to establish separate, layered encryption keys between" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-circuit-key-exchange-works">How Tor Circuit Key Exchange
+Works</h1>
+<p>This article provides a technical overview of how encryption keys are
+negotiated within the Tor network. Tor relies on an incremental
+"telescoping" mechanism combined with the <code>ntor</code> handshake
+protocol to establish separate, layered encryption keys between a client
+and each relay in a circuit. By using ephemeral-static Diffie-Hellman
+cryptography, the network ensures that each hop only knows its immediate
+predecessor and successor while providing perfect forward secrecy for
+all routed traffic.</p>
+<h2 id="the-telescoping-circuit-building-process">The Telescoping
+Circuit Building Process</h2>
+<p>Tor does not establish all connections simultaneously. Instead,
+circuits are created incrementally—one relay at a time—in a process
+called telescoping. A standard Tor circuit consists of three nodes: the
+Guard (entry) relay, the Middle relay, and the Exit relay.</p>
+<p>To initiate a circuit, the client retrieves the public identity keys
+and onion keys of the relays from the signed network consensus
+directory. The client then exchanges keys sequentially, using already
+established encrypted tunnels to negotiate keys with downstream
+relays.</p>
+<h2 id="the-ntor-handshake">The ntor Handshake</h2>
+<p>Modern Tor implementations use the <code>ntor</code> protocol, a
+Diffie-Hellman handshake based on Curve25519, to negotiate symmetric
+keys. The handshake operates as follows:</p>
+<ol type="1">
+<li><strong>Client Ephemeral Key Generation:</strong> The client creates
+a temporary (ephemeral) Curve25519 key pair.</li>
+<li><strong>Handshake Request (<code>CREATE2</code> cell):</strong> The
+client sends its ephemeral public key, along with the relay's identity
+fingerprint and public onion key, packaged inside a <code>CREATE2</code>
+cell.</li>
+<li><strong>Relay Computation and Response (<code>CREATED2</code>
+cell):</strong> The relay receives the cell, generates its own ephemeral
+key pair, and performs a series of scalar multiplications using both the
+ephemeral keys and its static onion key. The relay produces a shared
+secret, computes an authentication digest (HMAC), and sends its
+ephemeral public key and HMAC back inside a <code>CREATED2</code>
+cell.</li>
+<li><strong>Key Derivation:</strong> The client verifies the HMAC using
+the relay's static public key and the returned ephemeral key. Once
+verified, both the client and the relay use a Key Derivation Function
+(KDF)—specifically HKDF-SHA256—to derive separate symmetric forward and
+backward encryption keys (AES-CTR) and integrity keys.</li>
+</ol>
+<h2 id="step-by-step-circuit-extension">Step-by-Step Circuit
+Extension</h2>
+<h3 id="1-connecting-to-the-guard-relay">1. Connecting to the Guard
+Relay</h3>
+<p>The client connects directly to the Guard relay via TLS and sends a
+<code>CREATE2</code> cell. After the <code>ntor</code> handshake
+completes, the client and Guard share a symmetric key (<span
+class="math inline">\(K_1\)</span>).</p>
+<h3 id="2-extending-to-the-middle-relay">2. Extending to the Middle
+Relay</h3>
+<p>To connect to the Middle relay without revealing its IP address:</p>
+<ul>
+<li>The client generates a new ephemeral key pair for the Middle
+relay.</li>
+<li>It packages the handshake data into a <code>RELAY_EXTEND2</code>
+cell.</li>
+<li>The client encrypts this cell using <span
+class="math inline">\(K_1\)</span> and sends it to the Guard relay.</li>
+<li>The Guard decrypts the outer layer, extracts the payload, converts
+it into a <code>CREATE2</code> cell, and forwards it to the Middle
+relay.</li>
+<li>The Middle relay completes the <code>ntor</code> handshake and
+returns a <code>CREATED2</code> cell to the Guard.</li>
+<li>The Guard wraps this response in a <code>RELAY_EXTENDED2</code>
+cell, encrypts it with <span class="math inline">\(K_1\)</span>, and
+sends it back to the client.</li>
+<li>The client and Middle relay compute a shared symmetric key (<span
+class="math inline">\(K_2\)</span>).</li>
+</ul>
+<h3 id="3-extending-to-the-exit-relay">3. Extending to the Exit
+Relay</h3>
+<p>The process repeats for the Exit relay:</p>
+<ul>
+<li>The client encrypts the new <code>RELAY_EXTEND2</code> handshake
+payload first with <span class="math inline">\(K_2\)</span>, then with
+<span class="math inline">\(K_1\)</span>.</li>
+<li>The Guard strips layer <span class="math inline">\(K_1\)</span> and
+forwards the payload to the Middle relay.</li>
+<li>The Middle relay strips layer <span
+class="math inline">\(K_2\)</span> and sends the resulting
+<code>CREATE2</code> cell to the Exit relay.</li>
+<li>The Exit relay responds back through the Middle and Guard relays to
+the client.</li>
+<li>The client and Exit relay derive the final shared symmetric key
+(<span class="math inline">\(K_3\)</span>).</li>
+</ul>
+<h2 id="layered-encryption-and-forward-secrecy">Layered Encryption and
+Forward Secrecy</h2>
+<p>At the end of this process, the client holds three distinct symmetric
+keys (<span class="math inline">\(K_1\)</span>, <span
+class="math inline">\(K_2\)</span>, <span
+class="math inline">\(K_3\)</span>), while each relay holds only the
+single key negotiated with the client. When sending data, the client
+encrypts the payload in three layers (like an onion): first with <span
+class="math inline">\(K_3\)</span>, then <span
+class="math inline">\(K_2\)</span>, then <span
+class="math inline">\(K_1\)</span>.</p>
+<p>Because the ephemeral keys used during the <code>ntor</code>
+handshake are discarded immediately after key derivation, past session
+traffic cannot be decrypted even if a relay's long-term static identity
+keys are compromised in the future.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

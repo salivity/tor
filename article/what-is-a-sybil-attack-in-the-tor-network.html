@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is a Sybil Attack in the Tor Network? - tor</title>
+    <meta name="description" content="A Sybil attack in the Tor network is a security threat where a single adversary creates and controls a large number of pseudonymous relays (nodes) to exert disproportionate influence over the network. By masquerading as many independent volunteer nodes,">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-a-sybil-attack-in-the-tor-network">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is a Sybil Attack in the Tor Network? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-a-sybil-attack-in-the-tor-network" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Sybil attack in the Tor network is a security threat where a single adversary creates and controls a large number of pseudonymous relays (nodes) to exert disproportionate influence over the network. By masquerading as many independent volunteer nodes," />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-a-sybil-attack-in-the-tor-network">What Is a Sybil
+Attack in the Tor Network?</h1>
+<p>A Sybil attack in the Tor network is a security threat where a single
+adversary creates and controls a large number of pseudonymous relays
+(nodes) to exert disproportionate influence over the network. By
+masquerading as many independent volunteer nodes, the attacker attempts
+to undermine the decentralized trust model of Tor, aiming to intercept
+traffic, perform timing analysis, and compromise the anonymity of users
+and onion services.</p>
+<h2 id="the-foundation-how-tor-uses-decentralized-nodes">The Foundation:
+How Tor Uses Decentralized Nodes</h2>
+<p>Tor (The Onion Router) provides privacy by routing user traffic
+through three distinct, randomly selected relays:</p>
+<ol type="1">
+<li><strong>Guard (Entry) Relay:</strong> Knows the user's real IP
+address, but not the destination.</li>
+<li><strong>Middle Relay:</strong> Passes encrypted traffic between the
+guard and exit, knowing neither the origin nor the destination.</li>
+<li><strong>Exit Relay:</strong> Sends decrypted traffic to the final
+destination, knowing the destination, but not the user's real IP
+address.</li>
+</ol>
+<p>Anonymity in Tor depends on the assumption that no single adversary
+controls both the guard and exit relays within the same circuit.</p>
+<h2 id="how-a-sybil-attack-works-on-tor">How a Sybil Attack Works on
+Tor</h2>
+<p>In a Sybil attack, an adversary introduces hundreds or thousands of
+malicious relays into the Tor consensus. Because relay selection is
+probabilistic based on capacity and availability, increasing the number
+of controlled nodes proportionally increases the likelihood that a
+user's circuit will use the attacker's infrastructure.</p>
+<p>If the attacker successfully controls both the <strong>Entry
+Guard</strong> and the <strong>Exit Relay</strong> for a given circuit,
+they can perform:</p>
+<ul>
+<li><strong>End-to-End Traffic Correlation:</strong> The attacker
+compares the exact timing, volume, and patterns of packets entering the
+network at the guard node with packets leaving at the exit node.
+Matching these metrics allows the attacker to deanonymize the user and
+link their real IP address directly to their web activity.</li>
+<li><strong>Traffic Manipulation:</strong> The attacker can drop, delay,
+or selectively manipulate packets to disrupt communication or force the
+user to re-establish circuits until an attacker-controlled path is
+chosen.</li>
+<li><strong>Onion Service Deanonymization:</strong> By running malicious
+Hidden Service Directory (HSDir) nodes, introduction points, or
+rendezvous points, attackers can map the location or usage patterns of
+Tor hidden services.</li>
+</ul>
+<h2 id="tors-defense-mechanisms-against-sybil-attacks">Tor's Defense
+Mechanisms Against Sybil Attacks</h2>
+<p>The Tor Project employs several architectural and administrative
+safeguards to mitigate the risk of Sybil attacks:</p>
+<ul>
+<li><strong>Directory Authorities:</strong> A small, trusted set of
+independent directory servers must reach a consensus before new relays
+are trusted and integrated into the active routing list.</li>
+<li><strong>Relay Family Grouping:</strong> Operators running multiple
+nodes are required to declare them as a "family," ensuring the Tor
+client never picks multiple relays from the same operator within a
+single circuit.</li>
+<li><strong>IP and Subnet Limits:</strong> Tor restricts how many relays
+can exist within the same <code>/16</code> IPv4 subnet or autonomous
+system (AS), preventing an attacker from trivially spinning up thousands
+of nodes on a single hosting provider.</li>
+<li><strong>Entry Guard Pinning:</strong> Tor clients pick a small set
+of persistent entry guards and stick with them for months. This limits
+the user's exposure to new, potentially malicious guard nodes over
+time.</li>
+<li><strong>Continuous Monitoring:</strong> Tools such as Network Health
+scanners continuously analyze relay churn and suspicious patterns to
+detect and blacklist coordinated node deployments.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

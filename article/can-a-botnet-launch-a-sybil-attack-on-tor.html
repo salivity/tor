@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can a Botnet Launch a Sybil Attack on Tor? - tor</title>
+    <meta name="description" content="A botnet can theoretically be used to launch a Sybil attack against the Tor network by deploying thousands of malicious relays to compromise user anonymity. While technically feasible, the success of such an attack faces severe practical limitations due">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-a-botnet-launch-a-sybil-attack-on-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can a Botnet Launch a Sybil Attack on Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-a-botnet-launch-a-sybil-attack-on-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A botnet can theoretically be used to launch a Sybil attack against the Tor network by deploying thousands of malicious relays to compromise user anonymity. While technically feasible, the success of such an attack faces severe practical limitations due" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-a-botnet-launch-a-sybil-attack-on-tor">Can a Botnet Launch a
+Sybil Attack on Tor?</h1>
+<p>A botnet can theoretically be used to launch a Sybil attack against
+the Tor network by deploying thousands of malicious relays to compromise
+user anonymity. While technically feasible, the success of such an
+attack faces severe practical limitations due to Tor’s relay weighting
+algorithms, network defenses, and the inherent instability of
+compromised consumer devices.</p>
+<h3 id="how-a-botnet-driven-sybil-attack-works">How a Botnet-Driven
+Sybil Attack Works</h3>
+<p>In a Sybil attack, a single adversary creates a large number of
+pseudonymous identities to gain disproportionate influence over a
+peer-to-peer network. In the context of Tor, an attacker who controls a
+botnet can configure each infected machine to act as a Tor relay (guard,
+middle, or exit node).</p>
+<p>If the attacker successfully controls a significant percentage of the
+network's total capacity, the probability increases that a user will
+choose the attacker's nodes for both the entry (guard) and exit points
+of a single circuit. By controlling both ends of a circuit, the attacker
+can perform end-to-end traffic correlation attacks—matching the timing
+and packet volume of incoming and outgoing traffic to strip away the
+user's anonymity.</p>
+<h3 id="practical-obstacles-for-botnet-attackers">Practical Obstacles
+for Botnet Attackers</h3>
+<p>While a botnet provides a massive number of distinct IP addresses,
+several technical hurdles reduce its effectiveness against Tor:</p>
+<ul>
+<li><strong>Bandwidth Weighting:</strong> Tor does not treat all relays
+equally. The network routes traffic based on consensus bandwidth weights
+measured by Bandwidth Authorities. Most botnet nodes reside on
+residential connections with limited and asymmetric upload speeds. A
+massive swarm of low-bandwidth relays captures only a tiny fraction of
+total network traffic compared to a few high-speed, dedicated data
+center servers.</li>
+<li><strong>Node Churn and Reliability:</strong> Botnet nodes frequently
+go offline, reboot, or change IP addresses. Tor requires relays to
+demonstrate high uptime and stability over several weeks before granting
+them critical statuses, such as the Guard flag. Fleeting residential
+bots rarely stay online long enough to become trusted guard nodes.</li>
+<li><strong>Subnet Restrictions:</strong> Tor’s path selection algorithm
+prevents circuits from using multiple relays within the same
+<code>/16</code> IPv4 subnet or <code>/32</code> IPv6 subnet. This
+design limits the utility of botnets clustered within specific regional
+internet service providers.</li>
+</ul>
+<h3 id="tors-network-defenses">Tor’s Network Defenses</h3>
+<p>Tor employs Directory Authorities (DirAuths)—a small set of trusted
+servers that oversee network consensus. These authorities actively
+monitor for anomalous behavior, such as sudden surges in new relays
+joining simultaneously with similar configurations, software versions,
+or exit policies. Suspicious relays can be collectively assigned the
+<code>BadExit</code> or <code>Invalid</code> flags, neutralizing their
+ability to intercept traffic.</p>
+<p>A botnet can be used to launch a Sybil attack on Tor, but sheer node
+count does not guarantee success. Because Tor prioritizes bandwidth,
+uptime, and strict path-selection rules over raw relay numbers,
+executing an effective de-anonymization attack via a conventional botnet
+remains exceptionally resource-intensive and highly prone to
+detection.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

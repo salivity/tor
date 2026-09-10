@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tor V3 Onion Service Descriptor Handling Explained - tor</title>
+    <meta name="description" content="Tor version 3 (V3) onion services rely on a decentralized directory system to store and distribute routing information without exposing the identity or location of hidden services. This article explains how Tor's Hidden Service Directories (HSDirs) store">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tor-v3-onion-service-descriptor-handling-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tor V3 Onion Service Descriptor Handling Explained - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tor-v3-onion-service-descriptor-handling-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor version 3 (V3) onion services rely on a decentralized directory system to store and distribute routing information without exposing the identity or location of hidden services. This article explains how Tor's Hidden Service Directories (HSDirs) store" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tor-v3-onion-service-descriptor-handling-explained">Tor V3 Onion
+Service Descriptor Handling Explained</h1>
+<p>Tor version 3 (V3) onion services rely on a decentralized directory
+system to store and distribute routing information without exposing the
+identity or location of hidden services. This article explains how Tor's
+Hidden Service Directories (HSDirs) store, index, validate, and serve V3
+descriptors using blinded public keys, consistent hash rings,
+multi-layered encryption, and time-based rotation.</p>
+<h3 id="the-role-of-hidden-service-directories-hsdirs">The Role of
+Hidden Service Directories (HSDirs)</h3>
+<p>The Tor network does not use a centralized server to manage onion
+service locations. Instead, relays that meet strict uptime and bandwidth
+criteria receive the <code>HSDir</code> flag from directory authorities.
+These relays collectively form a Distributed Hash Table (DHT)
+responsible for storing and providing onion service descriptors upon
+request.</p>
+<h3 id="key-blinding-and-privacy-protection">Key Blinding and Privacy
+Protection</h3>
+<p>In legacy V2 onion services, directory relays could see the full
+onion address, allowing malicious HSDirs to index and snoop on hidden
+services. Tor V3 prevents this through key blinding:</p>
+<ul>
+<li><strong>Blinded Public Keys:</strong> A service derives a temporary
+blinded public key from its permanent ed25519 master public key combined
+with the current time period and a network-wide Shared Random Value
+(SRV).</li>
+<li><strong>Anonymity for Services:</strong> The HSDir only sees the
+blinded public key, making it mathematically impossible for the
+directory to determine the actual <code>.onion</code> address.</li>
+<li><strong>Access Control:</strong> Only users who already know the
+exact <code>.onion</code> address can compute the same blinded public
+key to locate and request the descriptor.</li>
+</ul>
+<h3 id="two-tier-descriptor-architecture">Two-Tier Descriptor
+Architecture</h3>
+<p>A V3 hidden service descriptor contains the necessary information for
+a client to establish a connection (such as introduction points). It is
+split into two layers:</p>
+<ol type="1">
+<li><strong>Outer Envelope (Unencrypted):</strong> Contains metadata
+required by the HSDir, including the blinded public key, a revision
+counter, and a cryptographic signature. This allows the HSDir to
+validate the descriptor without reading its payload.</li>
+<li><strong>Inner Layer (Encrypted):</strong> Contains the actual
+introduction points and authentication requirements. This payload is
+encrypted using a key derived from the master onion address (and
+optionally a client authorization key), ensuring only authorized clients
+can read the connection details.</li>
+</ol>
+<h3 id="the-consistent-hash-ring-and-shared-random-value">The Consistent
+Hash Ring and Shared Random Value</h3>
+<p>To determine which HSDirs should store a descriptor, the Tor network
+utilizes a consistent hash ring:</p>
+<ol type="1">
+<li><strong>Shared Randomness:</strong> Directory authorities generate a
+daily Shared Random Value (SRV) through a distributed commit-and-reveal
+protocol.</li>
+<li><strong>Descriptor Index Calculation:</strong> The onion service and
+client use the SRV, the current time period, and the blinded key to
+compute a set of descriptor IDs (positions on the hash ring).</li>
+<li><strong>Responsible Relays:</strong> The service selects the HSDirs
+located closest to these descriptor IDs on the ring and uploads the
+descriptor to them. When a client wants to connect, it performs the
+exact same mathematical calculation to find which HSDirs hold the
+descriptor.</li>
+</ol>
+<h3 id="descriptor-lifecycle-and-validation">Descriptor Lifecycle and
+Validation</h3>
+<p>When an HSDir receives an uploaded descriptor via an HTTP POST
+request, it performs several security checks before storing it:</p>
+<ul>
+<li><strong>Signature Verification:</strong> The directory checks that
+the descriptor is properly signed by the blinded key.</li>
+<li><strong>Revision Counter Check:</strong> To prevent replay attacks
+and outdated state storage, the directory compares the descriptor's
+revision counter against any existing record for that blinded key,
+overwriting only if the new revision counter is higher.</li>
+<li><strong>Time Expiration:</strong> Descriptors are bound to specific
+time periods. Once a time period rolls over, the blinded keys change,
+the descriptor locations on the hash ring shift, and outdated
+descriptors are purged from relay memory.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

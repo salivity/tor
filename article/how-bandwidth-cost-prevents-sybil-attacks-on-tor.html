@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Bandwidth Cost Prevents Sybil Attacks on Tor - tor</title>
+    <meta name="description" content="A Sybil attack on the Tor network occurs when an adversary creates a large number of pseudonymous nodes to gain a disproportionate influence over traffic routing and compromise user anonymity. Tor mitigates this vulnerability primarily through its bandwi">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-bandwidth-cost-prevents-sybil-attacks-on-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Bandwidth Cost Prevents Sybil Attacks on Tor - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-bandwidth-cost-prevents-sybil-attacks-on-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Sybil attack on the Tor network occurs when an adversary creates a large number of pseudonymous nodes to gain a disproportionate influence over traffic routing and compromise user anonymity. Tor mitigates this vulnerability primarily through its bandwi" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-bandwidth-cost-prevents-sybil-attacks-on-tor">How Bandwidth
+Cost Prevents Sybil Attacks on Tor</h1>
+<p>A Sybil attack on the Tor network occurs when an adversary creates a
+large number of pseudonymous nodes to gain a disproportionate influence
+over traffic routing and compromise user anonymity. Tor mitigates this
+vulnerability primarily through its bandwidth-weighted relay selection
+mechanism and active capacity verification. By linking a relay's routing
+influence directly to its provable, sustained network throughput, the
+network transforms a Sybil attack from a simple matter of spinning up
+cheap virtual nodes into an economically exhausting operation with
+prohibitive bandwidth costs.</p>
+<h3 id="the-threat-of-sybil-attacks-in-onion-routing">The Threat of
+Sybil Attacks in Onion Routing</h3>
+<p>Tor provides privacy by routing traffic through a three-node circuit:
+the guard (entry) relay, the middle relay, and the exit relay. An
+attacker aiming to de-anonymize a user needs to control both the entry
+and exit relays of a specific circuit to perform end-to-end traffic
+correlation. In a traditional peer-to-peer network without economic
+defenses, an attacker could launch thousands of zero-cost, low-resource
+nodes to dominate the consensus list and increase the probability of
+intercepting user circuits.</p>
+<h3 id="bandwidth-weighting-and-relay-selection">Bandwidth Weighting and
+Relay Selection</h3>
+<p>Tor does not treat all relays equally. The network uses a
+bandwidth-weighted path selection algorithm. When a client constructs a
+circuit, the probability of selecting any given relay is directly
+proportional to that relay's measured bandwidth relative to the entire
+network's total capacity.</p>
+<p>Because of this design:</p>
+<ul>
+<li>A relay with negligible bandwidth has an almost zero percent chance
+of being selected for a circuit.</li>
+<li>Thousands of low-bandwidth Sybil nodes gain virtually no aggregate
+routing power.</li>
+<li>To route a meaningful percentage of global Tor traffic, an adversary
+must contribute an equivalent percentage of the network's total,
+high-speed capacity.</li>
+</ul>
+<h3 id="directory-authorities-and-active-measurement">Directory
+Authorities and Active Measurement</h3>
+<p>An attacker cannot simply advertise false high-speed capabilities.
+Tor’s Directory Authorities utilize active bandwidth measurement
+scanners (such as <code>sbws</code>). These scanners continuously
+download data slices through registered relays to verify their actual
+throughput in real time.</p>
+<p>If a malicious relay claims high bandwidth but fails to deliver data
+at that speed during active measurement, its consensus weight is
+downgraded automatically. Consequently, an adversary is forced to supply
+real, continuous, and high-performance network transit to maintain
+malicious nodes.</p>
+<h3 id="the-economic-barrier-of-bandwidth">The Economic Barrier of
+Bandwidth</h3>
+<p>Because fake capacity is detected and discounted, an attacker
+attempting to compromise a substantial fraction of Tor circuits must
+purchase, operate, and sustain massive amounts of legitimate network
+throughput.</p>
+<ol type="1">
+<li><strong>High Transit and Colocation Costs:</strong> Tor routes
+gigabits of user traffic per second across the globe. Sustaining enough
+capacity to reliably control both guard and exit nodes requires
+high-tier data center hosting, unmetered transit pipes, and
+enterprise-grade infrastructure.</li>
+<li><strong>Recurring Operational Expense:</strong> Unlike a one-time
+exploit, a Sybil attack against Tor requires prolonged uptime to capture
+target traffic over time. Monthly commercial transit fees accumulate
+rapidly for high-bandwidth relays.</li>
+<li><strong>Diminishing Returns:</strong> As legitimate operators expand
+Tor's total capacity, the cost for an attacker to maintain a controlling
+percentage scales upward linearly.</li>
+</ol>
+<p>By forcing relay influence to be directly backed by real, verified
+network throughput, Tor ensures that the cost of launching a large-scale
+Sybil attack remains financially impractical for the vast majority of
+potential adversaries.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Your ISP See Tor When Using a VPN? - tor</title>
+    <meta name="description" content="Using a virtual private network (VPN) before connecting to the Tor network effectively prevents your Internet Service Provider (ISP) from seeing that you are using Tor. When configured in this order—often referred to as "Tor over VPN"—your traffic is">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-your-isp-see-tor-when-using-a-vpn">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can Your ISP See Tor When Using a VPN? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-your-isp-see-tor-when-using-a-vpn" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Using a virtual private network (VPN) before connecting to the Tor network effectively prevents your Internet Service Provider (ISP) from seeing that you are using Tor. When configured in this order—often referred to as "Tor over VPN"—your traffic is" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-your-isp-see-tor-when-using-a-vpn">Can Your ISP See Tor When
+Using a VPN?</h1>
+<p>Using a virtual private network (VPN) before connecting to the Tor
+network effectively prevents your Internet Service Provider (ISP) from
+seeing that you are using Tor. When configured in this order—often
+referred to as "Tor over VPN"—your traffic is encrypted by the VPN
+software before it leaves your device. As a result, your ISP only sees
+an encrypted data stream directed to a single VPN server, completely
+masking the fact that the underlying traffic is routed into the Tor
+network.</p>
+<h2 id="how-the-connection-works">How the Connection Works</h2>
+<p>When you connect to a VPN first and then launch the Tor Browser, your
+data goes through multiple layers of encryption in a specific order:</p>
+<ol type="1">
+<li><strong>Device Encryption:</strong> Your device encapsulates the
+Tor-encrypted data inside the VPN’s encryption layer.</li>
+<li><strong>ISP Transmission:</strong> The data passes through your ISP.
+Because the outer layer belongs to the VPN, the ISP only detects a
+standard VPN connection.</li>
+<li><strong>VPN Server Decryption:</strong> The VPN server removes the
+outer VPN encryption layer, revealing the Tor-encrypted packet.</li>
+<li><strong>Tor Entry Node:</strong> The VPN server forwards this packet
+to the Tor entry (guard) node, beginning the standard Tor routing
+process.</li>
+</ol>
+<h2 id="what-your-isp-can-and-cannot-see">What Your ISP Can and Cannot
+See</h2>
+<h3 id="what-the-isp-sees">What the ISP Sees:</h3>
+<ul>
+<li><strong>The VPN Server’s IP Address:</strong> Your ISP knows you are
+connected to a specific remote server owned or rented by your VPN
+provider.</li>
+<li><strong>Connection Timestamps:</strong> The ISP can see when you
+connected and disconnected from the VPN.</li>
+<li><strong>Data Volume:</strong> The ISP can measure the amount of data
+transferred back and forth.</li>
+</ul>
+<h3 id="what-the-isp-cannot-see">What the ISP Cannot See:</h3>
+<ul>
+<li><strong>Tor Signatures:</strong> The ISP cannot detect Tor packet
+signatures or handshake protocols.</li>
+<li><strong>Tor Guard Node IP Addresses:</strong> The ISP does not know
+you are communicating with a Tor relay.</li>
+<li><strong>Browsing Activity:</strong> The ISP cannot see the websites,
+onion services, or content you access.</li>
+</ul>
+<h2 id="what-the-vpn-provider-sees">What the VPN Provider Sees</h2>
+<p>While this setup hides Tor from your ISP, it shifts visibility to
+your VPN provider:</p>
+<ul>
+<li><strong>Tor Usage:</strong> The VPN provider can see that traffic is
+traveling from their server to a known Tor entry node IP address.
+Therefore, the VPN knows you are using Tor.</li>
+<li><strong>Browsing Activity:</strong> The VPN provider
+<strong>cannot</strong> see your web traffic or final destination
+because the inner Tor encryption remains intact.</li>
+</ul>
+<p>To maintain privacy, choose a VPN service with a strictly audited
+no-logs policy to ensure records of your connection to Tor nodes are not
+stored.</p>
+<h2 id="essential-security-considerations">Essential Security
+Considerations</h2>
+<p>To ensure your ISP remains unaware of your Tor usage, keep the
+following requirements in mind:</p>
+<ul>
+<li><strong>Connection Order:</strong> Always establish the VPN
+connection <em>before</em> opening the Tor Browser. Opening Tor first
+will expose the connection to your ISP.</li>
+<li><strong>Kill Switch Activation:</strong> Enable the "Kill Switch"
+feature in your VPN client. If the VPN connection drops unexpectedly,
+the kill switch instantly blocks your internet access, preventing your
+device from sending Tor traffic directly over your regular ISP
+network.</li>
+<li><strong>DNS Leak Protection:</strong> Ensure your VPN routes all DNS
+requests through its own secure DNS servers to prevent Tor-related
+lookups from leaking to the ISP.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

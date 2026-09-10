@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Separates the Dark Web from the Clear Web - tor</title>
+    <meta name="description" content="The separation between the dark web and the clear web is defined by how data is routed, addressed, and encrypted across the internet. While the clear web relies on public IP addresses, centralized domain name registries, and direct connections, the Tor n">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-separates-the-dark-web-from-the-clear-web">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Separates the Dark Web from the Clear Web - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-separates-the-dark-web-from-the-clear-web" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The separation between the dark web and the clear web is defined by how data is routed, addressed, and encrypted across the internet. While the clear web relies on public IP addresses, centralized domain name registries, and direct connections, the Tor n" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-separates-the-dark-web-from-the-clear-web">How Tor
+Separates the Dark Web from the Clear Web</h1>
+<p>The separation between the dark web and the clear web is defined by
+how data is routed, addressed, and encrypted across the internet. While
+the clear web relies on public IP addresses, centralized domain name
+registries, and direct connections, the Tor network creates an encrypted
+overlay network that isolates dark web destinations. Tor establishes
+this boundary using specialized cryptographic addressing, multi-layered
+onion routing, and dedicated hidden service protocols that prevent
+standard web browsers and search engines from indexing or accessing dark
+web content.</p>
+<h3 id="standard-dns-vs-cryptographic-addresses">Standard DNS vs.
+Cryptographic Addresses</h3>
+<p>The clear web operates on the public Domain Name System (DNS) managed
+by organizations like ICANN. When you type a standard URL (like
+<code>.com</code> or <code>.org</code>), a DNS server resolves that
+human-readable name into a public IP address, routing traffic directly
+to the host server.</p>
+<p>The dark web within Tor bypasses the global DNS entirely. Tor hidden
+services use <code>.onion</code> addresses, which are not registered
+with any central authority. Instead, a <code>.onion</code> address is a
+cryptographic hash of the website's public key. Because standard DNS
+servers cannot resolve these hashes, standard web browsers cannot
+navigate to them, strictly isolating dark web sites from the clear
+web.</p>
+<h3 id="onion-routing-and-encryption-layers">Onion Routing and
+Encryption Layers</h3>
+<p>On the clear web, network traffic moves via direct routes where
+intermediate Internet Service Providers (ISPs) and servers can see the
+origin and destination IP addresses.</p>
+<p>Tor separates its traffic from standard web traffic using onion
+routing:</p>
+<ol type="1">
+<li><strong>Entry/Guard Relay:</strong> The user's connection enters the
+Tor network. This node sees the user's real IP address, but not the
+final destination.</li>
+<li><strong>Middle Relay:</strong> Traffic is passed through an
+intermediate node. This node only knows the previous relay and the next
+relay, completely blind to both the user and the final destination.</li>
+<li><strong>Exit Relay or Hidden Service:</strong> Depending on where
+the traffic is headed, the data leaves the encrypted tunnel to access
+the clear web, or stays entirely inside the network.</li>
+</ol>
+<p>Each relay strips away one layer of encryption, ensuring no single
+point in the chain knows both the source and the destination.</p>
+<h3
+id="internal-isolation-hidden-services-and-rendezvous-points">Internal
+Isolation: Hidden Services and Rendezvous Points</h3>
+<p>The true technical separation between the two webs occurs when
+accessing native dark web services (Tor Hidden Services). When a user
+visits a <code>.onion</code> site, the traffic never leaves the Tor
+network:</p>
+<ul>
+<li><strong>No Exit Nodes:</strong> Unlike browsing the clear web
+through Tor, dark web traffic does not use an exit relay.</li>
+<li><strong>Rendezvous Points:</strong> Both the user and the hidden
+service build circuits to a randomly chosen, neutral Tor relay called a
+rendezvous point.</li>
+<li><strong>Complete Anonymity:</strong> The user connects to the
+rendezvous point without knowing the server's real IP, and the server
+connects without knowing the user's IP.</li>
+</ul>
+<p>Because the connection is negotiated entirely within Tor's encrypted
+circuits, the service remains completely inaccessible and invisible to
+the standard clear web infrastructure.</p>
+<h3 id="the-role-of-exit-relays">The Role of Exit Relays</h3>
+<p>Tor can also be used to browse the clear web anonymously. In this
+scenario, traffic passes through the Tor network and leaves via an exit
+relay, which requests the data from a regular web server on behalf of
+the user. In this mode, Tor acts as a proxy bridge between the user and
+the clear web, whereas for <code>.onion</code> sites, Tor acts as a
+self-contained, closed network that keeps dark web traffic completely
+separated from public web infrastructure.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

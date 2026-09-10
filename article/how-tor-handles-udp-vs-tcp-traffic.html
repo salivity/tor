@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Handles UDP vs TCP Traffic - tor</title>
+    <meta name="description" content="The Tor network is designed specifically to route TCP traffic to provide online anonymity, while fundamentally lacking native support for UDP traffic. Because Tor relies on connection-oriented SOCKS proxies and multi-hop stream multiplexing, standard con">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-handles-udp-vs-tcp-traffic">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Handles UDP vs TCP Traffic - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-handles-udp-vs-tcp-traffic" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network is designed specifically to route TCP traffic to provide online anonymity, while fundamentally lacking native support for UDP traffic. Because Tor relies on connection-oriented SOCKS proxies and multi-hop stream multiplexing, standard con" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-handles-udp-vs-tcp-traffic">How Tor Handles UDP vs TCP
+Traffic</h1>
+<p>The Tor network is designed specifically to route TCP traffic to
+provide online anonymity, while fundamentally lacking native support for
+UDP traffic. Because Tor relies on connection-oriented SOCKS proxies and
+multi-hop stream multiplexing, standard connectionless UDP datagrams are
+dropped by the client rather than routed through the circuit.
+Understanding the distinction between how Tor processes TCP and rejects
+UDP is essential for preventing IP leaks and ensuring applications
+maintain privacy over the network.</p>
+<h2 id="how-tor-handles-tcp-traffic">How Tor Handles TCP Traffic</h2>
+<p>Tor natively supports Transmission Control Protocol (TCP) streams.
+When an application routes its traffic through Tor, it connects to a
+local SOCKS proxy (typically running on <code>localhost:9050</code> or
+<code>localhost:9150</code>). Tor then creates an encrypted three-hop
+circuit consisting of a Guard node, a Middle node, and an Exit node.</p>
+<ul>
+<li><strong>Connection-Oriented Routing:</strong> TCP provides reliable,
+ordered data delivery. Tor encapsulates these TCP streams into
+fixed-size 512-byte cells.</li>
+<li><strong>Exit Node Relaying:</strong> The Exit node unpacks the
+layered encryption and performs the final TCP handshake with the
+destination server on behalf of the client.</li>
+<li><strong>DNS over TCP:</strong> While standard DNS queries usually
+rely on UDP, Tor intercepts domain lookups and resolves them securely
+over TCP via the exit node to prevent DNS leaks.</li>
+</ul>
+<h2 id="how-tor-handles-udp-traffic">How Tor Handles UDP Traffic</h2>
+<p>Tor does not natively transport User Datagram Protocol (UDP) packets.
+If an application attempts to send raw UDP packets through the Tor
+network, the client drops the packets locally, or the connection simply
+fails.</p>
+<ul>
+<li><strong>No Native Datagram Relaying:</strong> The Tor protocol
+relies on the SOCKS4a and SOCKS5 proxy protocols. While SOCKS5
+specifications include UDP support via the <code>UDP ASSOCIATE</code>
+command, the Tor client does not implement this command.</li>
+<li><strong>Silent Dropping:</strong> Applications configured to route
+their traffic through Tor will fail to transmit voice-over-IP (VoIP),
+online gaming data, WebRTC streams, or peer-to-peer (P2P) traffic that
+depends exclusively on UDP.</li>
+</ul>
+<h2 id="why-tor-excludes-udp">Why Tor Excludes UDP</h2>
+<p>The exclusion of UDP is a deliberate architectural and security
+decision:</p>
+<ol type="1">
+<li><strong>Deanonymization Risks:</strong> UDP is stateless and prone
+to IP spoofing. Allowing arbitrary UDP traffic would create significant
+risks of side-channel leaks, such as WebRTC or STUN queries bypassing
+the proxy and exposing the user's real public IP address.</li>
+<li><strong>Reliability and Circuit Design:</strong> Tor constructs
+long-lived virtual circuits optimized for stateful, ordered streams.
+Adapting Tor’s cell-relay structure to handle out-of-order, best-effort
+UDP datagrams would introduce severe protocol complexity and network
+overhead.</li>
+<li><strong>Bandwidth and Abuse Prevention:</strong> UDP is commonly
+exploited for amplification Distributed Denial of Service (DDoS)
+attacks. Blocking UDP prevents Tor exit relays from becoming unwilling
+participants in large-scale volumetric attacks.</li>
+</ol>
+<h2 id="workarounds-for-routing-udp-through-tor">Workarounds for Routing
+UDP Through Tor</h2>
+<p>To send UDP traffic over the Tor network, the datagrams must be
+encapsulated inside a TCP connection:</p>
+<ul>
+<li><strong>VPN over Tor:</strong> A VPN client can encapsulate all
+device traffic (including UDP) inside a TCP-based VPN tunnel, which is
+then routed through the Tor network to the VPN server.</li>
+<li><strong>TCP Tunneling Tools:</strong> Utilities such as
+<code>socat</code> or specialized SOCKS wrappers can wrap UDP packets in
+TCP at the client level and unwrap them on a remote VPS acting as an
+exit proxy.</li>
+</ul>
+<p>While these workarounds make UDP communication technically possible,
+they introduce significant latency and packet loss, often rendering
+real-time UDP applications impractical.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

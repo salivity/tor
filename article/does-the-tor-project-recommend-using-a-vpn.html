@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does the Tor Project Recommend Using a VPN? - tor</title>
+    <meta name="description" content="The Tor Project does not officially recommend using a Virtual Private Network (VPN) with Tor for the vast majority of users. While many assume that stacking a VPN on top of the Tor network provides a "double layer" of security, the Tor Project warns that">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-the-tor-project-recommend-using-a-vpn">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does the Tor Project Recommend Using a VPN? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-the-tor-project-recommend-using-a-vpn" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor Project does not officially recommend using a Virtual Private Network (VPN) with Tor for the vast majority of users. While many assume that stacking a VPN on top of the Tor network provides a "double layer" of security, the Tor Project warns that" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-the-tor-project-recommend-using-a-vpn">Does the Tor Project
+Recommend Using a VPN?</h1>
+<p>The Tor Project does not officially recommend using a Virtual Private
+Network (VPN) with Tor for the vast majority of users. While many assume
+that stacking a VPN on top of the Tor network provides a "double layer"
+of security, the Tor Project warns that doing so often introduces new
+vulnerabilities, creates a single point of failure, and undermines the
+decentralized privacy model that Tor is built to provide.</p>
+<h2 id="the-official-stance-of-the-tor-project">The Official Stance of
+the Tor Project</h2>
+<p>According to official Tor documentation and core developers, standard
+Tor Browser usage provides all the necessary privacy protections without
+an additional VPN. The Tor Project explicitly advises against combining
+the two unless an advanced user has a very specific threat model and
+completely understands the technical routing implications.</p>
+<p>For general browsing, anonymity, and circumvention of basic network
+restrictions, the default configuration of the Tor Browser is the safest
+option.</p>
+<h2 id="why-a-vpn-undermines-tors-security-model">Why a VPN Undermines
+Tor's Security Model</h2>
+<p>Tor is designed around a zero-trust, multi-hop architecture. When you
+use Tor, your traffic is routed through three separate volunteer nodes
+(the Guard relay, the Middle relay, and the Exit relay):</p>
+<ul>
+<li><strong>Guard Relay:</strong> Knows your real IP address, but does
+not know your destination.</li>
+<li><strong>Middle Relay:</strong> Knows neither your IP nor your
+destination.</li>
+<li><strong>Exit Relay:</strong> Knows your destination, but does not
+know your IP address.</li>
+</ul>
+<p>Because no single server knows both your identity and the destination
+website, your anonymity remains intact even if one server is
+compromised.</p>
+<p>Introducing a VPN changes this dynamic:</p>
+<ul>
+<li><strong>Centralized Trust:</strong> Using a VPN introduces a single
+commercial entity into your connection. If you connect to a VPN before
+connecting to Tor (VPN-over-Tor), your VPN provider knows your real IP
+address and can see that you are using Tor.</li>
+<li><strong>Payment and Account Trails:</strong> Most VPN services
+require accounts, payment methods, or proprietary software, creating a
+direct identity link that the Tor network specifically avoids.</li>
+<li><strong>Traffic Correlation Risks:</strong> If you configure Tor to
+route through a VPN on the exit side (Tor-over-VPN), the VPN provider
+can see all your unencrypted exit traffic and potentially correlate it
+with your Tor usage patterns.</li>
+</ul>
+<h2 id="censorship-circumvention-bridges-vs-vpns">Censorship
+Circumvention: Bridges vs. VPNs</h2>
+<p>A common reason users attempt to use a VPN with Tor is to bypass
+local network administrators or governments that block known Tor
+relays.</p>
+<p>However, the Tor Project does not recommend using a VPN for this
+purpose. Instead, they provide <strong>Pluggable Transports</strong> and
+<strong>Tor Bridges</strong>. Bridges are hidden entry nodes that do not
+appear in public Tor relay lists, while Pluggable Transports (such as
+<code>obfs4</code> or <code>Snowflake</code>) disguise Tor traffic to
+look like regular, benign internet traffic (such as an audio call or
+standard web browsing). Using official bridges solves the censorship
+issue without routing data through a third-party VPN server.</p>
+<h2 id="summary">Summary</h2>
+<p>The Tor Project does not endorse or recommend using a VPN with the
+Tor Browser. Relying solely on the Tor network ensures that no single
+company, government, or server operator can log your identity and web
+activity simultaneously. For almost all privacy and anonymity needs,
+using the Tor Browser in its standard configuration—or utilizing
+built-in Tor Bridges when blocked—is the most secure and recommended
+approach.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Configure MyFamily on Tor Relays - tor</title>
+    <meta name="description" content="Running multiple Tor relays helps scale the network, but it requires operators to declare their nodes as a single group using the MyFamily configuration. This article covers the purpose of the Tor family setting, why it is critical for protecting user an">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-configure-myfamily-on-tor-relays">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Configure MyFamily on Tor Relays - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-configure-myfamily-on-tor-relays" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Running multiple Tor relays helps scale the network, but it requires operators to declare their nodes as a single group using the MyFamily configuration. This article covers the purpose of the Tor family setting, why it is critical for protecting user an" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-configure-myfamily-on-tor-relays">How to Configure
+MyFamily on Tor Relays</h1>
+<p>Running multiple Tor relays helps scale the network, but it requires
+operators to declare their nodes as a single group using the
+<code>MyFamily</code> configuration. This article covers the purpose of
+the Tor family setting, why it is critical for protecting user anonymity
+against traffic correlation attacks, and the exact steps required to
+implement mutual family declarations in the <code>torrc</code>
+configuration file.</p>
+<h2 id="what-is-a-tor-relay-family">What is a Tor Relay Family?</h2>
+<p>The <code>MyFamily</code> setting is a directive in the Tor
+configuration file (<code>torrc</code>) that tells Tor directory
+authorities and clients that a specific set of relays is controlled by
+the same person, group, or organization.</p>
+<p>When a Tor client builds a three-hop circuit (Guard, Middle, and Exit
+relays) to browse the web, it selects relays randomly based on bandwidth
+and flags. If a single entity controls both the Guard relay (which sees
+the user's real IP address) and the Exit relay (which sees the
+destination website), that entity could correlate traffic timing and
+deanonymize the user. By properly declaring a family, clients are
+instructed never to use more than one relay from that family in a single
+circuit.</p>
+<h2 id="how-to-configure-myfamily">How to Configure
+<code>MyFamily</code></h2>
+<p>To configure a family, you must add the <code>MyFamily</code>
+configuration line to the <code>torrc</code> file of every relay you
+operate.</p>
+<h3 id="1-retrieve-the-relay-fingerprint">1. Retrieve the Relay
+Fingerprint</h3>
+<p>Always use the relay's 40-character cryptographic identity
+fingerprint rather than its nickname, as nicknames are not guaranteed to
+be unique. You can find your relay's fingerprint in the
+<code>fingerprint</code> file located in the Tor data directory
+(typically <code>/var/lib/tor/fingerprint</code> on Linux) or by
+checking your Tor logs on startup.</p>
+<p>A standard fingerprint looks like this:
+<code>$2556487E136D74384D0223D9E9DF1D4F1E925EFD</code></p>
+<h3 id="2-update-the-torrc-file">2. Update the <code>torrc</code>
+File</h3>
+<p>Open the <code>torrc</code> file on each of your relays and add the
+<code>MyFamily</code> parameter, followed by a comma-separated list of
+the fingerprints of <strong>all</strong> relays in your family.</p>
+<p>For example, if you operate three relays (Relay A, Relay B, and Relay
+C), the <code>MyFamily</code> configuration on <strong>all three
+relays</strong> should look identical:</p>
+<pre class="text"><code>MyFamily $AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, $BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB, $CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</code></pre>
+<p><em>(Note: While you can include the relay's own fingerprint in its
+<code>MyFamily</code> list, it is optional; however, listing all relays
+uniformly across all nodes simplifies configuration
+management.)</em></p>
+<h3 id="3-reload-tor-configuration">3. Reload Tor Configuration</h3>
+<p>After editing the <code>torrc</code> file on each server, reload or
+restart the Tor process to apply the changes:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl reload tor</span></code></pre></div>
+<h2 id="key-rules-and-best-practices">Key Rules and Best Practices</h2>
+<ul>
+<li><strong>Mutual Declaration is Mandatory:</strong> Tor directory
+authorities enforce a strict mutual agreement policy. Relay A must list
+Relay B, and Relay B must list Relay A. If the declaration is one-sided,
+the directory authorities will reject the family relationship, and
+clients may end up using both relays in the same path.</li>
+<li><strong>Keep the List Updated:</strong> Whenever you add a new relay
+or decommission an existing one, you must update the
+<code>MyFamily</code> line across every active relay you operate.</li>
+<li><strong>Always Prefix with <code>$ </code>:</strong> When using
+40-character hex fingerprints, prepend each hash with the <code>$</code>
+symbol so Tor correctly parses it as an identity key.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

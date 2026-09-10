@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Adversaries Execute Tor Correlation Attacks - tor</title>
+    <meta name="description" content="A traffic correlation attack on the Tor network is a sophisticated technique used by adversaries to deanonymize users by linking the traffic entering the network to the traffic exiting it. By observing, measuring, and matching statistical patterns—such">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-adversaries-execute-tor-correlation-attacks">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Adversaries Execute Tor Correlation Attacks - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-adversaries-execute-tor-correlation-attacks" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A traffic correlation attack on the Tor network is a sophisticated technique used by adversaries to deanonymize users by linking the traffic entering the network to the traffic exiting it. By observing, measuring, and matching statistical patterns—such" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-adversaries-execute-tor-correlation-attacks">How Adversaries
+Execute Tor Correlation Attacks</h1>
+<p>A traffic correlation attack on the Tor network is a sophisticated
+technique used by adversaries to deanonymize users by linking the
+traffic entering the network to the traffic exiting it. By observing,
+measuring, and matching statistical patterns—such as timing, packet
+volume, and data bursts—at both the entry (guard) and exit points, an
+attacker can determine with high statistical certainty that a specific
+user is communicating with a specific destination. This article explains
+the mechanisms, prerequisites, and execution steps adversaries use to
+conduct correlation attacks against onion routing.</p>
+<h3 id="the-tor-threat-model-and-the-vulnerability">The Tor Threat Model
+and the Vulnerability</h3>
+<p>Tor protects anonymity by routing encrypted traffic through a circuit
+of three relays: the guard (entry) relay, the middle relay, and the exit
+relay. While each relay only knows the identity of the node immediately
+preceding and following it, Tor is not designed to protect against an
+adversary capable of monitoring both ends of a communication circuit
+simultaneously.</p>
+<p>When an adversary has visibility into both the user's connection to
+the guard node (ingress) and the exit node's connection to the
+destination server (egress), end-to-end encryption alone is insufficient
+to prevent traffic analysis.</p>
+<h3 id="methods-of-correlation">Methods of Correlation</h3>
+<p>Adversaries execute correlation attacks primarily through two
+approaches: passive traffic analysis and active traffic
+watermarking.</p>
+<h4 id="1-passive-traffic-analysis">1. Passive Traffic Analysis</h4>
+<p>In a passive attack, the adversary monitors traffic characteristics
+without altering the data stream:</p>
+<ul>
+<li><strong>Packet Timing:</strong> Adversaries log high-precision
+timestamps for packet transmissions. Interactive traffic (such as web
+browsing or messaging) creates distinct burst-and-idle patterns.</li>
+<li><strong>Traffic Volume and Flow Shapes:</strong> Even though Tor
+encapsulates data into fixed-size 514-byte cells, the cumulative size of
+a download, the frequency of request bursts, and the intervals between
+packets create unique "fingerprints" for specific sessions.</li>
+<li><strong>Statistical Matching:</strong> Using algorithms such as
+cross-correlation or machine learning classifiers, the attacker compares
+the ingress flow metrics with egress flow metrics across multiple
+network streams to identify matching pairs.</li>
+</ul>
+<h4 id="2-active-traffic-watermarking">2. Active Traffic
+Watermarking</h4>
+<p>In an active attack, the adversary deliberately manipulates the
+traffic stream to make correlation easier and faster:</p>
+<ul>
+<li><strong>Jitter and Delay Injection:</strong> The attacker subtly
+delays specific packets at the entry point to create an artificial,
+easily recognizable cadence.</li>
+<li><strong>Throughput Modulation:</strong> By momentarily throttling
+the connection or injecting dummy data bursts, the adversary embeds an
+artificial signature (a "watermark") into the flow.</li>
+<li><strong>Signature Detection:</strong> The adversary listens at the
+exit point for the specific watermark injected earlier, drastically
+reducing the observation time required to confirm a match.</li>
+</ul>
+<h3 id="attack-positioning-and-execution">Attack Positioning and
+Execution</h3>
+<p>To execute the attack, the adversary must obtain strategic vantage
+points on the network:</p>
+<ol type="1">
+<li><strong>Relay Ownership:</strong> The attacker operates multiple
+high-bandwidth guard and exit relays within the Tor network. By
+increasing their network consensus weight, they raise the statistical
+probability of a client selecting both an attacker-controlled entry and
+exit node for a single circuit.</li>
+<li><strong>Autonomous System (AS) and ISP Surveillance:</strong>
+Adversaries with visibility over Internet service providers or Internet
+Exchange Points (IXPs) monitor traffic passing through specific
+autonomous systems. If the path from the user to the guard node and the
+path from the exit node to the destination cross the same AS or
+state-level surveillance infrastructure (an "AS-level adversary"), both
+ends can be correlated without operating relays.</li>
+<li><strong>Data Aggregation and Correlation:</strong> Traffic metadata
+captured at both boundaries is fed into an analysis engine. The engine
+matches flow durations, packet counts, and inter-packet arrival times to
+map the client's real IP address to the visited service.</li>
+</ol>
+<h3 id="limitations-and-defenses">Limitations and Defenses</h3>
+<p>Tor implements several defenses to raise the cost and complexity of
+correlation attacks:</p>
+<ul>
+<li><strong>Entry Guards:</strong> Instead of rotating entry nodes
+frequently, Tor clients use persistent "Guard" nodes for several months.
+This minimizes the risk of a user randomly choosing an
+adversary-controlled guard.</li>
+<li><strong>Padding and Cell Packing:</strong> Tor uses uniform 514-byte
+cells and cell padding to obscure variable-length payload sizes.</li>
+<li><strong>Path Selection Algorithms:</strong> Tor's circuit-building
+logic avoids selecting relays within the same network subnet or family,
+reducing the chance that a single entity controls multiple nodes in the
+path.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

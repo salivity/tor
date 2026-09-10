@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host a Tor Hidden Service on a Home Computer - tor</title>
+    <meta name="description" content="Yes, you can easily host a Tor hidden service (an .onion site) on a standard home computer. Because of how the Tor network routes traffic, hosting an onion service bypasses many traditional hosting hurdles, such as requiring a public static IP address or">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/host-a-tor-hidden-service-on-a-home-computer">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Host a Tor Hidden Service on a Home Computer - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/host-a-tor-hidden-service-on-a-home-computer" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Yes, you can easily host a Tor hidden service (an .onion site) on a standard home computer. Because of how the Tor network routes traffic, hosting an onion service bypasses many traditional hosting hurdles, such as requiring a public static IP address or" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="host-a-tor-hidden-service-on-a-home-computer">Host a Tor Hidden
+Service on a Home Computer</h1>
+<p>Yes, you can easily host a Tor hidden service (an <code>.onion</code>
+site) on a standard home computer. Because of how the Tor network routes
+traffic, hosting an onion service bypasses many traditional hosting
+hurdles, such as requiring a public static IP address or configuring
+router port forwarding. This article outlines how hosting a Tor service
+on home hardware works, the requirements to get started, and the
+critical security and performance factors you must consider.</p>
+<h2 id="how-tor-hidden-services-work-on-home-hardware">How Tor Hidden
+Services Work on Home Hardware</h2>
+<p>Standard web hosting requires your router to accept incoming
+connections and forward them to your computer, exposing your public IP
+address. Tor hidden services operate differently:</p>
+<ol type="1">
+<li><strong>Outbound Connections:</strong> Your computer connects
+outward to the Tor network and establishes virtual circuits with
+designated "introduction points."</li>
+<li><strong>End-to-End Encryption:</strong> When a user visits your
+<code>.onion</code> address, the Tor network handles the routing through
+a rendezvous point, keeping your actual IP address hidden from the
+visitor and your visitor's IP hidden from you.</li>
+<li><strong>No NAT/Port Forwarding Required:</strong> Because your
+system initiates all connections to the Tor network, you do not need to
+open ports on your home router or deal with Carrier-Grade NAT (CGNAT)
+restrictions.</li>
+</ol>
+<h2 id="basic-setup-requirements">Basic Setup Requirements</h2>
+<p>To host a service, any typical laptop or desktop running Linux,
+macOS, or Windows will suffice. The core software stack includes:</p>
+<ul>
+<li><strong>A Local Web Server:</strong> Lightweight servers like Nginx,
+Lighttpd, or Apache configured to listen locally (usually on
+<code>127.0.0.1:80</code> or a custom local port).</li>
+<li><strong>The Tor Daemon:</strong> The standard Tor background service
+that manages network circuits and hidden service configurations.</li>
+</ul>
+<h3 id="configuration-overview">Configuration Overview</h3>
+<ol type="1">
+<li>Set up your local web server to serve your website content
+locally.</li>
+<li>Edit the <code>torrc</code> configuration file on your system.</li>
+<li>Add hidden service directives specifying the storage directory for
+the service's keys and the local port mapping (e.g., mapping port 80 of
+the <code>.onion</code> address to <code>127.0.0.1:8080</code>).</li>
+<li>Restart the Tor daemon. Tor automatically generates a private key
+and a unique <code>.onion</code> hostname file in the specified
+directory.</li>
+</ol>
+<h2 id="advantages-of-home-hosting">Advantages of Home Hosting</h2>
+<ul>
+<li><strong>Zero Hosting Costs:</strong> You avoid paying monthly VPS or
+dedicated server fees.</li>
+<li><strong>Key Ownership:</strong> The cryptographic private keys that
+generate your <code>.onion</code> address stay strictly on your local
+physical machine, eliminating the risk of a third-party host seizing or
+accessing them.</li>
+<li><strong>Simplicity:</strong> No domain registration fees, DNS
+configuration, or SSL certificate management are needed, as Tor handles
+address resolution and native end-to-end encryption.</li>
+</ul>
+<h2 id="limitations-and-risks">Limitations and Risks</h2>
+<ul>
+<li><strong>Uptime and Reliability:</strong> A home computer must stay
+powered on and connected to the internet 24/7. System sleep modes, OS
+updates, power outages, or standard ISP disconnects will take your
+service offline.</li>
+<li><strong>Server Misconfiguration &amp; IP Leaks:</strong> The biggest
+security risk comes from the web server software, not Tor itself. If
+your web application reveals system details, embeds external clearnet
+resources, or mismanages error logs, it can leak your real residential
+IP address.</li>
+<li><strong>Bandwidth and Latency:</strong> Tor adds latency by routing
+traffic through multiple relays. Combined with typical residential
+internet upload speeds, your site may load slowly for multiple
+concurrent visitors.</li>
+<li><strong>Physical Security:</strong> Anyone with physical access to
+your unlocked computer can potentially access the hidden service keys
+and internal files.</li>
+</ul>
+<p>Hosting a Tor hidden service on a standard home PC is practical for
+personal projects, private file sharing, or testing. For high-traffic
+sites or services requiring strict anonymity, running the service inside
+an isolated virtual machine or on a dedicated, hardened server is
+strongly recommended.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

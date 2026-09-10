@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does the Tor Entry Node See Your Traffic? - tor</title>
+    <meta name="description" content="A Tor entry node, also known as a guard node, does not know the contents of your internet traffic. Because of Tor’s multi-layered onion routing encryption design, the entry node can only see your real IP address and the IP address of the next middle re">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-the-tor-entry-node-see-your-traffic">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does the Tor Entry Node See Your Traffic? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-the-tor-entry-node-see-your-traffic" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Tor entry node, also known as a guard node, does not know the contents of your internet traffic. Because of Tor’s multi-layered onion routing encryption design, the entry node can only see your real IP address and the IP address of the next middle re" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-the-tor-entry-node-see-your-traffic">Does the Tor Entry
+Node See Your Traffic?</h1>
+<p>A Tor entry node, also known as a guard node, does not know the
+contents of your internet traffic. Because of Tor’s multi-layered onion
+routing encryption design, the entry node can only see your real IP
+address and the IP address of the next middle relay in the circuit. It
+has no access to the destination website you are visiting or the actual
+data you are transmitting.</p>
+<h3 id="how-tor-encryption-protects-data-at-the-entry-node">How Tor
+Encryption Protects Data at the Entry Node</h3>
+<p>When you use the Tor network, your client builds a three-hop circuit
+consisting of an entry node, a middle node, and an exit node. Before
+sending any data across this circuit, your Tor client encrypts the
+payload three times using separate encryption keys established with each
+node.</p>
+<ol type="1">
+<li><strong>The Outer Layer (Entry Key):</strong> Encrypted specifically
+for the entry node.</li>
+<li><strong>The Middle Layer (Middle Key):</strong> Encrypted
+specifically for the middle node.</li>
+<li><strong>The Inner Layer (Exit Key):</strong> Encrypted specifically
+for the exit node.</li>
+</ol>
+<p>When your traffic reaches the entry node, the node uses its private
+key to decrypt only the outermost layer. This reveals just enough
+information to forward the remaining encrypted package to the designated
+middle node. The entry node cannot peel away the subsequent inner layers
+of encryption, leaving the underlying data and final destination
+completely obscured.</p>
+<h3 id="what-the-entry-node-can-see">What the Entry Node Can See</h3>
+<ul>
+<li><strong>Your Real IP Address:</strong> Because you connect directly
+to the entry node, it sees your original IP address (unless you connect
+through a bridge, VPN, or proxy).</li>
+<li><strong>Connection Timing and Volume:</strong> It can observe when
+you connect, how long the connection lasts, and the volume of encrypted
+data being sent back and forth.</li>
+<li><strong>The Middle Node’s IP Address:</strong> It knows where to
+forward the packet next.</li>
+</ul>
+<h3 id="what-the-entry-node-cannot-see">What the Entry Node Cannot
+See</h3>
+<ul>
+<li><strong>The Payload / Content:</strong> The actual data, URLs,
+search queries, or messages you send.</li>
+<li><strong>The Destination Website:</strong> It does not know where the
+traffic will eventually exit or what server you are accessing.</li>
+<li><strong>The Exit Node:</strong> It does not know which exit node
+completes the circuit.</li>
+</ul>
+<h3 id="additional-security-with-https">Additional Security with
+HTTPS</h3>
+<p>Even if Tor's layered routing were not present, modern web traffic
+generally uses Transport Layer Security (HTTPS). When accessing an HTTPS
+website over Tor, the data undergoes an additional layer of end-to-end
+encryption between your browser and the destination server.
+Consequently, neither the entry node, the middle node, nor the exit node
+can read the plaintext content of your traffic.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

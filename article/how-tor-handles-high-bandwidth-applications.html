@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Handles High-Bandwidth Applications - tor</title>
+    <meta name="description" content="The Tor network was engineered primarily to provide anonymity, privacy, and censorship resistance rather than raw speed, making its handling of high-bandwidth applications a complex balance between user demand and network capacity. This article examines">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-handles-high-bandwidth-applications">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Handles High-Bandwidth Applications - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-handles-high-bandwidth-applications" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network was engineered primarily to provide anonymity, privacy, and censorship resistance rather than raw speed, making its handling of high-bandwidth applications a complex balance between user demand and network capacity. This article examines" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-handles-high-bandwidth-applications">How Tor Handles
+High-Bandwidth Applications</h1>
+<p>The Tor network was engineered primarily to provide anonymity,
+privacy, and censorship resistance rather than raw speed, making its
+handling of high-bandwidth applications a complex balance between user
+demand and network capacity. This article examines how Tor processes
+heavy data streams, the structural limitations of its multi-hop
+architecture, the bandwidth-management mechanisms used by relays, and
+the impact of resource-intensive activities like streaming and
+torrenting on the network.</p>
+<h2 id="the-multi-hop-architecture-bottleneck">The Multi-Hop
+Architecture Bottleneck</h2>
+<p>Tor routes internet traffic through a volunteer-operated circuit
+consisting of three distinct nodes: the Guard (Entry) relay, the Middle
+relay, and the Exit relay. Each layer of routing introduces encryption,
+decryption, and transmission overhead.</p>
+<p>Because traffic can only move as fast as the slowest relay in a given
+circuit, high-bandwidth applications naturally encounter performance
+bottlenecks. When a single user attempts to pull massive data volumes
+through a circuit, the cumulative processing and transfer limits of all
+three relays restrict overall throughput.</p>
+<h2 id="bandwidth-weighting-and-relay-allocation">Bandwidth Weighting
+and Relay Allocation</h2>
+<p>To prevent high-bandwidth requests from overwhelming specific nodes,
+Tor uses a consensus mechanism managed by Directory Authorities:</p>
+<ul>
+<li><strong>Bandwidth Scanning:</strong> Scanners continuously measure
+relay speeds and reliability.</li>
+<li><strong>Proportional Routing:</strong> Tor distributes client
+traffic proportionally based on a relay's measured capacity. Faster
+relays handle more circuits, while slower relays are assigned fewer
+connections.</li>
+<li><strong>Relay Throttling:</strong> Node operators can set explicit
+caps (such as <code>BandwidthRate</code> and <code>BandwidthBurst</code>
+parameters) to limit how much data passes through their system,
+protecting their local resources from exhaustion.</li>
+</ul>
+<h2 id="congestion-control-improvements">Congestion Control
+Improvements</h2>
+<p>Historically, Tor used a fixed-window approach to flow control, which
+struggled with latency spikes when handling large file transfers. Modern
+versions of Tor implement adaptive congestion control algorithms. These
+protocols dynamically adjust transmission rates based on round-trip time
+and buffer occupancy, reducing packet queue times and ensuring that
+high-bandwidth transfers do not completely stall normal web browsing on
+shared relays.</p>
+<h2 id="high-bandwidth-use-cases-on-tor">High-Bandwidth Use Cases on
+Tor</h2>
+<p>Different types of high-bandwidth applications impact the network in
+distinct ways:</p>
+<h3 id="video-and-audio-streaming">Video and Audio Streaming</h3>
+<p>Streaming media over Tor is possible, particularly at standard
+definitions, but users frequently experience buffering. The real-time
+nature of streaming conflicts with variable packet delivery times across
+distributed global relays.</p>
+<h3 id="peer-to-peer-p2p-and-bittorrent">Peer-to-Peer (P2P) and
+BitTorrent</h3>
+<p>The Tor Project strongly discourages using BitTorrent and similar P2P
+protocols on the network for two main reasons:</p>
+<ol type="1">
+<li><strong>Network Congestion:</strong> P2P traffic generates massive
+amounts of simultaneous connections that overload exit relays and
+consume critical bandwidth needed by users seeking censorship
+bypass.</li>
+<li><strong>De-anonymization Risks:</strong> Many BitTorrent clients
+bypass proxy settings to send direct UDP packets, which can leak the
+user's real IP address and defeat Tor's privacy guarantees.</li>
+</ol>
+<h2 id="network-capacity-and-user-impact">Network Capacity and User
+Impact</h2>
+<p>Tor handles high-bandwidth applications through automated load
+balancing and protocol-level congestion control, but the network does
+not prioritize heavy downloads. Because the entire network runs on
+finite, volunteer-contributed resources, persistent high-bandwidth usage
+degrades performance for other users and increases the load on exit
+nodes. Consequently, high-bandwidth activities remain the primary cause
+of latency and throughput constraints across the ecosystem.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

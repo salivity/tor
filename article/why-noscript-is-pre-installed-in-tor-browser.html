@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why NoScript is Pre-Installed in Tor Browser - tor</title>
+    <meta name="description" content="The Tor Browser comes with the NoScript extension pre-installed as a core defense mechanism to protect user anonymity and security. Because JavaScript and other active web scripts can be exploited to reveal a user's real IP address, exploit browser vulne">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-noscript-is-pre-installed-in-tor-browser">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why NoScript is Pre-Installed in Tor Browser - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-noscript-is-pre-installed-in-tor-browser" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor Browser comes with the NoScript extension pre-installed as a core defense mechanism to protect user anonymity and security. Because JavaScript and other active web scripts can be exploited to reveal a user's real IP address, exploit browser vulne" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-noscript-is-pre-installed-in-tor-browser">Why NoScript is
+Pre-Installed in Tor Browser</h1>
+<p>The Tor Browser comes with the NoScript extension pre-installed as a
+core defense mechanism to protect user anonymity and security. Because
+JavaScript and other active web scripts can be exploited to reveal a
+user's real IP address, exploit browser vulnerabilities, or track users
+across the web, NoScript gives Tor the necessary framework to block or
+restrict these scripts, power the browser’s built-in Security Levels,
+and significantly reduce the attack surface.</p>
+<h3 id="protection-against-deanonymization-and-exploits">Protection
+Against Deanonymization and Exploits</h3>
+<p>The primary reason NoScript is bundled with Tor Browser is to
+mitigate software vulnerabilities that could compromise user anonymity.
+Malicious websites can use complex JavaScript to exploit browser
+zero-day vulnerabilities, execute arbitrary code, and bypass the Tor
+proxy entirely to transmit the user's real IP address and hardware
+details back to an attacker. By restricting how and when scripts run,
+NoScript minimizes these execution paths.</p>
+<h3 id="powering-tors-security-levels">Powering Tor's Security
+Levels</h3>
+<p>Tor Browser integrates NoScript directly into its user interface
+through the "Security Level" slider (Standard, Safer, and Safest).
+Rather than requiring users to manually configure complex
+script-blocking rules, Tor uses NoScript in the background to enforce
+these presets:</p>
+<ul>
+<li><strong>Standard:</strong> JavaScript is enabled by default on all
+sites for maximum usability.</li>
+<li><strong>Safer:</strong> JavaScript is automatically disabled on
+non-HTTPS sites, and certain fonts and math symbols are blocked.</li>
+<li><strong>Safest:</strong> JavaScript is disabled entirely by default
+across all websites, along with media auto-play and specific web
+fonts.</li>
+</ul>
+<p>Without NoScript, Tor Browser would lack the granular mechanism
+needed to dynamically apply these security profiles.</p>
+<h3 id="mitigating-browser-fingerprinting">Mitigating Browser
+Fingerprinting</h3>
+<p>Browser fingerprinting involves running scripts to gather unique
+information about a user's system—such as installed fonts, screen
+resolution, GPU details, and supported media formats—to track them
+without using cookies. Disabling or restricting scripts via NoScript
+stops trackers from executing the JavaScript APIs required to build an
+identifiable device fingerprint, helping Tor users blend into the
+crowd.</p>
+<h3 id="defense-against-xss-and-clickjacking">Defense Against XSS and
+Clickjacking</h3>
+<p>NoScript includes built-in protection against Cross-Site Scripting
+(XSS) and clickjacking attacks. It prevents malicious websites from
+injecting code into trusted sessions and blocks invisible interface
+layers designed to trick users into clicking links they did not intend
+to click. This ensures that even when scripts are enabled, unauthorized
+cross-origin requests and script executions are strictly contained.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

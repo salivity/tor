@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Snowflake Uses WebRTC Technology - tor</title>
+    <meta name="description" content="Tor Snowflake is an advanced pluggable transport designed to bypass internet censorship by routing restricted network traffic through transient, volunteer-operated proxies. This article explains how Snowflake leverages WebRTC (Web Real-Time Communication">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-snowflake-uses-webrtc-technology">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Snowflake Uses WebRTC Technology - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-snowflake-uses-webrtc-technology" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Snowflake is an advanced pluggable transport designed to bypass internet censorship by routing restricted network traffic through transient, volunteer-operated proxies. This article explains how Snowflake leverages WebRTC (Web Real-Time Communication" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-snowflake-uses-webrtc-technology">How Tor Snowflake Uses
+WebRTC Technology</h1>
+<p>Tor Snowflake is an advanced pluggable transport designed to bypass
+internet censorship by routing restricted network traffic through
+transient, volunteer-operated proxies. This article explains how
+Snowflake leverages WebRTC (Web Real-Time Communication)—a technology
+standard primarily built for browser-to-browser voice and video
+calling—to disguise Tor traffic, dynamically establish peer-to-peer
+connections, and make automated blocking exceptionally difficult for
+state-level censors.</p>
+<h3 id="the-role-of-webrtc-in-censorship-circumvention">The Role of
+WebRTC in Censorship Circumvention</h3>
+<p>Traditional methods of blocking the Tor network rely on identifying
+and blacklisting the IP addresses of known Tor relays and bridges.
+Snowflake solves this problem by using WebRTC to transform ordinary
+internet users into temporary proxies.</p>
+<p>WebRTC is widely implemented across modern browsers (such as Chrome,
+Firefox, and Safari) and is integral to everyday communication platforms
+like Google Meet, Zoom, and Discord. Because WebRTC traffic is
+ubiquitous and vital for modern web applications, censors cannot easily
+block it without disrupting normal, everyday web services.</p>
+<h3 id="core-components-of-the-snowflake-architecture">Core Components
+of the Snowflake Architecture</h3>
+<p>Snowflake relies on four primary components to establish a
+connection:</p>
+<ol type="1">
+<li><strong>The Censored Client:</strong> The user attempting to access
+the open internet through the Tor browser.</li>
+<li><strong>The Snowflake Broker:</strong> A centralized matchmaking
+server that pairs restricted clients with available volunteer
+proxies.</li>
+<li><strong>The Snowflake Proxy:</strong> A volunteer running a
+lightweight browser extension, standalone program, or web page that
+temporarily acts as an encrypted hop.</li>
+<li><strong>The Snowflake Bridge:</strong> A high-bandwidth server that
+receives traffic from proxies and routes it into the main Tor
+network.</li>
+</ol>
+<h3 id="how-the-webrtc-connection-flow-works">How the WebRTC Connection
+Flow Works</h3>
+<p>The process of utilizing WebRTC to establish a Snowflake connection
+involves several synchronized steps:</p>
+<ol type="1">
+<li><strong>Rendezvous and Signaling:</strong> The client needs to
+connect to an available proxy without directly revealing that intention
+to the censor. To do this, the client sends an encrypted request to the
+Snowflake Broker using methods like domain fronting or AMP cache
+rendezvous.</li>
+<li><strong>Session Description Protocol (SDP) Exchange:</strong> The
+client generates a WebRTC offer containing connection parameters (such
+as network candidates and cryptographic keys). The broker passes this
+offer to an available volunteer proxy. The proxy responds with an SDP
+answer, which the broker sends back to the client.</li>
+<li><strong>Peer-to-Peer Data Channel Establishment:</strong> Once
+signaling is complete, the client and volunteer proxy establish a direct
+peer-to-peer WebRTC <code>DataChannel</code>. This connection uses
+standard WebRTC encryption protocols, specifically Datagram Transport
+Layer Security (DTLS) and the Stream Control Transmission Protocol
+(SCTP).</li>
+<li><strong>Traffic Forwarding to the Tor Network:</strong> The client
+sends encrypted Tor traffic through the WebRTC data channel to the
+proxy. The volunteer proxy then relays this traffic via a secure
+WebSocket connection to the Snowflake Bridge, which injects the data
+into the broader Tor network.</li>
+</ol>
+<h3 id="why-webrtc-makes-snowflake-resilient">Why WebRTC Makes Snowflake
+Resilient</h3>
+<ul>
+<li><strong>Ephemeral IP Addresses:</strong> Volunteer proxies are
+constantly connecting and disconnecting. A censor cannot maintain an
+effective IP blocklist because the list of available volunteer proxies
+changes from minute to minute.</li>
+<li><strong>Traffic Mimicry:</strong> To network monitoring equipment
+and deep packet inspection (DPI) firewalls, the data stream looks
+identical to a standard, encrypted peer-to-peer voice or video
+call.</li>
+<li><strong>Low Barrier to Entry:</strong> Because WebRTC runs natively
+in modern browsers without specialized software installations, tens of
+thousands of volunteers can host proxies simultaneously, creating an
+immense pool of dynamic IP addresses across the globe.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

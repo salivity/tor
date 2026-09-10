@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does a Tor Entry Guard Know Your Real IP Address? - tor</title>
+    <meta name="description" content="Yes, the Tor entry guard knows your real IP address. When you connect to the Tor network, your client establishes a direct encrypted connection with the first node in the circuit, known as the entry guard. While this node can see your IP address and the">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-a-tor-entry-guard-know-your-real-ip-address">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does a Tor Entry Guard Know Your Real IP Address? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-a-tor-entry-guard-know-your-real-ip-address" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Yes, the Tor entry guard knows your real IP address. When you connect to the Tor network, your client establishes a direct encrypted connection with the first node in the circuit, known as the entry guard. While this node can see your IP address and the" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-a-tor-entry-guard-know-your-real-ip-address">Does a Tor
+Entry Guard Know Your Real IP Address?</h1>
+<p>Yes, the Tor entry guard knows your real IP address. When you connect
+to the Tor network, your client establishes a direct encrypted
+connection with the first node in the circuit, known as the entry guard.
+While this node can see your IP address and the exact time you
+connected, it cannot see the website you are visiting or the data you
+are transmitting due to Tor's multi-layered encryption.</p>
+<h3 id="how-tor-circuits-work">How Tor Circuits Work</h3>
+<p>The Tor network protects your privacy by routing your internet
+traffic through a three-node circuit:</p>
+<ol type="1">
+<li><strong>Entry Guard (First Hop):</strong> Receives traffic directly
+from your device and passes it to the middle node.</li>
+<li><strong>Middle Relay (Second Hop):</strong> Acts as a buffer between
+the entry and exit nodes, stripping a layer of encryption and forwarding
+the traffic.</li>
+<li><strong>Exit Node (Third Hop):</strong> Strips the final layer of
+encryption and delivers the request to the destination website.</li>
+</ol>
+<p>Each node only knows the identity of the node immediately before and
+after it in the sequence.</p>
+<h3 id="what-the-entry-guard-can-see">What the Entry Guard Can See</h3>
+<p>Because your device communicates directly with the entry guard, the
+guard has access to specific connection metadata:</p>
+<ul>
+<li><strong>Your Real IP Address:</strong> The public IP address
+assigned to your device or router.</li>
+<li><strong>Timestamp:</strong> The exact time you connected and
+disconnected.</li>
+<li><strong>Data Volume:</strong> The amount of encrypted data sent and
+received.</li>
+<li><strong>Middle Node IP:</strong> The IP address of the next relay in
+the circuit.</li>
+</ul>
+<h3 id="what-the-entry-guard-cannot-see">What the Entry Guard Cannot
+See</h3>
+<p>Despite knowing your IP address, the entry guard cannot compromise
+your browsing privacy on its own. It cannot see:</p>
+<ul>
+<li><strong>Destination Websites:</strong> It has no visibility into the
+domain or IP address of your final destination.</li>
+<li><strong>Browsing Content:</strong> Your payload remains secured
+under multiple layers of onion encryption.</li>
+<li><strong>Exit Node Identity:</strong> It only communicates with the
+middle node and does not know which exit node is being used.</li>
+</ul>
+<h3 id="why-tor-uses-persistent-entry-guards">Why Tor Uses Persistent
+Entry Guards</h3>
+<p>Tor assigns your client a small, fixed set of entry guards that
+remain the same for several months. This design choice, known as guard
+pinning, minimizes the risk of traffic correlation attacks. If Tor
+picked a new entry node randomly for every connection, a malicious actor
+running a fraction of all Tor nodes would eventually control both your
+entry and exit points, allowing them to deanonymize you. Using
+persistent guards limits your exposure over time.</p>
+<h3 id="hiding-your-ip-address-from-the-entry-guard">Hiding Your IP
+Address from the Entry Guard</h3>
+<p>If you want to prevent the Tor entry guard from seeing your real IP
+address, you have two primary options:</p>
+<ul>
+<li><strong>Tor Bridges:</strong> Bridges are unlisted Tor relays that
+replace the standard entry guard. While the bridge still sees your IP,
+your internet service provider (ISP) will not know you are using
+Tor.</li>
+<li><strong>VPN Before Tor (Tor over VPN):</strong> Connecting to a VPN
+before launching Tor routes your traffic through the VPN server first.
+In this setup, the VPN provider sees your real IP address, but the Tor
+entry guard only sees the IP address of the VPN server.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

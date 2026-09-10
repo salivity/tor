@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will Tor Migrate to Post-Quantum Cryptography? - tor</title>
+    <meta name="description" content="The Tor Project is actively transitioning toward post-quantum cryptography (PQC) to defend against the threat of future quantum computers capable of breaking current encryption standards. Because adversaries can intercept and store encrypted Tor traffic">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/will-tor-migrate-to-post-quantum-cryptography">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Will Tor Migrate to Post-Quantum Cryptography? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/will-tor-migrate-to-post-quantum-cryptography" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor Project is actively transitioning toward post-quantum cryptography (PQC) to defend against the threat of future quantum computers capable of breaking current encryption standards. Because adversaries can intercept and store encrypted Tor traffic" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="will-tor-migrate-to-post-quantum-cryptography">Will Tor Migrate
+to Post-Quantum Cryptography?</h1>
+<p>The Tor Project is actively transitioning toward post-quantum
+cryptography (PQC) to defend against the threat of future quantum
+computers capable of breaking current encryption standards. Because
+adversaries can intercept and store encrypted Tor traffic today to
+decrypt it later once quantum computing matures—a strategy known as
+"harvest now, decrypt later"—the network is deploying hybrid
+cryptographic schemes as an immediate defense, with the ultimate goal of
+transitioning entirely to post-quantum standards across all layers of
+the protocol.</p>
+<h3 id="the-threat-quantum-computing-poses-to-tor">The Threat Quantum
+Computing Poses to Tor</h3>
+<p>Tor relies heavily on public-key cryptography, specifically Elliptic
+Curve Cryptography (such as Curve25519 and Ed25519), for establishing
+circuits, authenticating relays, and hosting onion services.</p>
+<p>A cryptographically relevant quantum computer running Shor’s
+algorithm would easily break these classical systems. If an adversary
+captures encrypted Tor traffic today, they could retrospectively
+determine user destinations, compromise onion service private keys, and
+deanonymize past traffic once sufficiently powerful quantum hardware
+exists.</p>
+<h3 id="the-hybrid-transition-phase">The Hybrid Transition Phase</h3>
+<p>Tor’s migration cannot happen overnight due to performance
+constraints, network compatibility, and the need for cryptographic
+vetting. As a result, the Tor Project is pursuing a phased rollout
+centered on hybrid cryptography:</p>
+<ul>
+<li><strong>Hybrid Key Encapsulation Mechanisms (KEMs):</strong> Tor is
+implementing hybrid key exchanges combining classical algorithms (like
+X25519) with NIST-standardized post-quantum algorithms (such as ML-KEM,
+formerly Kyber). This ensures that traffic remains secure even if the
+post-quantum algorithm is later found to have unexpected
+vulnerabilities, while still neutralizing the "harvest now, decrypt
+later" threat.</li>
+<li><strong>Circuit Negotiation Updates:</strong> Tor Proposals (such as
+Proposal 340 and related specifications) address the technical limits of
+Tor's traditional fixed 514-byte cell sizes, allowing the protocol to
+handle the significantly larger key sizes and ciphertexts required by
+post-quantum algorithms.</li>
+</ul>
+<h3 id="challenges-to-full-pqc-migration">Challenges to Full PQC
+Migration</h3>
+<p>While hybrid systems protect circuit negotiation in the near term,
+migrating the entire network exclusively to post-quantum cryptography
+presents distinct engineering hurdles:</p>
+<ol type="1">
+<li><strong>Bandwidth and Latency Overhead:</strong> Post-quantum public
+keys and digital signatures are substantially larger than their elliptic
+curve counterparts. Transmitting larger payloads across multi-hop
+circuits can increase network congestion and introduce latency for end
+users.</li>
+<li><strong>Relay Resource Demands:</strong> Tor relies heavily on
+volunteer-run relays. Increased computational load for cryptographic
+handshakes could strain lower-powered relay nodes.</li>
+<li><strong>Authentication and Onion Services:</strong> While encrypting
+circuit data protects transit privacy, upgrading the long-term
+identities of relays and v3 onion service addresses requires deeper
+protocol redesigns to avoid breaking existing address structures and
+service discovery.</li>
+</ol>
+<h3 id="the-long-term-outlook">The Long-Term Outlook</h3>
+<p>Tor will eventually migrate entirely to post-quantum cryptography.
+The adoption of hybrid key exchanges represents the initial step to
+secure user traffic against retroactive decryption. As post-quantum
+standards mature, hardware acceleration becomes widespread, and legacy
+relay software is phased out, the classical cryptographic components
+will be deprecated, resulting in a fully quantum-resistant anonymity
+network.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

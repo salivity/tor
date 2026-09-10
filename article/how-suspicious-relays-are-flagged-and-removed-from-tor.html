@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Suspicious Relays Are Flagged and Removed from Tor - tor</title>
+    <meta name="description" content="The Tor network relies on thousands of volunteer-operated relays to provide online privacy, but malicious actors occasionally deploy coordinated groups of relays to compromise user anonymity or manipulate traffic. To protect the network, the Tor Project">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-suspicious-relays-are-flagged-and-removed-from-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Suspicious Relays Are Flagged and Removed from Tor - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-suspicious-relays-are-flagged-and-removed-from-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network relies on thousands of volunteer-operated relays to provide online privacy, but malicious actors occasionally deploy coordinated groups of relays to compromise user anonymity or manipulate traffic. To protect the network, the Tor Project" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-suspicious-relays-are-flagged-and-removed-from-tor">How
+Suspicious Relays Are Flagged and Removed from Tor</h1>
+<p>The Tor network relies on thousands of volunteer-operated relays to
+provide online privacy, but malicious actors occasionally deploy
+coordinated groups of relays to compromise user anonymity or manipulate
+traffic. To protect the network, the Tor Project and its community
+utilize automated scanning, anomaly detection, community reporting, and
+directory authority voting to identify, flag, and permanently remove
+suspicious relay groups before they can harm users.</p>
+<h3 id="identifying-suspicious-relays">Identifying Suspicious
+Relays</h3>
+<p>The detection of malicious or coordinated relay clusters relies on
+several automated tools and manual investigations:</p>
+<ul>
+<li><strong>Automated Scanners:</strong> Tools like <code>exitmap</code>
+and automated probing systems continuously monitor exit nodes for
+malicious behavior, such as SSL stripping, traffic sniffing, DNS
+poisoning, or injecting malicious payloads into unencrypted HTTP
+traffic.</li>
+<li><strong>Sybil Detection Tools:</strong> Software such as
+<code>sybil-hunter</code> analyzes relay metadata, uptime patterns,
+software versions, and network locations to detect large batches of
+relays brought online simultaneously by a single entity attempting a
+Sybil attack.</li>
+<li><strong>Network Anomaly Monitoring:</strong> The Network Health team
+and community members monitor metrics for unusual spikes in network
+capacity, suspicious clustering of relays within specific Autonomous
+System Numbers (ASNs) or IP subnets, and misconfigured
+<code>MyFamily</code> declarations.</li>
+<li><strong>Community Reports:</strong> Security researchers and Tor
+users frequently report anomalous behaviors, suspicious relay
+configurations, or malicious exit nodes directly to the Tor Project’s
+Network Health team.</li>
+</ul>
+<h3 id="the-flagging-process">The Flagging Process</h3>
+<p>Once suspicious activity is detected, relays are mitigated through
+Tor's consensus mechanism, which is managed by a small group of trusted
+servers called <strong>Directory Authorities (DirAuths)</strong>.</p>
+<p>Directory Authorities vote hourly to generate the network consensus
+document that tells Tor clients which relays are safe to use. When a
+relay is deemed suspicious:</p>
+<ol type="1">
+<li><strong><code>BadExit</code> Flag Assignment:</strong> If an exit
+relay is manipulating traffic, DirAuths vote to assign it the
+<code>BadExit</code> flag. The relay remains part of the network for
+routing intermediate traffic (as a middle relay) but clients are
+prevented from using it as an exit point.</li>
+<li><strong><code>BadDirectory</code> / De-flagging:</strong> If a relay
+attempts to manipulate directory information, authorities can strip its
+directory flags.</li>
+<li><strong>Revoking <code>Valid</code> and <code>Running</code>
+Flags:</strong> For severe threats, such as suspected deanonymization or
+correlation attacks, DirAuths withhold the <code>Valid</code> and
+<code>Running</code> flags, rendering the relay entirely invisible and
+unusable to all Tor clients.</li>
+</ol>
+<h3 id="permanent-removal-and-blocking">Permanent Removal and
+Blocking</h3>
+<p>If an operator violates the Tor Relay Operator Expectations or
+engages in sustained malicious behavior, DirAuth operators take
+permanent actions:</p>
+<ul>
+<li><strong>Fingerprint Blacklisting:</strong> The cryptographic
+fingerprints of the malicious relays are added to exclusion lists
+(<code>AuthDirReject</code> configuration) on the Directory Authorities,
+permanently denying them entry into the network consensus.</li>
+<li><strong>IP and Subnet Banning:</strong> When attackers deploy
+rotating keys across the same network infrastructure, authorities
+implement IP address or entire CIDR block rejections to prevent new
+relays from registering from those hosting providers.</li>
+</ul>
+<p>Through this multi-layered process of proactive scanning, community
+oversight, and consensus-driven moderation, the Tor network isolates and
+neutralizes malicious relay clusters to preserve user privacy and
+routing integrity.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

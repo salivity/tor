@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Timing Analysis Link Tor Entry and Exit Traffic? - tor</title>
+    <meta name="description" content="Timing analysis can indeed be used to link Tor entry and exit traffic through a method known as an end-to-end traffic correlation attack. Because Tor is a low-latency anonymity network designed for real-time web browsing, it inherently preserves the timi">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-timing-analysis-link-tor-entry-and-exit-traffic">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can Timing Analysis Link Tor Entry and Exit Traffic? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-timing-analysis-link-tor-entry-and-exit-traffic" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Timing analysis can indeed be used to link Tor entry and exit traffic through a method known as an end-to-end traffic correlation attack. Because Tor is a low-latency anonymity network designed for real-time web browsing, it inherently preserves the timi" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-timing-analysis-link-tor-entry-and-exit-traffic">Can Timing
+Analysis Link Tor Entry and Exit Traffic?</h1>
+<p>Timing analysis can indeed be used to link Tor entry and exit traffic
+through a method known as an end-to-end traffic correlation attack.
+Because Tor is a low-latency anonymity network designed for real-time
+web browsing, it inherently preserves the timing characteristics of data
+streams. If an adversary can observe the network traffic entering the
+Tor network (from the user to the entry guard) and leaving it (from the
+exit relay to the destination server), statistical timing analysis can
+correlate the two endpoints and effectively deanonymize the user.</p>
+<h3 id="how-timing-analysis-attacks-work">How Timing Analysis Attacks
+Work</h3>
+<p>Tor protects data by wrapping it in multiple layers of encryption and
+routing it through three relays: the guard, the middle, and the exit
+node. While encryption hides the contents and destination of the data
+packets, it does not completely conceal metadata such as packet timing,
+volume, and transmission frequency.</p>
+<p>In a timing correlation attack, an adversary observes the following
+patterns:</p>
+<ul>
+<li><strong>Packet Inter-Arrival Times:</strong> The specific delays
+between consecutive packets create a distinct "fingerprint" for a data
+stream.</li>
+<li><strong>Traffic Bursts:</strong> Web browsing generates distinct
+bursts of activity (e.g., requesting a webpage followed by downloading
+various resources).</li>
+<li><strong>Data Volume:</strong> The aggregate size of sent and
+received data over a specific window of time remains relatively
+consistent between the entry and exit points.</li>
+</ul>
+<p>By applying statistical methods and machine learning algorithms to
+these patterns, an attacker can compare the flow entering an entry node
+with the flow exiting an exit node and establish a high-probability link
+between them.</p>
+<h3 id="who-can-conduct-these-attacks">Who Can Conduct These
+Attacks?</h3>
+<p>To successfully perform end-to-end timing correlation, an attacker
+must have visibility into both sides of the Tor circuit. This typically
+requires significant resources and is feasible for:</p>
+<ul>
+<li><strong>Large Autonomous Systems (ASes) and ISPs:</strong> Major
+internet service providers or backbone transit providers that route
+traffic on both the user's side and the destination server's side.</li>
+<li><strong>State-Level Adversaries:</strong> Intelligence agencies and
+governments capable of broad surveillance across multiple national and
+international network points.</li>
+<li><strong>Relay-Controlling Entities:</strong> An adversary who
+operates a large proportion of both guard and exit relays within the Tor
+network itself.</li>
+</ul>
+<h3 id="the-low-latency-trade-off">The Low-Latency Trade-Off</h3>
+<p>Tor is deliberately vulnerable to this category of attack by design.
+The network prioritizes low latency to make interactive activities—such
+as web browsing, chatting, and SSH sessions—practical for everyday
+users.</p>
+<p>Truly eliminating timing correlation requires high-latency techniques
+typically found in mixnets, such as introducing artificial,
+unpredictable delays to packets, reordering messages, or generating
+constant streams of dummy traffic. These defenses significantly degrade
+connection speeds and bandwidth efficiency, making them unsuitable for
+real-time browsing.</p>
+<h3 id="current-tor-defenses">Current Tor Defenses</h3>
+<p>While Tor cannot fundamentally prevent end-to-end correlation by a
+global adversary, it employs several measures to make such attacks
+difficult and resource-intensive:</p>
+<ul>
+<li><strong>Fixed-Size Cells:</strong> Tor breaks all data into uniform
+514-byte cells, preventing adversaries from matching individual packet
+sizes.</li>
+<li><strong>Entry Guards:</strong> Users select a persistent, long-term
+entry guard rather than picking a new one for every circuit. This
+restricts an attacker's window of opportunity; an adversary must monitor
+that specific guard rather than relying on the user eventually selecting
+an attacker-controlled entry relay.</li>
+<li><strong>Circuit Padding:</strong> Tor implements padding frameworks
+designed to inject dummy traffic into circuits to obfuscate timing
+patterns and resist statistical correlation.</li>
+</ul>
+<p>Timing analysis remains one of the most potent theoretical and
+practical threats to Tor users against well-resourced adversaries with
+broad network visibility.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

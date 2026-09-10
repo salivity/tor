@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Tor Only Anonymizes TCP Traffic by Default - tor</title>
+    <meta name="description" content="The Tor network is fundamentally designed to route and anonymize only Transmission Control Protocol (TCP) traffic, leaving User Datagram Protocol (UDP) and raw ICMP packets unrouted by default. This limitation is not an oversight, but a deliberate archit">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-tor-only-anonymizes-tcp-traffic-by-default">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Tor Only Anonymizes TCP Traffic by Default - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-tor-only-anonymizes-tcp-traffic-by-default" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network is fundamentally designed to route and anonymize only Transmission Control Protocol (TCP) traffic, leaving User Datagram Protocol (UDP) and raw ICMP packets unrouted by default. This limitation is not an oversight, but a deliberate archit" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-tor-only-anonymizes-tcp-traffic-by-default">Why Tor Only
+Anonymizes TCP Traffic by Default</h1>
+<p>The Tor network is fundamentally designed to route and anonymize only
+Transmission Control Protocol (TCP) traffic, leaving User Datagram
+Protocol (UDP) and raw ICMP packets unrouted by default. This limitation
+is not an oversight, but a deliberate architectural decision rooted in
+how Tor establishes multi-layered encryption circuits, manages network
+congestion, and interfaces with applications via SOCKS proxies.</p>
+<h3
+id="circuit-based-onion-routing-requires-reliable-delivery">Circuit-Based
+Onion Routing Requires Reliable Delivery</h3>
+<p>Tor functions by wrapping data in multiple layers of encryption and
+sending it through a three-node circuit: the guard node, the middle
+node, and the exit node. For this layered decryption to succeed, data
+cells must arrive in the exact sequence they were transmitted and
+without data loss.</p>
+<ul>
+<li><strong>Sequential Integrity:</strong> TCP guarantees in-order
+packet delivery, error-checking, and automatic retransmission of lost
+packets.</li>
+<li><strong>Encryption Dependency:</strong> If a packet drops or arrives
+out of order—a common occurrence with UDP—the onion-routing decryption
+process fails, breaking the cryptographic state between the client and
+the relay nodes.</li>
+</ul>
+<h3 id="the-design-of-socks-proxies">The Design of SOCKS Proxies</h3>
+<p>Tor provides a local SOCKS5 proxy interface (typically on port 9050
+or 9150) that applications use to direct their traffic into the
+network.</p>
+<p>The SOCKS protocol was originally created as a stream-based proxy
+standard primarily built for TCP connections. While SOCKS5 includes
+theoretical specifications for UDP association, Tor’s internal
+protocol—specifically its <code>RELAY_DATA</code> cell format—is
+strictly optimized for multiplexing byte streams rather than isolated
+datagrams. Implementing UDP would require Tor to either emulate a full
+network stack or establish separate connection states for every
+stateless UDP exchange.</p>
+<h3 id="congestion-control-and-network-overhead">Congestion Control and
+Network Overhead</h3>
+<p>Tor already introduces significant latency due to routing traffic
+across multiple geographic nodes. Managing network traffic inside the
+Tor network requires complex congestion control mechanisms:</p>
+<ol type="1">
+<li><strong>Multiplexing:</strong> Tor bundles multiple user streams
+into single TLS connections between relays to prevent observers from
+correlating individual packets.</li>
+<li><strong>Backpressure and Flow Control:</strong> TCP provides
+built-in flow control (windowing) that allows relays to signal when they
+are overwhelmed. UDP lacks these congestion signals, meaning unthrottled
+UDP traffic could easily saturate relay nodes and degrade performance
+across the entire network.</li>
+</ol>
+<h3 id="handling-dns-and-non-tcp-protocols">Handling DNS and non-TCP
+Protocols</h3>
+<p>Because standard DNS queries rely on UDP over port 53, standard
+lookups can bypass Tor and cause identity-exposing "DNS leaks." To
+mitigate this, Tor translates DNS requests into custom, stream-based TCP
+commands within the Tor protocol, resolving domain names directly at the
+exit node.</p>
+<p>Applications that rely strictly on UDP (such as WebRTC, VoIP
+services, and most online games) cannot route their traffic through Tor
+by default. Users requiring UDP anonymization must encapsulate their
+datagrams inside TCP tunnels using third-party tools, VPN-over-Tor
+configurations, or specialized software like OnionCat.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

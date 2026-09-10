@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are V3 Tor Onion Addresses Harder to Memorize? - tor</title>
+    <meta name="description" content="The transition from Tor's legacy Version 2 (V2) onion services to the current Version 3 (V3) standard introduced significantly longer 56-character addresses, replacing the older 16-character format. This article explores how this increased length makes V">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/are-v3-tor-onion-addresses-harder-to-memorize">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Are V3 Tor Onion Addresses Harder to Memorize? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/are-v3-tor-onion-addresses-harder-to-memorize" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The transition from Tor's legacy Version 2 (V2) onion services to the current Version 3 (V3) standard introduced significantly longer 56-character addresses, replacing the older 16-character format. This article explores how this increased length makes V" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="are-v3-tor-onion-addresses-harder-to-memorize">Are V3 Tor Onion
+Addresses Harder to Memorize?</h1>
+<p>The transition from Tor's legacy Version 2 (V2) onion services to the
+current Version 3 (V3) standard introduced significantly longer
+56-character addresses, replacing the older 16-character format. This
+article explores how this increased length makes V3 addresses
+practically impossible for the human brain to memorize, examines the
+cryptographic reasons behind this expansion, and outlines how users and
+security protocols adapt to this trade-off between human readability and
+network security.</p>
+<h3 id="v2-vs-v3-the-visual-difference">V2 vs. V3: The Visual
+Difference</h3>
+<p>Under the legacy V2 specification, an onion address consisted of 16
+characters (e.g., <code>expyuzz5wqqfdgah.onion</code>). A 16-character
+string, while still random, was short enough that frequent users could
+recognize patterns, memorize segments, or occasionally recall the entire
+address.</p>
+<p>V3 addresses expanded to 56 characters (e.g.,
+<code>vww6ybal4bd7szmgncyruucpgfkqahzddi37ktceo3ah7ngmcopnpyyd.onion</code>).
+Because these strings are encoded in base32 (containing the letters a–z
+and digits 2–7) and generated randomly from cryptographic keys, the
+sequence lacks semantic meaning or natural linguistic cadence.</p>
+<h3 id="cognitive-limitations-and-memorization">Cognitive Limitations
+and Memorization</h3>
+<p>Human working memory typically holds between five and nine items at a
+time (Miller's Law). Chunking techniques allow people to remember longer
+strings, such as 10-digit phone numbers, by breaking them into smaller,
+recognizable groups.</p>
+<p>A 56-character random alphanumeric string exceeds the practical
+limits of human memory chunking. While a user might memorize the first
+or last few characters of a V3 address to verify authenticity,
+memorizing the complete 56-character string requires deliberate,
+intensive effort comparable to memorizing a long, random password.</p>
+<h3 id="why-v3-addresses-are-so-long">Why V3 Addresses Are So Long</h3>
+<p>The dramatic increase in length is a direct result of critical
+cryptographic improvements:</p>
+<ul>
+<li><strong>Larger Public Keys:</strong> V2 addresses were based on
+80-bit truncated SHA-1 hashes of RSA-1024 public keys. V3 addresses
+encode the full 32-byte (256-bit) Ed25519 public key directly into the
+address.</li>
+<li><strong>Checksum and Version Metadata:</strong> In addition to the
+public key, the 56-character string includes a 2-byte checksum and a
+1-byte version identifier to prevent typos and ensure
+compatibility.</li>
+<li><strong>Elimination of Collisions:</strong> The 80-bit length of V2
+addresses made them vulnerable to collision and brute-force attacks
+using modern computing hardware. The 256-bit security level of V3
+ensures that generating a duplicate address is computationally
+infeasible.</li>
+</ul>
+<h3 id="practical-solutions-for-usability">Practical Solutions for
+Usability</h3>
+<p>Because memorization is not a viable strategy for V3 addresses, users
+and administrators rely on alternative methods:</p>
+<ul>
+<li><strong>Bookmarks and Password Managers:</strong> Most users store
+<code>.onion</code> URLs directly in Tor Browser bookmarks or encrypted
+password managers rather than typing them manually.</li>
+<li><strong>Vanity Generation:</strong> Service operators use tools like
+<code>mkp224o</code> to generate vanity addresses where the first 8 to
+14 characters spell recognizable words. While this improves brand
+recognition, the remaining characters remain random.</li>
+<li><strong>Direct Hyperlinking:</strong> The primary distribution
+mechanism for onion services relies on authenticated directories,
+PGP-signed lists, and encrypted communication channels rather than
+verbal or memorized transmission.</li>
+</ul>
+<p>The 56-character length of V3 Tor addresses makes them functionally
+impossible to memorize for everyday use. However, this lack of
+memorability is an intentional design choice that prioritizes modern
+cryptographic security, collision resistance, and user privacy over
+convenience.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

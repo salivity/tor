@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Tor Directory Authorities Deanonymize Users? - tor</title>
+    <meta name="description" content="A single compromised Tor directory authority cannot directly deanonymize users due to Tor's distributed consensus architecture. Directory authorities maintain the official list of active relays on the network, but no individual authority has access to us">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-tor-directory-authorities-deanonymize-users">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can Tor Directory Authorities Deanonymize Users? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-tor-directory-authorities-deanonymize-users" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A single compromised Tor directory authority cannot directly deanonymize users due to Tor's distributed consensus architecture. Directory authorities maintain the official list of active relays on the network, but no individual authority has access to us" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-tor-directory-authorities-deanonymize-users">Can Tor
+Directory Authorities Deanonymize Users?</h1>
+<p>A single compromised Tor directory authority cannot directly
+deanonymize users due to Tor's distributed consensus architecture.
+Directory authorities maintain the official list of active relays on the
+network, but no individual authority has access to user traffic or
+circuit encryption keys. While a solitary compromised authority poses
+minimal direct risk, a coordinated compromise of the majority of
+authorities could allow an adversary to manipulate the network
+consensus, facilitating targeted deanonymization attacks.</p>
+<h3 id="what-tor-directory-authorities-do">What Tor Directory
+Authorities Do</h3>
+<p>Tor relies on a small group of trusted servers known as Directory
+Authorities (DirAuths), currently numbering nine located around the
+world. These servers continuously test and monitor the Tor network to
+determine which relays are active, stable, and secure. Once an hour,
+they vote on the network's state to produce a cryptographic document
+called the "consensus." Tor clients download this consensus to select
+their three-hop circuits: the Guard node, the Middle relay, and the Exit
+node.</p>
+<h3 id="why-a-single-compromised-authority-cannot-deanonymize-you">Why a
+Single Compromised Authority Cannot Deanonymize You</h3>
+<p>Directory authorities do not route user traffic or manage user
+encryption keys. Consequently, a compromised authority cannot read your
+data or map your IP address to your destination.</p>
+<p>Additionally, the consensus generation relies on a majority voting
+mechanism. For a relay to be listed or given specific status flags (such
+as the <code>Guard</code> or <code>Exit</code> flag), a majority of
+active directory authorities must agree. A single rogue authority cannot
+force malicious relays onto the network or strip legitimate relays of
+their flags because the remaining honest authorities will outvote
+it.</p>
+<h3 id="risks-from-a-single-compromised-authority">Risks from a Single
+Compromised Authority</h3>
+<p>While direct deanonymization is not possible with one compromised
+authority, an attacker could still attempt lower-level disruptions:</p>
+<ul>
+<li><strong>Early Detection of Network Changes:</strong> The attacker
+might gain insight into unannounced relays or early network shifts.</li>
+<li><strong>Biased Individual Metrics:</strong> The rogue authority
+could submit skewed measurements regarding relay bandwidth or uptime,
+attempting to slightly influence the consensus weights, though the
+impact remains diluted by the honest majority.</li>
+<li><strong>Targeted Information Gathering:</strong> If a client
+directly queries the compromised authority for directory information
+(via fallback mechanisms), the authority learns the client’s IP address,
+but still cannot trace the client's destination or decrypt their
+traffic.</li>
+</ul>
+<h3 id="the-threshold-for-deanonymization-majority-compromise">The
+Threshold for Deanonymization: Majority Compromise</h3>
+<p>If an adversary successfully compromises a majority of the directory
+authorities (e.g., at least 5 out of 9), the risk profile changes
+drastically. With majority control, the attacker can:</p>
+<ol type="1">
+<li><strong>Forge the Consensus:</strong> Inject hundreds of malicious
+Guard and Exit relays into the consensus while assigning them
+artificially high bandwidth weights.</li>
+<li><strong>Execute Sybil Attacks:</strong> Remove legitimate relays to
+force user traffic through attacker-controlled nodes.</li>
+<li><strong>Perform Traffic Correlation:</strong> If an attacker
+controls both the Guard node (which knows the user's IP) and the Exit
+node (which knows the user's destination), they can correlate traffic
+timing and packet sizes to deanonymize the user.</li>
+</ol>
+<p>Tor's directory authority design intentionally separates
+administrative consensus from data routing. Deanonymization requires
+end-to-end traffic correlation across a user's circuit, a feat that a
+single compromised directory authority cannot accomplish alone.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

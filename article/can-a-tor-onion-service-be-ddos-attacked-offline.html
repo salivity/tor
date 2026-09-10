@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can a Tor Onion Service Be DDoS Attacked Offline? - tor</title>
+    <meta name="description" content="Tor hidden services (now officially known as onion services) can be taken offline relatively easily via Distributed Denial of Service (DDoS) attacks compared to traditional clearnet websites. Because of how the Tor protocol establishes end-to-end encrypt">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-a-tor-onion-service-be-ddos-attacked-offline">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can a Tor Onion Service Be DDoS Attacked Offline? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-a-tor-onion-service-be-ddos-attacked-offline" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor hidden services (now officially known as onion services) can be taken offline relatively easily via Distributed Denial of Service (DDoS) attacks compared to traditional clearnet websites. Because of how the Tor protocol establishes end-to-end encrypt" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-a-tor-onion-service-be-ddos-attacked-offline">Can a Tor
+Onion Service Be DDoS Attacked Offline?</h1>
+<p>Tor hidden services (now officially known as onion services) can be
+taken offline relatively easily via Distributed Denial of Service (DDoS)
+attacks compared to traditional clearnet websites. Because of how the
+Tor protocol establishes end-to-end encrypted circuits, an attacker does
+not need massive volumetric bandwidth to overwhelm an onion service.
+Instead, exploiting the cryptographic overhead inherent to Tor makes
+these services inherently vulnerable to resource exhaustion, though
+recent defensive updates like Proof-of-Work (PoW) mechanisms have
+significantly increased the cost and difficulty for attackers.</p>
+<h3 id="why-onion-services-are-vulnerable-to-ddos">Why Onion Services
+Are Vulnerable to DDoS</h3>
+<p>Traditional DDoS attacks typically rely on massive bandwidth to
+saturate network pipes. In contrast, Tor hidden services are uniquely
+susceptible to asymmetric resource exhaustion at the protocol level.</p>
+<p>When a client attempts to connect to an onion service, a multi-step
+cryptographic handshake occurs:</p>
+<ol type="1">
+<li>The client requests a connection through the service's designated
+Introduction Points.</li>
+<li>The onion service performs intensive asymmetric cryptographic
+operations to build a circuit to a Rendezvous Point.</li>
+<li>The onion service establishes the final three-hop path to meet the
+client.</li>
+</ol>
+<p>Because the CPU cost to compute the cryptographic handshake is far
+higher for the server than it is for the client to initiate the request,
+an attacker with minimal bandwidth can flood an onion service's
+Introduction Points with bogus connection requests. This quickly
+exhausts the server's CPU and memory, preventing legitimate users from
+completing the circuit.</p>
+<h3 id="common-ddos-vectors-on-tor">Common DDoS Vectors on Tor</h3>
+<ul>
+<li><strong>Introduction Point Flooding:</strong> Attackers overwhelm
+the hidden service's introduction cells, saturating the message queues
+and forcing the service to waste CPU cycles decoding garbage
+requests.</li>
+<li><strong>Circuit Creation Attacks:</strong> By initiating thousands
+of incomplete rendezvous circuits, attackers tie up the server's
+descriptor capacity and available file descriptors.</li>
+<li><strong>Application-Layer (HTTP) Attacks:</strong> Once a circuit is
+open, standard application-level attacks (like slowloris, large POST
+requests, or expensive database queries) require far fewer requests to
+crash a Tor service than a clearnet service due to Tor's latency and
+bandwidth constraints.</li>
+</ul>
+<h3 id="modern-mitigations-and-defenses">Modern Mitigations and
+Defenses</h3>
+<p>The Tor Project and service operators have deployed several
+mechanisms to make DDoS attacks far more difficult:</p>
+<ul>
+<li><strong>Proof-of-Work (PoW) Defense:</strong> Introduced natively in
+Tor version 0.4.8, hidden services can dynamically require clients to
+solve a computational puzzle before processing connection requests.
+During an attack, the puzzle difficulty scales upward, forcing attackers
+to expend massive amounts of local CPU power while legitimate users only
+experience minor delays.</li>
+<li><strong>Onionbalance:</strong> Operators can run multiple backend
+Tor instances behind a single master onion address. Onionbalance
+distributes introduction points across multiple servers, preventing a
+single point of failure.</li>
+<li><strong>Introduction Point Rate Limiting:</strong> Tor allows
+operators to configure rate limits on individual introduction points to
+drop excessive connection requests before they consume server CPU.</li>
+</ul>
+<p>While a determined adversary with substantial computational resources
+can still degrade or temporarily knock a Tor hidden service offline,
+doing so is no longer the trivial, low-resource task it once was.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

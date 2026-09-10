@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is Tor Over VPN and How Does It Work? - tor</title>
+    <meta name="description" content="Tor over VPN is an advanced privacy configuration that routes your internet traffic through a Virtual Private Network (VPN) before sending it through the Onion Router (Tor) network. This method layers two distinct privacy technologies to mask your online">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-tor-over-vpn-and-how-does-it-work">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is Tor Over VPN and How Does It Work? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-tor-over-vpn-and-how-does-it-work" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor over VPN is an advanced privacy configuration that routes your internet traffic through a Virtual Private Network (VPN) before sending it through the Onion Router (Tor) network. This method layers two distinct privacy technologies to mask your online" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-tor-over-vpn-and-how-does-it-work">What Is Tor Over VPN
+and How Does It Work?</h1>
+<p>Tor over VPN is an advanced privacy configuration that routes your
+internet traffic through a Virtual Private Network (VPN) before sending
+it through the Onion Router (Tor) network. This method layers two
+distinct privacy technologies to mask your online identity, hide your
+Tor usage from your Internet Service Provider (ISP), and prevent Tor
+entry nodes from seeing your real IP address.</p>
+<h2 id="how-tor-over-vpn-works">How Tor Over VPN Works</h2>
+<p>When you connect to Tor over VPN, your internet traffic follows a
+specific path:</p>
+<ol type="1">
+<li><strong>Your Device:</strong> You connect to your VPN service first,
+encrypting all data leaving your computer or smartphone.</li>
+<li><strong>The VPN Server:</strong> The traffic arrives at the VPN
+server. The VPN replaces your real IP address with the VPN server's IP
+address.</li>
+<li><strong>Tor Entry Node:</strong> The VPN forwards the encrypted data
+to the first node in the Tor network (the Guard node).</li>
+<li><strong>Tor Relays:</strong> The traffic travels through multiple
+encrypted relays in the Tor network.</li>
+<li><strong>Destination:</strong> The data exits the Tor network through
+an Exit node and reaches the destination website or server.</li>
+</ol>
+<h2 id="key-benefits">Key Benefits</h2>
+<ul>
+<li><strong>Hides Tor Usage from Your ISP:</strong> In some regions,
+using Tor is either blocked or flagged as suspicious. Because the
+connection to the VPN is established first, your ISP only sees standard
+encrypted VPN traffic, not that you are using Tor.</li>
+<li><strong>Hides Your Real IP from Tor:</strong> The first Tor node
+(the Guard node) only sees the IP address of the VPN server, preventing
+malicious or compromised entry nodes from identifying your true
+location.</li>
+<li><strong>Access to Onion Services:</strong> Unlike standard web
+browsing, you maintain access to hidden services on the dark web (sites
+ending in <code>.onion</code>) alongside the added layer of VPN
+security.</li>
+</ul>
+<h2 id="limitations-and-trade-offs">Limitations and Trade-offs</h2>
+<ul>
+<li><strong>Reduced Speeds:</strong> Routing traffic through both a VPN
+server and the three layers of the Tor network causes noticeable latency
+and slower connection speeds.</li>
+<li><strong>VPN Trust Requirement:</strong> While the VPN provider
+cannot see your traffic inside the Tor network, they still know your
+real IP address and the timestamp of your connection. Choosing a strict
+no-logs VPN provider is essential.</li>
+<li><strong>Vulnerability at the Exit Node:</strong> Tor over VPN does
+not protect against vulnerabilities at the Tor exit node if you visit
+unencrypted (HTTP) websites. Sensitive data entered on non-HTTPS sites
+can still be intercepted at the exit point.</li>
+</ul>
+<h2 id="how-to-set-up-tor-over-vpn">How to Set Up Tor Over VPN</h2>
+<p>Setting up Tor over VPN is straightforward:</p>
+<ol type="1">
+<li>Connect to your chosen VPN client.</li>
+<li>Once the VPN connection is active and stable, open the Tor
+Browser.</li>
+<li>Browse the internet normally or navigate to <code>.onion</code>
+addresses.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

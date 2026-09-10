@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the Function of a Tor Entry Guard? - tor</title>
+    <meta name="description" content="This article provides an overview of the Tor entry guard, explaining its critical role as the initial gateway into the Tor anonymity network. It details how entry guards handle encrypted traffic, safeguard users' real IP addresses, and provide long-term">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-the-function-of-a-tor-entry-guard">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the Function of a Tor Entry Guard? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-the-function-of-a-tor-entry-guard" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article provides an overview of the Tor entry guard, explaining its critical role as the initial gateway into the Tor anonymity network. It details how entry guards handle encrypted traffic, safeguard users' real IP addresses, and provide long-term" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-function-of-a-tor-entry-guard">What Is the Function
+of a Tor Entry Guard?</h1>
+<p>This article provides an overview of the Tor entry guard, explaining
+its critical role as the initial gateway into the Tor anonymity network.
+It details how entry guards handle encrypted traffic, safeguard users'
+real IP addresses, and provide long-term protection against
+sophisticated traffic analysis and deanonymization attacks.</p>
+<p>A Tor circuit consists of three distinct nodes: the entry guard
+(guard node), the middle relay, and the exit relay. The specific
+function of the entry guard is to serve as the direct point of contact
+between a user's device and the Tor network. It receives encrypted data
+packets directly from the user, strips the outermost layer of
+encryption, and forwards the remaining payload to the middle relay.</p>
+<p>Because it is the first point of contact, the entry guard is the only
+node in the entire circuit that can see the user's real IP address.
+However, due to Tor’s multi-layered encryption design, the entry guard
+cannot see the final destination of the traffic, the contents of the
+data, or the identity of the exit relay.</p>
+<p>Beyond routing traffic, the most critical security function of an
+entry guard is defending against end-to-end traffic correlation attacks.
+In a correlation attack, an adversary who controls both the entry and
+exit points of a circuit can compare traffic timing and packet sizes to
+deanonymize the user.</p>
+<p>To mitigate this threat, the Tor client does not choose a random
+entry node for every browsing session. Instead, it selects a small set
+of vetted, persistent entry guards and uses them consistently over a
+period of several months. By pinning the entry point to a single trusted
+relay rather than constantly rotating, Tor minimizes the statistical
+probability that an attacker controlling a fraction of network relays
+will simultaneously control both the entry and exit points of a user's
+connection.</p>
+<p>To qualify as an entry guard, a relay must meet strict criteria set
+by Tor directory authorities. Relays must demonstrate high uptime,
+robust bandwidth capacity, and long-term network reliability before
+being assigned the "Guard" flag, ensuring that users have stable and
+secure access to the network.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

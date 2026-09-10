@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Introduction Points Work - tor</title>
+    <meta name="description" content="Tor hidden services, commonly known as onion services, rely on introduction points to enable clients and servers to connect without revealing either party's IP address. Introduction points serve as publicly accessible relays chosen by the onion service t">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-introduction-points-work">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Introduction Points Work - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-introduction-points-work" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor hidden services, commonly known as onion services, rely on introduction points to enable clients and servers to connect without revealing either party's IP address. Introduction points serve as publicly accessible relays chosen by the onion service t" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-introduction-points-work">How Tor Introduction Points
+Work</h1>
+<p>Tor hidden services, commonly known as onion services, rely on
+introduction points to enable clients and servers to connect without
+revealing either party's IP address. Introduction points serve as
+publicly accessible relays chosen by the onion service to act as its
+reception desk. By decoupling the service's physical network location
+from its public identity, introduction points allow a service to remain
+completely anonymous while still being discoverable by users across the
+Tor network.</p>
+<h3 id="1-selecting-and-establishing-introduction-points">1. Selecting
+and Establishing Introduction Points</h3>
+<p>When an onion service launches, it randomly selects several Tor
+relays (typically three to six) to act as its introduction points. The
+service builds a three-hop Tor circuit to each selected relay and asks
+them to act as introduction points. These relays do not learn the
+service's real IP address; they only know that they have an open circuit
+to an anonymous service.</p>
+<h3 id="2-publishing-the-onion-descriptor">2. Publishing the Onion
+Descriptor</h3>
+<p>Once the introduction points accept the request, the service creates
+an "onion service descriptor." This descriptor includes:</p>
+<ul>
+<li>The service's public key.</li>
+<li>The addresses of its chosen introduction points.</li>
+<li>Digital signatures proving ownership of the onion address.</li>
+</ul>
+<p>The service then publishes this descriptor to Tor’s distributed hash
+table (DHT). When a user inputs an <code>.onion</code> address into the
+Tor Browser, the browser uses that address to look up and download the
+corresponding descriptor from the network.</p>
+<h3 id="3-creating-a-rendezvous-point">3. Creating a Rendezvous
+Point</h3>
+<p>A client wishing to connect to the onion service does not connect
+directly to an introduction point to exchange data. Instead, the client
+chooses another random Tor relay to act as a "rendezvous point" (RP) and
+establishes a circuit to it. The client generates a random one-time
+secret known as a "rendezvous cookie."</p>
+<h3 id="4-messaging-through-the-introduction-point">4. Messaging Through
+the Introduction Point</h3>
+<p>The client constructs an introduction message that includes:</p>
+<ul>
+<li>The address of the chosen rendezvous point.</li>
+<li>The rendezvous cookie.</li>
+<li>Information needed to complete an end-to-end cryptographic
+handshake.</li>
+</ul>
+<p>The client encrypts this message using the onion service’s public key
+(found in the descriptor) so that only the hidden service can read it.
+The client then sends this encrypted payload to one of the service’s
+introduction points via a Tor circuit.</p>
+<h3 id="5-completing-the-connection">5. Completing the Connection</h3>
+<p>The introduction point receives the message from the client and
+forwards it to the hidden service over their established circuit. The
+introduction point cannot decrypt the payload; it simply acts as a blind
+forwarder.</p>
+<p>Upon receiving the message, the hidden service:</p>
+<ol type="1">
+<li>Decrypts the payload using its private key.</li>
+<li>Extracts the rendezvous point address and the rendezvous
+cookie.</li>
+<li>Builds its own three-hop Tor circuit to the designated rendezvous
+point.</li>
+<li>Delivers the rendezvous cookie to confirm its identity.</li>
+</ol>
+<p>Once the rendezvous point verifies that the cookie from the service
+matches the cookie left by the client, it links the two separate
+circuits together. This creates a full, six-hop, end-to-end encrypted
+connection between the client and the hidden service, allowing data
+transfer while keeping the locations of both parties completely
+hidden.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

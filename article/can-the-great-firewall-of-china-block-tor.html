@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can the Great Firewall of China Block Tor? - tor</title>
+    <meta name="description" content="The Great Firewall of China (GFW) employs some of the world's most advanced censorship mechanisms to restrict access to the Tor network, successfully blocking default connections and public entry nodes. However, the firewall cannot completely block Tor b">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-the-great-firewall-of-china-block-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can the Great Firewall of China Block Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-the-great-firewall-of-china-block-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Great Firewall of China (GFW) employs some of the world's most advanced censorship mechanisms to restrict access to the Tor network, successfully blocking default connections and public entry nodes. However, the firewall cannot completely block Tor b" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-the-great-firewall-of-china-block-tor">Can the Great
+Firewall of China Block Tor?</h1>
+<p>The Great Firewall of China (GFW) employs some of the world's most
+advanced censorship mechanisms to restrict access to the Tor network,
+successfully blocking default connections and public entry nodes.
+However, the firewall cannot completely block Tor because of advanced
+obfuscation techniques, non-public bridge relays, and dynamic
+circumvention protocols like Snowflake and meek, which disguise Tor
+traffic as ordinary web traffic.</p>
+<h3 id="how-the-great-firewall-restricts-standard-tor-access">How the
+Great Firewall Restricts Standard Tor Access</h3>
+<p>China uses a multi-layered approach to detect and disrupt standard
+connections to the Tor network:</p>
+<ul>
+<li><strong>Public Relay Blacklisting:</strong> The Tor Project
+publishes a public directory of its relay nodes. The GFW continuously
+scrapes this list and blocks the corresponding IP addresses and ports at
+the infrastructure level.</li>
+<li><strong>Deep Packet Inspection (DPI):</strong> Even if an IP is not
+yet blacklisted, the GFW analyzes data packets in real time. Standard
+Tor traffic has specific cryptographic signatures during its TLS
+handshake that DPI algorithms detect and drop immediately.</li>
+<li><strong>Active Probing:</strong> When the GFW suspects an unlisted
+server might be a Tor bridge, it initiates an automated connection to
+that server pretending to be a Tor client. If the server responds using
+the Tor protocol, the firewall immediately blocks the IP address.</li>
+</ul>
+<h3 id="why-complete-blocking-remains-impossible">Why Complete Blocking
+Remains Impossible</h3>
+<p>Despite these aggressive measures, Tor developers have created tools
+designed specifically to bypass sophisticated state-level
+censorship:</p>
+<ul>
+<li><strong>Pluggable Transports (Obfuscation):</strong> Tools like
+<code>obfs4</code> transform Tor traffic to look like random,
+unidentifiable data streams, stripping away the protocol signatures that
+Deep Packet Inspection looks for.</li>
+<li><strong>Domain Fronting and meek:</strong> The <code>meek</code>
+transport routes traffic through major third-party Content Delivery
+Networks (CDNs) like Microsoft Azure or Amazon Web Services. To block
+<code>meek</code>, the GFW would have to block the entire CDN, which
+would cause massive collateral damage to legitimate commercial services
+inside China.</li>
+<li><strong>Snowflake:</strong> This modern circumvention system uses
+WebRTC to route connections through a constantly changing network of
+volunteer-run browser proxies. Because these temporary proxies appear
+and disappear in seconds, the GFW cannot maintain an effective blacklist
+without disrupting standard peer-to-peer web communication.</li>
+<li><strong>Private Bridges:</strong> Tor users can obtain private,
+unlisted bridge addresses via email or secure channels. Since these IPs
+are distributed in small batches to individual users, the GFW's
+automated scrapers cannot discover and block them all at once.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>The battle between the Great Firewall of China and Tor is an ongoing
+cat-and-mouse game. While China makes it extremely difficult for an
+average user to connect to Tor out of the box, completely eliminating
+access is technically unfeasible without shutting down all encrypted
+international internet traffic or adopting an extreme whitelist-only
+model for foreign connections.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the Role of a Middle Relay in Tor? - tor</title>
+    <meta name="description" content="In the Tor network, user anonymity is achieved by routing multi-layered encrypted traffic across a three-node circuit: the guard relay, the middle relay, and the exit relay. This article explores the primary role of a middle relay, explaining how it func">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-the-role-of-a-middle-relay-in-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the Role of a Middle Relay in Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-the-role-of-a-middle-relay-in-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In the Tor network, user anonymity is achieved by routing multi-layered encrypted traffic across a three-node circuit: the guard relay, the middle relay, and the exit relay. This article explores the primary role of a middle relay, explaining how it func" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-role-of-a-middle-relay-in-tor">What Is the Role of a
+Middle Relay in Tor?</h1>
+<p>In the Tor network, user anonymity is achieved by routing
+multi-layered encrypted traffic across a three-node circuit: the guard
+relay, the middle relay, and the exit relay. This article explores the
+primary role of a middle relay, explaining how it functions as an
+essential intermediary buffer that prevents the entry and exit points
+from discovering each other, thereby maintaining total connection
+privacy.</p>
+<h3 id="the-core-function-isolating-entry-and-exit-points">The Core
+Function: Isolating Entry and Exit Points</h3>
+<p>The primary role of a middle relay (also known as a middle node or
+intermediate relay) is to pass encrypted traffic strictly between the
+guard relay and the exit relay. By sitting directly between these two
+points, the middle relay prevents the entry node from knowing which exit
+node is being used, and prevents the exit node from identifying the
+entry node.</p>
+<p>In a standard three-hop Tor circuit:</p>
+<ul>
+<li><strong>The Guard Relay</strong> knows the user's real IP address,
+but only knows it is forwarding traffic to the middle relay.</li>
+<li><strong>The Middle Relay</strong> knows the IP address of the guard
+relay and the IP address of the exit relay, but knows nothing about the
+user's IP or the final destination.</li>
+<li><strong>The Exit Relay</strong> knows the destination website or
+service, but only sees traffic originating from the middle relay.</li>
+</ul>
+<h3 id="processing-layered-encryption">Processing Layered
+Encryption</h3>
+<p>Tor uses "onion routing," meaning traffic is wrapped in multiple
+layers of encryption by the user's Tor client. When data reaches the
+middle relay:</p>
+<ol type="1">
+<li>The middle relay decrypts its specific layer of encryption using a
+symmetric key negotiated with the client.</li>
+<li>This decryption reveals only the instruction for the next
+destination: the IP address of the exit relay.</li>
+<li>The middle relay forwards the remaining encrypted packet to the exit
+relay without altering or reading the contents inside.</li>
+</ol>
+<p>Because the middle relay cannot read the inner payload or the outer
+metadata, it remains entirely blind to the contents of the communication
+and the identity of the original sender.</p>
+<h3 id="protection-against-traffic-correlation-attacks">Protection
+Against Traffic Correlation Attacks</h3>
+<p>Without a middle relay, a Tor circuit would consist of only a guard
+and an exit node. If an adversary controlled or monitored both nodes,
+they could easily perform a traffic correlation attack—matching the
+timing, packet size, and volume of data entering the guard node to the
+data leaving the exit node.</p>
+<p>Introducing a middle relay breaks this direct line of sight. An
+attacker would need to compromise or monitor all three relays
+simultaneously to trace a connection from end to end, significantly
+increasing the complexity and cost of de-anonymizing user traffic.</p>
+<h3 id="low-operational-risk-for-node-operators">Low Operational Risk
+for Node Operators</h3>
+<p>Because middle relays neither interact with the user's local IP
+address nor make requests to destination servers on the clear web, they
+are completely shielded from external scrutiny. Operators running middle
+relays do not receive abuse complaints or copyright notices, as all
+outbound clear-text web requests appear exclusively from the exit
+relay's IP address. This makes middle relays a safe and vital component
+for volunteers looking to support the network's overall routing capacity
+and security.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

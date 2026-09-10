@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Police Seize a Tor Site and Run a Honeypot? - tor</title>
+    <meta name="description" content="Law enforcement agencies can legally and technically seize a Tor hidden service and operate it as a honeypot to monitor criminal activity and unmask anonymous users. This article explains how authorities obtain control of onion services, the technical me">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-police-seize-a-tor-site-and-run-a-honeypot">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can Police Seize a Tor Site and Run a Honeypot? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-police-seize-a-tor-site-and-run-a-honeypot" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Law enforcement agencies can legally and technically seize a Tor hidden service and operate it as a honeypot to monitor criminal activity and unmask anonymous users. This article explains how authorities obtain control of onion services, the technical me" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-police-seize-a-tor-site-and-run-a-honeypot">Can Police Seize
+a Tor Site and Run a Honeypot?</h1>
+<p>Law enforcement agencies can legally and technically seize a Tor
+hidden service and operate it as a honeypot to monitor criminal activity
+and unmask anonymous users. This article explains how authorities obtain
+control of onion services, the technical mechanisms used to track
+visitors during undercover operations, real-world cases demonstrating
+these tactics, and the legal controversies that follow.</p>
+<h3 id="how-law-enforcement-seizes-an-onion-service">How Law Enforcement
+Seizes an Onion Service</h3>
+<p>A Tor hidden service relies on a pair of cryptographic keys. The
+public key forms the site's <code>.onion</code> address, while the
+private key authenticates the server to the Tor network.</p>
+<p>To take full control of a Tor site, law enforcement must obtain the
+server's private key. This typically occurs through:</p>
+<ul>
+<li><strong>Physical Server Seizure:</strong> Raiding the data center
+hosting the physical or virtual server.</li>
+<li><strong>Server Exploitation:</strong> Exploiting software
+vulnerabilities in web applications or server configurations to gain
+root access remotely.</li>
+<li><strong>Cooperation with Service Providers:</strong> Subpoenaing
+cloud hosting providers to hand over data or mirror disk images.</li>
+</ul>
+<p>Once authorities possess the private key, they can clone the website
+onto their own government-controlled infrastructure while keeping the
+original <code>.onion</code> address active.</p>
+<h3 id="how-authorities-operate-seized-sites-as-honeypots">How
+Authorities Operate Seized Sites as Honeypots</h3>
+<p>Once a darknet site is hosted on police infrastructure, investigators
+rarely leave it untouched. They actively modify the code to deanonymize
+users through several methods:</p>
+<ol type="1">
+<li><strong>Deploying Network Investigative Techniques (NITs):</strong>
+Authorities often embed exploit code (such as zero-day browser exploits)
+into the web pages. When a user visits the site, the payload executes on
+their machine, bypassing Tor routing to send the user's real IP address,
+MAC address, and hostname directly back to law enforcement servers.</li>
+<li><strong>Metadata Traps:</strong> Police modify file downloads to
+include tracking mechanisms. For example, stripping metadata protections
+from uploaded images or attaching documents that force a direct internet
+connection upon opening.</li>
+<li><strong>Database and Communication Logging:</strong> Investigators
+secretly monitor and record unencrypted internal communications,
+cryptocurrency transactions, and delivery addresses entered by
+unsuspecting buyers and sellers.</li>
+</ol>
+<h3 id="notable-precedents">Notable Precedents</h3>
+<p>Several high-profile international operations have successfully
+utilized this approach:</p>
+<ul>
+<li><strong>Playpen (Operation Pacifier):</strong> In 2015, the FBI
+seized the servers of Playpen, a massive child exploitation website.
+Instead of taking it offline, the agency operated the site from a
+government facility in Virginia for 13 days. Using a NIT deployed
+against visitors using the Tor Browser, the FBI identified thousands of
+users globally.</li>
+<li><strong>Hansa Market:</strong> In 2017, the Dutch National Police
+took control of the Hansa darknet marketplace after seizing its servers
+in Lithuania. They ran the site for nearly a month without the community
+realizing it. During this period, Dutch authorities logged over 10,000
+user addresses, captured credentials, altered the site to strip metadata
+from product images, and intercepted high-volume vendor
+transactions.</li>
+</ul>
+<h3 id="legal-and-jurisdictional-complexities">Legal and Jurisdictional
+Complexities</h3>
+<p>While effective, running seized Tor sites as honeypots raises
+significant legal questions:</p>
+<ul>
+<li><strong>Scope of Search Warrants:</strong> In the United States,
+early honeypot operations triggered legal challenges regarding Rule 41
+of the Federal Rules of Criminal Procedure, as a single magistrate judge
+issued warrants allowing hacking into computers in unknown jurisdictions
+worldwide. Rule 41 was subsequently amended to explicitly allow
+multi-jurisdictional warrants for anonymized networks.</li>
+<li><strong>Government Facilitation of Illicit Activity:</strong>
+Operating an illegal marketplace or content repository means law
+enforcement briefly facilitates illicit trade or the distribution of
+illegal content to catch end users, often prompting scrutiny from
+defense attorneys and civil liberties advocates.</li>
+<li><strong>International Sovereignty:</strong> Deploying exploits to
+foreign computers from domestic government servers can create tensions
+regarding sovereign cyber laws and mutual legal assistance treaties
+(MLATs).</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

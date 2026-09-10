@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Adapts to Quantum Computing Threats - tor</title>
+    <meta name="description" content="As quantum computing advances, it poses a direct risk to the cryptographic systems that protect the Tor network's anonymity. To counter the threat of future quantum machines breaking current encryption, the Tor Project is integrating Post-Quantum Cryptog">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-adapts-to-quantum-computing-threats">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Adapts to Quantum Computing Threats - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-adapts-to-quantum-computing-threats" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="As quantum computing advances, it poses a direct risk to the cryptographic systems that protect the Tor network's anonymity. To counter the threat of future quantum machines breaking current encryption, the Tor Project is integrating Post-Quantum Cryptog" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-adapts-to-quantum-computing-threats">How Tor Adapts to
+Quantum Computing Threats</h1>
+<p>As quantum computing advances, it poses a direct risk to the
+cryptographic systems that protect the Tor network's anonymity. To
+counter the threat of future quantum machines breaking current
+encryption, the Tor Project is integrating Post-Quantum Cryptography
+(PQC), deploying hybrid key-exchange mechanisms, and redesigning its
+protocols to handle larger cryptographic payloads. This article breaks
+down the specific vulnerabilities Tor faces, the danger of retroactive
+decryption, and the architectural upgrades being deployed to ensure
+long-term privacy.</p>
+<h3 id="the-quantum-threat-to-tor">The Quantum Threat to Tor</h3>
+<p>Tor protects user privacy through multi-layered encryption across a
+distributed circuit of relays. This design relies heavily on asymmetric
+cryptographic algorithms, such as Curve25519 for key exchange and
+Ed25519 for onion service authentication.</p>
+<p>A sufficiently powerful quantum computer running Shor's algorithm
+could solve the discrete logarithm problem and factor large integers in
+polynomial time. This would allow an attacker to:</p>
+<ul>
+<li><strong>Break Circuit Encryption:</strong> Decrypt intermediate and
+end-to-end traffic layers.</li>
+<li><strong>Impersonate Onion Services:</strong> Derive private keys
+from public <code>.onion</code> addresses to hijack traffic.</li>
+<li><strong>Compromise Directory Authorities:</strong> Forge directory
+consensus data, enabling malicious routing attacks.</li>
+</ul>
+<p>The most pressing danger is <strong>"Harvest Now, Decrypt Later"
+(HNDL)</strong>. Adversaries can record encrypted Tor traffic today and
+store it until capable quantum hardware is developed, retroactively
+exposing past browsing sessions.</p>
+<h3 id="hybrid-handshakes-tors-primary-defense">Hybrid Handshakes: Tor’s
+Primary Defense</h3>
+<p>To mitigate quantum risks without sacrificing current security
+guarantees, the Tor Project is adopting <strong>hybrid cryptographic
+handshakes</strong>.</p>
+<p>A hybrid handshake combines a battle-tested classical algorithm with
+a post-quantum Key Encapsulation Mechanism (KEM):</p>
+<ol type="1">
+<li><strong>Dual Key Generation:</strong> The client and relay generate
+keys using both standard elliptic-curve cryptography (such as X25519)
+and a post-quantum algorithm (such as ML-KEM/Kyber or NTTRU).</li>
+<li><strong>Combined Shared Secret:</strong> The session key is derived
+by combining the results of both operations.</li>
+<li><strong>Fail-Safe Security:</strong> The connection remains secure
+as long as at least one of the two algorithms remains unbroken.</li>
+</ol>
+<p>This strategy ensures that if an unforeseen mathematical flaw is
+discovered in the newer post-quantum algorithms, classical encryption
+still defends the connection against non-quantum adversaries.</p>
+<h3 id="upgrading-onion-services">Upgrading Onion Services</h3>
+<p>Tor's Version 3 (v3) onion services rely on 56-character addresses
+that encode Ed25519 public keys. Because these keys are vulnerable to
+quantum computation, onion identities will eventually require
+quantum-resistant digital signature schemes, such as ML-DSA (Dilithium)
+or state-hash alternatives like SPHINCS+.</p>
+<p>Transitioning onion services presents two main requirements:</p>
+<ul>
+<li><strong>Descriptor Encryption:</strong> Encrypting service
+descriptors with post-quantum primitives to prevent unauthorized
+indexing and tracking.</li>
+<li><strong>New Addressing Formats:</strong> Accommodating the
+substantially larger public keys required by post-quantum signature
+schemes, which will likely result in longer onion addresses or modified
+address-derivation mechanics.</li>
+</ul>
+<h3 id="engineering-and-network-challenges">Engineering and Network
+Challenges</h3>
+<p>Implementing post-quantum cryptography on the Tor network introduces
+several technical constraints:</p>
+<ul>
+<li><strong>Cell Size Limitations:</strong> Standard Tor relay cells are
+fixed at 514 bytes. Many post-quantum public keys and ciphertexts exceed
+this limit, requiring protocol extensions that allow key data to span
+multiple cells without introducing vulnerabilities to traffic
+analysis.</li>
+<li><strong>Bandwidth Overhead:</strong> Post-quantum public keys and
+signatures are orders of magnitude larger than their elliptic-curve
+equivalents. Transmitting larger payloads across every hop in a
+three-node circuit increases bandwidth demands across volunteer-run
+relays.</li>
+<li><strong>Latency and Performance:</strong> Mobile devices and
+low-powered hardware running Tor Browser or relay nodes require
+algorithms that minimize CPU utilization and memory overhead during
+cryptographic handshakes.</li>
+</ul>
+<h3 id="the-path-forward">The Path Forward</h3>
+<p>The Tor Project is executing its transition through formal Tor
+Proposals (such as proposals introducing hybrid KEMs into the circuit
+creation protocol <code>CREATE2</code>). The rollout follows a staged
+approach: standardizing algorithms aligned with NIST post-quantum
+guidance, testing implementations in experimental builds, and gradually
+enforcing post-quantum handshakes across the relay ecosystem. Through
+this defense-in-depth model, Tor aims to secure user anonymity before
+quantum decryption capabilities become practical.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

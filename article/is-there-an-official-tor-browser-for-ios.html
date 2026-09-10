@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is There an Official Tor Browser for iOS? - tor</title>
+    <meta name="description" content="Apple does not allow an official version of the Tor Browser on iOS devices such as the iPhone and iPad. While the Tor Project maintains official, fully supported browsers for Windows, macOS, Linux, and Android, technical and regulatory constraints impose">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/is-there-an-official-tor-browser-for-ios">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Is There an Official Tor Browser for iOS? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/is-there-an-official-tor-browser-for-ios" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Apple does not allow an official version of the Tor Browser on iOS devices such as the iPhone and iPad. While the Tor Project maintains official, fully supported browsers for Windows, macOS, Linux, and Android, technical and regulatory constraints impose" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="is-there-an-official-tor-browser-for-ios">Is There an Official
+Tor Browser for iOS?</h1>
+<p>Apple does not allow an official version of the Tor Browser on iOS
+devices such as the iPhone and iPad. While the Tor Project maintains
+official, fully supported browsers for Windows, macOS, Linux, and
+Android, technical and regulatory constraints imposed by Apple prevent
+the official Tor Browser from running on iOS. However, users can still
+access the Tor network on Apple devices using approved third-party
+alternatives that follow Apple's platform guidelines.</p>
+<h2 id="why-there-is-no-official-tor-browser-on-ios">Why There Is No
+Official Tor Browser on iOS</h2>
+<p>The primary barrier preventing an official Tor Browser on iOS is
+Apple’s App Store policy regarding web browser engines. Apple requires
+every web browser on iOS to use its built-in WebKit rendering
+engine.</p>
+<p>The official Tor Browser is built on a heavily modified version of
+Mozilla Firefox (using the Gecko engine), specifically tuned to prevent
+browser fingerprinting, isolate tabs, and enforce strict anonymity
+protocols. Because Apple does not permit third-party browser engines on
+iOS, the Tor Project cannot port its standard browser codebase to the
+operating system without fundamentally altering its security and privacy
+model.</p>
+<h2 id="the-recommended-alternative-onion-browser">The Recommended
+Alternative: Onion Browser</h2>
+<p>Because an official release is not possible, the Tor Project
+officially endorses <strong>Onion Browser</strong>, an open-source iOS
+application developed by Mike Tigas.</p>
+<p>Onion Browser routes web traffic through the Tor network and provides
+basic protections against tracking and surveillance. While it is the
+best available option for browsing the dark web (.onion sites) and
+anonymizing traffic on an iPhone, it is not a direct equivalent to the
+official Tor Browser on other platforms.</p>
+<h3 id="limitations-of-ios-tor-solutions">Limitations of iOS Tor
+Solutions</h3>
+<p>Users should be aware of the security trade-offs when using Tor-based
+tools on iOS:</p>
+<ul>
+<li><strong>WebKit Constraints:</strong> Because Onion Browser must rely
+on Apple's WebKit engine, it cannot offer the same level of
+browser-fingerprinting defense as the official desktop or Android
+versions.</li>
+<li><strong>Audio/Video Leaks:</strong> Certain media elements and
+WebRTC implementations within iOS can occasionally bypass proxy settings
+and leak real IP addresses, though Onion Browser includes safeguards to
+minimize this risk.</li>
+<li><strong>Reduced Security Customization:</strong> Advanced security
+levels (such as completely disabling JavaScript safely across all tabs)
+are more limited compared to standard Tor Browser builds.</li>
+</ul>
+<h2 id="routing-system-traffic-with-orbot">Routing System Traffic with
+Orbot</h2>
+<p>For users wanting network-level privacy rather than just a web
+browser, the Tor Project supports <strong>Orbot for iOS</strong>. Orbot
+utilizes Apple's Network Extension framework (a local VPN configuration)
+to route the internet traffic of specific apps or the entire device
+through the Tor network.</p>
+<h2 id="beware-of-fake-tor-apps">Beware of Fake Tor Apps</h2>
+<p>The Apple App Store contains numerous third-party applications
+claiming to offer Tor access. Many of these apps are paid subscription
+scams, poorly maintained, or contain trackers that directly undermine
+user privacy. When seeking Tor connectivity on iOS, users should
+exclusively use Onion Browser or Orbot to ensure their software is
+open-source and trusted by the privacy community.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why People Run Malicious Tor Exit Nodes - tor</title>
+    <meta name="description" content="The Tor network relies on a decentralized volunteer infrastructure to provide online anonymity, but its design makes the exit node—the final relay before traffic reaches the open internet—a primary target for exploitation. While the majority of node">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-people-run-malicious-tor-exit-nodes">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why People Run Malicious Tor Exit Nodes - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-people-run-malicious-tor-exit-nodes" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network relies on a decentralized volunteer infrastructure to provide online anonymity, but its design makes the exit node—the final relay before traffic reaches the open internet—a primary target for exploitation. While the majority of node" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-people-run-malicious-tor-exit-nodes">Why People Run
+Malicious Tor Exit Nodes</h1>
+<p>The Tor network relies on a decentralized volunteer infrastructure to
+provide online anonymity, but its design makes the exit node—the final
+relay before traffic reaches the open internet—a primary target for
+exploitation. While the majority of node operators support digital
+privacy, malicious actors deploy exit nodes to intercept unencrypted
+communications, steal sensitive data, and manipulate web traffic.
+Understanding the motivations behind operating rogue exit nodes reveals
+the distinct technical, financial, and strategic incentives that drive
+these threats.</p>
+<h3 id="financial-gain-through-cryptocurrency-theft">Financial Gain
+Through Cryptocurrency Theft</h3>
+<p>One of the most prevalent reasons for running malicious exit nodes is
+the automated theft of cryptocurrency. Attackers execute automated
+Man-in-the-Middle (MitM) scripts that monitor unencrypted traffic for
+standard cryptocurrency wallet addresses. When a user copies or inputs
+an address, the compromised exit node intercepts the request and
+replaces the destination address with one controlled by the attacker.
+Because blockchain transactions are irreversible, this technique yields
+high-reward, low-risk profits for cybercriminals.</p>
+<h3 id="credential-harvesting-and-account-takeovers">Credential
+Harvesting and Account Takeovers</h3>
+<p>Exit nodes handle the final leg of data transmission. If a user
+connects to a service using plain HTTP instead of secure HTTPS, the exit
+node operator can see everything transmitted in cleartext. Rogue
+operators log usernames, passwords, authentication tokens, and session
+cookies. These stolen credentials are often compiled into lists and sold
+on dark web marketplaces or used directly to breach user accounts across
+various online platforms.</p>
+<h3 id="ssl-stripping-and-traffic-manipulation">SSL Stripping and
+Traffic Manipulation</h3>
+<p>Even when users attempt to connect securely, advanced malicious nodes
+deploy techniques like SSL stripping. This downgrades secure HTTPS
+connections to insecure HTTP without the user's immediate knowledge,
+allowing the operator to bypass encryption entirely. Beyond
+eavesdropping, attackers can alter web content in transit, inject
+malicious scripts or advertisements into unencrypted websites, or
+replace legitimate file downloads with malware, spyware, or
+ransomware.</p>
+<h3 id="state-sponsored-intelligence-and-surveillance">State-Sponsored
+Intelligence and Surveillance</h3>
+<p>Nation-state adversaries, law enforcement agencies, and private
+intelligence contractors operate malicious exit nodes for mass
+surveillance and counter-intelligence. By controlling a significant
+portion of the network's exit capacity, state actors can perform traffic
+correlation attacks. By comparing the timing and volume of encrypted
+traffic entering the Tor network with traffic leaving an exit node,
+intelligence agencies can de-anonymize targets, track dissidents, and
+monitor illicit activities.</p>
+<h3 id="academic-and-reconnaissance-research">Academic and
+Reconnaissance Research</h3>
+<p>Not all malicious or rogue behavior is strictly criminal. Some
+academic researchers, security firms, and independent analysts deploy
+intrusive exit nodes to map Tor usage patterns, test vulnerability
+vectors, or identify illegal operations. While often framed as
+scientific research, unauthorized traffic interception and logging
+violate network consensus rules and compromise user privacy.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

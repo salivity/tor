@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Stops Exit Nodes from Logging User Data - tor</title>
+    <meta name="description" content="The Tor network prevents exit nodes from logging sensitive user data by decoupling a user's identity from the traffic they generate through layered encryption and distributed routing. While an exit node handles the final leg of a connection to the open i">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-stops-exit-nodes-from-logging-user-data">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Stops Exit Nodes from Logging User Data - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-stops-exit-nodes-from-logging-user-data" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network prevents exit nodes from logging sensitive user data by decoupling a user's identity from the traffic they generate through layered encryption and distributed routing. While an exit node handles the final leg of a connection to the open i" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-stops-exit-nodes-from-logging-user-data">How Tor Stops
+Exit Nodes from Logging User Data</h1>
+<p>The Tor network prevents exit nodes from logging sensitive user data
+by decoupling a user's identity from the traffic they generate through
+layered encryption and distributed routing. While an exit node handles
+the final leg of a connection to the open internet, Tor's architecture
+ensures that the node only knows the address of the intermediate relay
+and the destination server. As a result, even if a malicious exit node
+logs all traffic passing through it, it cannot trace that activity back
+to the user's real IP address or physical location.</p>
+<h3 id="the-three-hop-circuit">The Three-Hop Circuit</h3>
+<p>Tor protects user anonymity using a three-relay circuit consisting of
+an entry (guard) node, a middle relay, and an exit node:</p>
+<ol type="1">
+<li><strong>Guard Node:</strong> Sees the user's real IP address and the
+middle relay, but cannot see the exit node, the destination website, or
+the payload.</li>
+<li><strong>Middle Relay:</strong> Sits between the guard and exit
+nodes, knowing only the IP addresses of those two relays. It has no
+visibility into the user's IP or the final destination.</li>
+<li><strong>Exit Node:</strong> Sees the middle relay's IP address and
+communicates directly with the destination server. It has zero
+visibility into the origin IP address.</li>
+</ol>
+<p>Because each relay in the circuit only knows the preceding and
+succeeding hops, the exit node is completely isolated from the user's
+identifying network information.</p>
+<h3 id="layered-onion-encryption">Layered Onion Encryption</h3>
+<p>When a user sends data through Tor, the Tor client wraps the packet
+in three layers of encryption—one for each node in the circuit:</p>
+<ul>
+<li>The guard node decrypts the outer layer to find the middle node's
+address.</li>
+<li>The middle node decrypts the next layer to find the exit node's
+address.</li>
+<li>The exit node decrypts the final Tor layer to forward the request to
+the destination.</li>
+</ul>
+<p>By the time the data reaches the exit node, the routing metadata
+pointing back to the client has already been stripped away.</p>
+<h3 id="end-to-end-encryption-https-over-tor">End-to-End Encryption
+(HTTPS over Tor)</h3>
+<p>While Tor anonymizes the <em>source</em> of the connection, it does
+not encrypt traffic between the exit node and the destination server on
+its own. To prevent exit nodes from logging the <em>content</em> of the
+data (such as login credentials, messages, or specific URLs), Tor relies
+on Transport Layer Security (TLS/HTTPS).</p>
+<p>When connecting to an HTTPS-enabled website:</p>
+<ul>
+<li>The data payload is encrypted end-to-end between the user's browser
+and the destination server.</li>
+<li>The exit node can only observe encrypted ciphertext and the target
+IP address/domain name.</li>
+<li>The exit node cannot view page contents, form submissions, or
+authentication cookies.</li>
+</ul>
+<h3 id="summary-of-exit-node-visibility">Summary of Exit Node
+Visibility</h3>
+<p>Even if an exit node operator logs every packet:</p>
+<ul>
+<li><strong>Source IP Logged:</strong> The IP address of the middle
+relay, never the user.</li>
+<li><strong>Payload Logged:</strong> Encrypted data (when using HTTPS),
+rendering the contents unreadable.</li>
+<li><strong>Result:</strong> The exit node cannot correlate the traffic
+with a specific individual without compromising the other nodes in the
+circuit or relying on user-provided identifiers within unencrypted
+traffic.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

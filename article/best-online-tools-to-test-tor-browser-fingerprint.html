@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Online Tools to Test Tor Browser Fingerprint - tor</title>
+    <meta name="description" content="Browser fingerprinting is a method of tracking web browsers by collecting unique configurations, such as screen resolution, installed fonts, hardware specifications, and system APIs. While the Tor Browser is specifically engineered to make all its users">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/best-online-tools-to-test-tor-browser-fingerprint">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Best Online Tools to Test Tor Browser Fingerprint - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/best-online-tools-to-test-tor-browser-fingerprint" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Browser fingerprinting is a method of tracking web browsers by collecting unique configurations, such as screen resolution, installed fonts, hardware specifications, and system APIs. While the Tor Browser is specifically engineered to make all its users" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="best-online-tools-to-test-tor-browser-fingerprint">Best Online
+Tools to Test Tor Browser Fingerprint</h1>
+<p>Browser fingerprinting is a method of tracking web browsers by
+collecting unique configurations, such as screen resolution, installed
+fonts, hardware specifications, and system APIs. While the Tor Browser
+is specifically engineered to make all its users share an identical,
+uniform fingerprint, several online tools exist to verify whether your
+Tor instance successfully blends in or inadvertently leaks unique
+identifying data.</p>
+<h2 id="eff-cover-your-tracks">EFF Cover Your Tracks</h2>
+<p>Cover Your Tracks, developed by the Electronic Frontier Foundation
+(EFF), is one of the most reliable and widely used fingerprint testing
+tools. It analyzes several tracking vectors, including WebGL parameters,
+canvas rendering, user-agent strings, and system font enumeration.</p>
+<p>When testing with the Tor Browser, the tool assigns a score
+indicating whether you have a "nearly unique" or "randomized"
+fingerprint. For Tor users, the primary goal is not necessarily an
+absolute zero-uniqueness score from the tool's broader database, but
+ensuring that common fingerprinting vectors (like HTML5 Canvas) are
+actively blocked or protected by Tor’s built-in defenses.</p>
+<h2 id="amiunique">AmIUnique</h2>
+<p>AmIUnique maintains a massive dataset of real-world browser
+fingerprints and provides an in-depth breakdown of every attribute
+exposed by your browser. It calculates the exact percentage of users in
+its database who share each of your specific settings, including:</p>
+<ul>
+<li>HTTP header configurations</li>
+<li>Platform architecture and operating system details</li>
+<li>Available audio context and Canvas hashes</li>
+<li>System time zone settings</li>
+</ul>
+<p>This tool helps Tor users verify that time zone spoofing (Tor
+defaults to UTC) and user-agent spoofing are functioning correctly.</p>
+<h2 id="creepjs">CreepJS</h2>
+<p>CreepJS is an advanced, aggressive fingerprinting tool designed to
+detect browser spoofing, feature emulation, and anti-fingerprinting
+protections. Unlike basic testing sites, CreepJS attempts to bypass
+standard spoofing mechanisms to uncover underlying hardware
+characteristics, execution speed anomalies, and modified JavaScript
+environments.</p>
+<p>Running Tor on CreepJS will often flag anti-fingerprinting measures
+or feature blocking. It is an excellent stress test for users who want
+to see how advanced tracking scripts attempt to detect and categorize
+Tor instances.</p>
+<h2 id="device-info">Device Info</h2>
+<p>Device Info (deviceinfo.me) provides an exhaustive, single-page
+summary of everything a website can learn about your device and network
+connection. It tests for:</p>
+<ul>
+<li>WebRTC IP address leaks</li>
+<li>Screen dimensions and color depth</li>
+<li>Media device enumeration (microphones, webcams)</li>
+<li>Supported browser APIs and plugins</li>
+</ul>
+<p>This tool is particularly useful for confirming that the Tor Browser
+is properly preventing WebRTC leaks and masking hardware details.</p>
+<h2 id="how-to-interpret-tor-fingerprint-results">How to Interpret Tor
+Fingerprint Results</h2>
+<p>When using fingerprint testing tools with the Tor Browser, keep the
+following principles in mind:</p>
+<ul>
+<li><strong>Uniformity, Not Uniqueness:</strong> The objective of the
+Tor Browser is to make all Tor users look identical to one another.
+Tools that compare you against standard browsers (like Chrome or Safari)
+may label you as "unique" simply because you are using the Tor
+Browser.</li>
+<li><strong>Do Not Resize the Window:</strong> Tor uses a technique
+called letterboxing to standardize window sizes. Maximizing or resizing
+the browser window introduces unique dimension measurements that
+compromise fingerprint uniformity.</li>
+<li><strong>Avoid Modifying Settings:</strong> Installing browser
+extensions or manually changing advanced configurations
+(<code>about:config</code>) often creates a unique fingerprint, making
+you stand out from the millions of default Tor users.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

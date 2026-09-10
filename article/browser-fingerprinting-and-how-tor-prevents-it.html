@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Fingerprinting and How Tor Prevents It - tor</title>
+    <meta name="description" content="Browser fingerprinting is an advanced web tracking method that identifies users based on the unique technical configuration of their devices and browsers rather than relying on traditional cookies. This article explains how browser fingerprinting works,">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/browser-fingerprinting-and-how-tor-prevents-it">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Browser Fingerprinting and How Tor Prevents It - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/browser-fingerprinting-and-how-tor-prevents-it" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Browser fingerprinting is an advanced web tracking method that identifies users based on the unique technical configuration of their devices and browsers rather than relying on traditional cookies. This article explains how browser fingerprinting works," />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="browser-fingerprinting-and-how-tor-prevents-it">Browser
+Fingerprinting and How Tor Prevents It</h1>
+<p>Browser fingerprinting is an advanced web tracking method that
+identifies users based on the unique technical configuration of their
+devices and browsers rather than relying on traditional cookies. This
+article explains how browser fingerprinting works, the specific data
+points it collects to build a distinct profile, and the architectural
+defenses the Tor Browser employs to neutralize this tracking method by
+making millions of users appear identical.</p>
+<h2 id="what-is-browser-fingerprinting">What is Browser
+Fingerprinting?</h2>
+<p>Browser fingerprinting is a stateless tracking technique where
+websites collect technical data about a visitor's browser environment
+and hardware. When combined, these seemingly harmless attributes create
+a unique profile—or "fingerprint"—that can track an individual across
+the internet without storing any local data on their machine.</p>
+<p>Unlike cookies or local storage, a browser fingerprint cannot be
+deleted by clearing history or using standard private browsing
+modes.</p>
+<h3 id="key-data-points-used-in-fingerprinting">Key Data Points Used in
+Fingerprinting</h3>
+<p>Websites run background scripts (usually via JavaScript) to gather
+various system attributes, including:</p>
+<ul>
+<li><strong>System Details:</strong> Operating system type and version,
+CPU architecture, and number of logical cores.</li>
+<li><strong>Display Settings:</strong> Screen resolution, color depth,
+and available screen dimensions.</li>
+<li><strong>Browser Metadata:</strong> User-Agent string, HTTP accept
+headers, preferred languages, and configured time zones.</li>
+<li><strong>Hardware Capabilities:</strong> Graphic cards (via WebGL
+rendering), audio processing capabilities (via Web Audio API), and
+battery status.</li>
+<li><strong>Installed Assets:</strong> System fonts, media devices
+(microphones/cameras), and browser extensions.</li>
+<li><strong>Canvas Rendering:</strong> Using the HTML5 Canvas API to
+draw hidden text and shapes; subtle hardware and driver differences
+cause unique pixel outputs on different machines.</li>
+</ul>
+<p>When these parameters are hashed together, they generate a highly
+unique identifier with an accuracy rate often exceeding 90%.</p>
+<h2 id="how-tor-browser-prevents-fingerprinting">How Tor Browser
+Prevents Fingerprinting</h2>
+<p>Most privacy tools try to randomize fingerprint attributes, which can
+inadvertently make a user stand out even more. Tor Browser takes the
+opposite approach: <strong>uniformity</strong>. Its primary strategy is
+to make all Tor Browser users appear completely identical to web
+servers.</p>
+<h3 id="1-standardization-of-attributes-the-crowd-approach">1.
+Standardization of Attributes (The "Crowd" Approach)</h3>
+<p>Tor Browser enforces uniform values across all installations
+regardless of the user's actual underlying hardware or operating
+system.</p>
+<ul>
+<li><strong>Generic User-Agent:</strong> All desktop Tor users report a
+standardized User-Agent string (matching a standard Firefox Extended
+Support Release on Windows), regardless of whether they run macOS,
+Linux, or Windows.</li>
+<li><strong>Unified Time Zone and Language:</strong> The time zone is
+locked to UTC, and the default browser language defaults to English (US)
+to prevent geographic profiling.</li>
+</ul>
+<h3 id="2-canvas-and-webgl-defenses">2. Canvas and WebGL Defenses</h3>
+<p>Canvas and WebGL rendering provide the most distinct hardware
+signals. Tor Browser restricts programmatic extraction of image
+data:</p>
+<ul>
+<li>Whenever a site attempts to read HTML5 canvas pixel data via
+functions like <code>toDataURL()</code>, Tor Browser blocks the
+operation and prompts the user for permission.</li>
+<li>WebGL rendering is restricted and masked to prevent exposing the
+underlying GPU model and driver quirks.</li>
+</ul>
+<h3 id="3-font-and-screen-resolution-uniformity">3. Font and Screen
+Resolution Uniformity</h3>
+<ul>
+<li><strong>Bundled Fonts:</strong> Tor Browser ignores most local
+system fonts and instead restricts web pages to a curated, bundled set
+of open-source fonts. This eliminates font enumeration attacks.</li>
+<li><strong>Letterboxing:</strong> Tor Browser introduces
+"letterboxing," which adds gray margins around the webpage to keep the
+viewport dimensions standardized to fixed increments (e.g., multiples of
+200x100 pixels), regardless of the actual monitor size or window
+resizing.</li>
+</ul>
+<h3 id="4-disabling-invasive-web-apis">4. Disabling Invasive Web
+APIs</h3>
+<p>Tor Browser strips or disables APIs that provide direct access to
+hardware or system state, including:</p>
+<ul>
+<li>Web Audio API analysis.</li>
+<li>Battery Status API.</li>
+<li>Media Devices enumeration.</li>
+<li>Sensor APIs (accelerometers, ambient light).</li>
+</ul>
+<p>By neutralizing these data collection channels and enforcing strict
+uniformity across all sessions, Tor Browser eliminates the variance
+needed for fingerprinting scripts to identify individual users.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

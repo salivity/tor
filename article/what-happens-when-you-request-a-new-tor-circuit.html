@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Happens When You Request a New Tor Circuit? - tor</title>
+    <meta name="description" content="Requesting a new Tor circuit prompts the Tor Browser to establish a brand-new encrypted network path through three distinct volunteer relays for the active website tab. This process replaces the current sequence of relays without clearing your browser se">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-happens-when-you-request-a-new-tor-circuit">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Happens When You Request a New Tor Circuit? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-happens-when-you-request-a-new-tor-circuit" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Requesting a new Tor circuit prompts the Tor Browser to establish a brand-new encrypted network path through three distinct volunteer relays for the active website tab. This process replaces the current sequence of relays without clearing your browser se" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-happens-when-you-request-a-new-tor-circuit">What Happens
+When You Request a New Tor Circuit?</h1>
+<p>Requesting a new Tor circuit prompts the Tor Browser to establish a
+brand-new encrypted network path through three distinct volunteer relays
+for the active website tab. This process replaces the current sequence
+of relays without clearing your browser session, cookies, or open tabs,
+allowing you to bypass broken connections, improve loading speeds, or
+obtain a new exit IP address for a specific domain instantly.</p>
+<h3 id="the-standard-tor-circuit-structure">The Standard Tor Circuit
+Structure</h3>
+<p>Normally, Tor routes your encrypted internet traffic through three
+random relays:</p>
+<ol type="1">
+<li><strong>Guard (Entry) Node:</strong> The first node that receives
+your traffic and sees your real IP address, but cannot see what website
+you are visiting.</li>
+<li><strong>Middle Relay:</strong> The intermediate node that passes
+encrypted data between the guard and exit nodes, knowing neither your
+original IP nor your destination.</li>
+<li><strong>Exit Node:</strong> The final node that decrypts the traffic
+and forwards it to the destination website.</li>
+</ol>
+<h3 id="what-happens-step-by-step">What Happens Step-by-Step</h3>
+<h4 id="1-signal-transmission-to-the-tor-process">1. Signal Transmission
+to the Tor Process</h4>
+<p>When you click "New Tor Circuit for this Site," the browser sends a
+signal (traditionally <code>NEWNYM</code> or circuit-isolation commands)
+to the underlying Tor proxy process. This informs the client that
+subsequent network requests for the active domain must avoid using the
+current circuit.</p>
+<h4 id="2-guard-node-retention">2. Guard Node Retention</h4>
+<p>In most cases, your <strong>Guard Node remains the same</strong>. Tor
+uses persistent "Entry Guards" to protect against traffic correlation
+attacks. Constantly changing your entry node increases the likelihood of
+connecting to a malicious relay; thus, Tor keeps your entry guard
+constant across circuits for weeks or months.</p>
+<h4 id="3-selection-of-new-middle-and-exit-relays">3. Selection of New
+Middle and Exit Relays</h4>
+<p>Tor negotiates a new path by choosing a new Middle Relay and a new
+Exit Node from its consensus directory. It uses layered encryption
+(Diffie-Hellman key exchanges) so that:</p>
+<ul>
+<li>The Middle Relay only knows the Guard and Exit addresses.</li>
+<li>The Exit Node only knows the Middle Relay and the destination
+website.</li>
+</ul>
+<h4 id="4-assignment-of-a-new-public-ip-address">4. Assignment of a New
+Public IP Address</h4>
+<p>Because your connection now leaves the Tor network through a
+different Exit Node, the target website sees a completely new IP address
+and geographic location. If the previous exit node was throttled,
+blocked, or experiencing high latency, the new circuit often resolves
+the issue.</p>
+<h4 id="5-page-reload-and-request-routing">5. Page Reload and Request
+Routing</h4>
+<p>The active tab reloads and directs all future HTTP/HTTPS requests
+through the newly formed three-hop tunnel. Existing open tabs for other
+domains remain unaffected and continue using their own isolated
+circuits.</p>
+<h3 id="how-it-differs-from-new-identity">How It Differs from "New
+Identity"</h3>
+<ul>
+<li><strong>New Tor Circuit for this Site:</strong> Only changes the
+network route (Middle and Exit relays) for the current site. It
+preserves cookies, browsing history, login sessions, and open tabs.</li>
+<li><strong>New Identity:</strong> Restarts the browser process
+completely, closes all open tabs, clears all cookies, cache, and session
+data, and forces all sites to generate new circuits from scratch.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

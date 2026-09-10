@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Use Tor Pluggable Transports When Tor Works - tor</title>
+    <meta name="description" content="Pluggable transports are specialized tools integrated into the Tor network that transform and disguise traffic to bypass censorship and surveillance. Even if a standard Tor connection currently works without being blocked, a user might still need to enab">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-use-tor-pluggable-transports-when-tor-works">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Use Tor Pluggable Transports When Tor Works - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-use-tor-pluggable-transports-when-tor-works" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Pluggable transports are specialized tools integrated into the Tor network that transform and disguise traffic to bypass censorship and surveillance. Even if a standard Tor connection currently works without being blocked, a user might still need to enab" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-use-tor-pluggable-transports-when-tor-works">Why Use Tor
+Pluggable Transports When Tor Works</h1>
+<p>Pluggable transports are specialized tools integrated into the Tor
+network that transform and disguise traffic to bypass censorship and
+surveillance. Even if a standard Tor connection currently works without
+being blocked, a user might still need to enable a pluggable transport
+to prevent traffic analysis, avoid being flagged by Internet Service
+Providers (ISPs), bypass subtle network throttling, and ensure
+connection stability against dynamic Deep Packet Inspection (DPI).</p>
+<h2 id="hiding-the-fact-that-you-are-using-tor">Hiding the Fact That You
+Are Using Tor</h2>
+<p>Standard Tor encrypts your traffic so that no one can see what
+websites you visit, but it does not hide the fact that you are connected
+to the Tor network. Because the IP addresses of public Tor entry nodes
+(guard nodes) are publicly cataloged, your ISP, local network
+administrator, or government can easily see that your device is
+communicating with Tor.</p>
+<p>In certain jurisdictions or environments, simply using Tor can draw
+unwanted scrutiny or place you on automated surveillance watchlists.
+Pluggable transports, such as <strong>obfs4</strong>, scramble the
+traffic to make it look like completely random, unidentifiable data,
+while tools like <strong>Snowflake</strong> or <strong>Meek</strong>
+make Tor traffic appear as regular video calls or standard web traffic
+to popular cloud providers.</p>
+<h2 id="avoiding-silent-network-throttling">Avoiding Silent Network
+Throttling</h2>
+<p>Some network providers do not completely block Tor connections, as an
+outright block might raise alarms or violate regional regulations.
+Instead, they implement subtle Quality of Service (QoS) degradation or
+bandwidth throttling on traffic directed at known Tor nodes. If your
+connection feels unusually slow or experiences frequent timeouts despite
+connecting successfully, a pluggable transport can mask the traffic
+signature, routing around the provider's automated throttling
+mechanisms.</p>
+<h2 id="bypassing-local-network-policies">Bypassing Local Network
+Policies</h2>
+<p>Even if Tor works at home, connecting to Tor on corporate, school, or
+public Wi-Fi networks may violate terms of service or trigger automated
+security alerts. Enterprise-grade network firewalls often scan for known
+Tor protocol handshakes. Using a pluggable transport allows you to blend
+your connection with ordinary web traffic, preventing network alarms
+from triggering while you maintain your privacy.</p>
+<h2 id="preventing-dynamic-and-behavioral-censorship">Preventing Dynamic
+and Behavioral Censorship</h2>
+<p>Modern network monitoring tools often allow initial connections to
+pass while analyzing the data flow in real time using Deep Packet
+Inspection (DPI). A standard Tor session might work for a few minutes
+before the firewall detects the unique packet headers and timing
+signatures of the Tor protocol and abruptly terminates the connection.
+Enabling a pluggable transport continuously disguises these packet
+patterns, ensuring that the connection remains open and reliable over
+extended sessions.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

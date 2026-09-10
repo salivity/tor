@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Mitigates Traffic Confirmation Attacks - tor</title>
+    <meta name="description" content="Traffic confirmation attacks, also known as end-to-end correlation attacks, occur when an adversary observes traffic entering and leaving the Tor network to correlate timing and volume patterns, thereby deanonymizing the user. Because Tor is designed as">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-mitigates-traffic-confirmation-attacks">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Mitigates Traffic Confirmation Attacks - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-mitigates-traffic-confirmation-attacks" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Traffic confirmation attacks, also known as end-to-end correlation attacks, occur when an adversary observes traffic entering and leaving the Tor network to correlate timing and volume patterns, thereby deanonymizing the user. Because Tor is designed as" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-mitigates-traffic-confirmation-attacks">How Tor
+Mitigates Traffic Confirmation Attacks</h1>
+<p>Traffic confirmation attacks, also known as end-to-end correlation
+attacks, occur when an adversary observes traffic entering and leaving
+the Tor network to correlate timing and volume patterns, thereby
+deanonymizing the user. Because Tor is designed as a low-latency
+anonymity network, it prioritizes real-time performance, making absolute
+protection against a global passive adversary inherently difficult.
+However, Tor implements several architectural defenses, path selection
+algorithms, and traffic-shaping techniques to make executing traffic
+confirmation attacks significantly harder, costlier, and less
+reliable.</p>
+<h3 id="1-guard-nodes-entry-guards">1. Guard Nodes (Entry Guards)</h3>
+<p>The primary architectural defense against traffic confirmation is
+Tor’s use of entry guards. Instead of selecting a random entry relay for
+every circuit, a Tor client selects a small, persistent set of entry
+guards to use for an extended period (typically several months).</p>
+<p>In a traffic confirmation attack, the adversary must control or
+observe both the entry and exit points of a circuit. If a client
+constantly changed entry nodes, the probability of eventually choosing a
+compromised entry node alongside a compromised exit node would approach
+100% over time. By pinning entry traffic to a few trusted guards, the
+client reduces the attack surface: unless the adversary monitors that
+specific guard, correlation cannot occur.</p>
+<h3 id="2-fixed-sized-cells">2. Fixed-Sized Cells</h3>
+<p>Tor packages all application data into standardized, fixed-sized
+units called cells (typically 514 bytes). By breaking continuous streams
+into uniform blocks, Tor prevents observers from deducing the nature of
+the traffic based on packet size alone. While fixed cell sizes do not
+eliminate timing correlations, they eliminate packet-size fingerprinting
+within the encrypted tunnels.</p>
+<h3 id="3-circuit-multiplexing-and-connection-sharing">3. Circuit
+Multiplexing and Connection Sharing</h3>
+<p>Tor multiplexes multiple independent user circuits over single,
+encrypted TLS connections between relays. When multiple data streams
+share the same link, individual packet bursts and timing patterns blend
+together. This aggregation introduces "noise," making it substantially
+more difficult for an external observer to match a specific incoming
+burst of packets at an entry relay with an outgoing burst at an exit
+relay.</p>
+<h3 id="4-network-diversity-in-path-selection">4. Network Diversity in
+Path Selection</h3>
+<p>To prevent a single organization or Internet Service Provider (ISP)
+from observing both ends of a circuit, Tor enforces strict path
+selection rules:</p>
+<ul>
+<li><strong>Subnet Isolation:</strong> Tor avoids choosing multiple
+relays from the same <code>/16</code> IPv4 subnet in a single
+circuit.</li>
+<li><strong>Family Configurations:</strong> Relays operated by the same
+entity declare themselves as part of the same "family," and Tor clients
+will never use relays from the same family in the same circuit.</li>
+<li><strong>Autonomous System (AS) Diversity:</strong> Clients attempt
+to avoid circuits where the entry and exit relays are hosted within the
+same Autonomous System, limiting the ability of single upstream network
+providers to monitor both endpoints.</li>
+</ul>
+<h3 id="5-circuit-padding-framework">5. Circuit Padding Framework</h3>
+<p>Tor includes a circuit padding subsystem designed to neutralize
+specific traffic analysis vectors. This framework allows clients and
+relays to negotiate synthetic "chaff" or dummy traffic that mimics
+normal data exchange. Padding can be injected during circuit creation or
+during specific periods of inactivity to mask negotiation patterns,
+disrupt timing signatures, and mask traffic bursts that adversaries rely
+on for correlation.</p>
+<h3 id="practical-limitations">Practical Limitations</h3>
+<p>Tor is designed to defend against localized eavesdroppers rather than
+global passive adversaries who can observe large portions of the
+Internet simultaneously. While these mitigation strategies significantly
+increase the resource requirements for an attacker, persistent
+surveillance across both ends of a connection can still succeed if the
+adversary possesses widespread visibility across global network
+infrastructure.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

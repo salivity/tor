@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is It Difficult to Run Tor Over a VPN? - tor</title>
+    <meta name="description" content="Running Tor over a Virtual Private Network (VPN) is not difficult for the vast majority of users. The standard and most common method—often called "Tor over VPN" or "Onion over VPN"—requires virtually no complex technical configuration. This guide br">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/is-it-difficult-to-run-tor-over-a-vpn">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Is It Difficult to Run Tor Over a VPN? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/is-it-difficult-to-run-tor-over-a-vpn" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Running Tor over a Virtual Private Network (VPN) is not difficult for the vast majority of users. The standard and most common method—often called "Tor over VPN" or "Onion over VPN"—requires virtually no complex technical configuration. This guide br" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="is-it-difficult-to-run-tor-over-a-vpn">Is It Difficult to Run
+Tor Over a VPN?</h1>
+<p>Running Tor over a Virtual Private Network (VPN) is not difficult for
+the vast majority of users. The standard and most common method—often
+called "Tor over VPN" or "Onion over VPN"—requires virtually no complex
+technical configuration. This guide breaks down how the standard setup
+works, walks through the basic steps to implement it, and highlights
+more complex alternative configurations you might encounter.</p>
+<h3 id="the-standard-method-tor-over-vpn">The Standard Method: Tor Over
+VPN</h3>
+<p>For almost all use cases, running Tor over a VPN requires no manual
+network adjustments.</p>
+<ol type="1">
+<li><strong>Connect to your VPN:</strong> Launch your VPN provider's
+desktop application and connect to a server of your choice.</li>
+<li><strong>Open the Tor Browser:</strong> Once the VPN connection is
+established, open the official Tor Browser and click "Connect."</li>
+</ol>
+<p>Because the VPN encrypts all outgoing traffic from your device, your
+connection to the Tor network automatically routes through the encrypted
+VPN tunnel.</p>
+<h3 id="how-it-works">How It Works</h3>
+<p>In this setup:</p>
+<ul>
+<li><strong>Your Internet Service Provider (ISP):</strong> Only sees
+encrypted traffic heading to your VPN server; they cannot see that you
+are connecting to the Tor network.</li>
+<li><strong>Your VPN Provider:</strong> Sees that your traffic is
+connecting to a Tor entry node, but cannot read your encrypted Tor
+traffic or see your final destination.</li>
+<li><strong>The Tor Network:</strong> Sees the IP address of your VPN
+server as the source of the connection instead of your real residential
+IP address.</li>
+</ul>
+<h3 id="the-complex-alternative-vpn-over-tor">The Complex Alternative:
+VPN Over Tor</h3>
+<p>While "Tor over VPN" is easy, configuring the reverse—"VPN over
+Tor"—is significantly more difficult. In this setup, your traffic passes
+through the Tor network before connecting to a VPN server.</p>
+<p>This configuration requires:</p>
+<ul>
+<li>Manual network adapter configuration or specialized router
+firmware.</li>
+<li>A VPN provider that supports connections over TCP and accepts
+payments anonymously.</li>
+<li>Advanced networking knowledge to prevent DNS leaks and routing
+failures.</li>
+</ul>
+<p>For the vast majority of privacy-focused users, "VPN over Tor" is
+unnecessary and introduces configuration risks that can undermine your
+anonymity if misconfigured.</p>
+<h3 id="potential-drawbacks-to-consider">Potential Drawbacks to
+Consider</h3>
+<p>Although standard setup is simple, you should be aware of a few
+practical factors:</p>
+<ul>
+<li><strong>Reduced Speed:</strong> Tor already routes traffic through
+three separate relays, which reduces connection speed. Adding a VPN adds
+another layer of latency.</li>
+<li><strong>Trust Requirement:</strong> You must trust your VPN provider
+not to keep connection logs, as they can identify that your real IP
+address is accessing Tor.</li>
+<li><strong>Tor Bridges Alternative:</strong> If your primary goal is
+hiding Tor usage from your ISP or local network administrator, using
+built-in Tor Bridges or Pluggable Transports is often simpler and does
+not require a paid VPN subscription.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

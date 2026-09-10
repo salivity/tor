@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are Tor Bridges as Fast as Entry Guards? - tor</title>
+    <meta name="description" content="Tor bridges are generally not as fast as regular Tor entry guards. While standard entry guards operate on high-bandwidth, dedicated infrastructure to optimize network performance, bridges are primarily designed to bypass censorship rather than maximize s">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/are-tor-bridges-as-fast-as-entry-guards">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Are Tor Bridges as Fast as Entry Guards? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/are-tor-bridges-as-fast-as-entry-guards" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor bridges are generally not as fast as regular Tor entry guards. While standard entry guards operate on high-bandwidth, dedicated infrastructure to optimize network performance, bridges are primarily designed to bypass censorship rather than maximize s" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="are-tor-bridges-as-fast-as-entry-guards">Are Tor Bridges as Fast
+as Entry Guards?</h1>
+<p>Tor bridges are generally not as fast as regular Tor entry guards.
+While standard entry guards operate on high-bandwidth, dedicated
+infrastructure to optimize network performance, bridges are primarily
+designed to bypass censorship rather than maximize speed. Factors such
+as lower volunteer bandwidth, smaller hardware capacities, and the
+processing overhead of traffic obfuscation protocols typically make
+bridges slower and result in higher latency compared to regular entry
+nodes.</p>
+<h3 id="server-bandwidth-and-hardware">Server Bandwidth and
+Hardware</h3>
+<p>Regular entry guards are publicly listed relays that undergo
+bandwidth testing and dynamic selection by the Tor directory
+authorities. High-capacity servers hosted in enterprise data centers
+with multi-gigabit connections are favored to become guards.</p>
+<p>In contrast, bridges are unlisted relays often run on residential
+connections, smaller virtual private servers (VPS), or modest personal
+hardware. Because bridge operators frequently have limited upstream
+bandwidth and shared hardware resources, data throughput is inherently
+lower than that of enterprise-grade guard relays.</p>
+<h3 id="pluggable-transport-overhead">Pluggable Transport Overhead</h3>
+<p>The primary purpose of a bridge is to evade deep packet inspection
+(DPI) and local firewall blocking. To achieve this, bridges frequently
+use Pluggable Transports such as obfs4, Snowflake, or WebTunnel.</p>
+<p>These transports alter the shape, timing, and signature of Tor
+traffic to make it look like random data or standard protocols like
+HTTPS. The process of encrypting, scrambling, padding, and transforming
+network packets adds computational overhead on both the client and
+server side, inevitably increasing latency and reducing overall download
+and upload speeds.</p>
+<h3 id="network-load-balancing">Network Load Balancing</h3>
+<p>The Tor network uses a consensus-weighting algorithm to balance
+client traffic dynamically across public entry guards according to their
+measured capacity. This prevents high-speed guards from becoming
+overloaded while ensuring users are routed efficiently.</p>
+<p>Bridges do not participate in the standard public consensus
+weighting. Because traffic is not distributed across bridges dynamically
+based on real-time global performance measurements, a single bridge may
+experience localized congestion, further degrading connection
+speeds.</p>
+<h3 id="vanilla-bridges-vs-obfuscated-bridges">Vanilla Bridges vs.
+Obfuscated Bridges</h3>
+<p>Performance can vary depending on the type of bridge in use:</p>
+<ul>
+<li><strong>Vanilla Bridges:</strong> Standard bridges that do not use
+pluggable transports perform similarly to entry guards of equivalent
+hardware and connection bandwidth. However, because top-tier public
+guards still generally feature superior connectivity, vanilla bridges
+remain slightly slower on average.</li>
+<li><strong>Obfuscated Bridges:</strong> Bridges utilizing obfs4 or
+specialized transports introduce noticeable latency and packet overhead,
+making them consistently slower than standard guards.</li>
+<li><strong>Snowflake / Meek:</strong> These specialized transports
+route traffic through third-party proxies or domain fronting services,
+resulting in the lowest throughput and highest latency among all
+connection methods.</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<p>If censorship resistance is not required, standard entry guards offer
+the fastest and most reliable connection to the Tor network. Tor bridges
+should primarily be used when access to the standard Tor network is
+restricted or blocked by an Internet Service Provider (ISP), local
+network, or government firewall.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

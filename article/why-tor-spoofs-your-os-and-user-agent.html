@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Tor Spoofs Your OS and User Agent - tor</title>
+    <meta name="description" content="Tor Browser intentionally spoofs your operating system and user agent to protect your privacy by preventing browser fingerprinting. When you browse the web, your browser regularly transmits metadata about your underlying system, device hardware, and soft">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-tor-spoofs-your-os-and-user-agent">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Tor Spoofs Your OS and User Agent - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-tor-spoofs-your-os-and-user-agent" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Browser intentionally spoofs your operating system and user agent to protect your privacy by preventing browser fingerprinting. When you browse the web, your browser regularly transmits metadata about your underlying system, device hardware, and soft" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-tor-spoofs-your-os-and-user-agent">Why Tor Spoofs Your OS
+and User Agent</h1>
+<p>Tor Browser intentionally spoofs your operating system and user agent
+to protect your privacy by preventing browser fingerprinting. When you
+browse the web, your browser regularly transmits metadata about your
+underlying system, device hardware, and software versions. By
+standardizing this data so every user reports identical values—typically
+appearing as a generic version of Firefox on Windows—Tor ensures that
+you blend into a massive crowd of identical users, preventing websites
+and trackers from singling you out.</p>
+<h3 id="the-threat-of-browser-fingerprinting">The Threat of Browser
+Fingerprinting</h3>
+<p>Web tracking extends far beyond IP addresses and cookies. Modern
+tracking companies use browser fingerprinting, a technique that collects
+dozens of subtle attributes from your device to create a unique
+identifier. These data points include:</p>
+<ul>
+<li>Operating system type and exact build version</li>
+<li>Browser engine and version numbers</li>
+<li>System architecture (e.g., x86_64, ARM)</li>
+<li>Screen resolution, color depth, and system fonts</li>
+</ul>
+<p>When combined, these technical specifications can uniquely identify
+your device with high statistical accuracy. Even if you change your IP
+address using a proxy or standard VPN, a website can recognize your
+return visits by matching your browser's distinct fingerprint.</p>
+<h3 id="creating-a-uniform-anonymity-set">Creating a Uniform Anonymity
+Set</h3>
+<p>Anonymity relies on the concept of an "anonymity set"—the group of
+people among whom an individual cannot be distinguished. Tor does not
+attempt to make your system invisible; instead, it makes your system
+look identical to every other Tor Browser user.</p>
+<p>If macOS, Linux, and Windows users each broadcast their true system
+configurations, the pool of Tor users would split into smaller, easily
+identifiable subsets. To prevent this, Tor Browser normalizes client
+configurations by spoofing key headers and attributes to match the most
+common demographic profile: a standard 64-bit Windows installation
+running the latest Extended Support Release (ESR) of Firefox.</p>
+<h3 id="deep-spoofing-beyond-http-headers">Deep Spoofing Beyond HTTP
+Headers</h3>
+<p>Spoofing requires more than modifying the basic
+<code>User-Agent</code> HTTP request header sent across the network.
+Sophisticated fingerprinting scripts use JavaScript to query internal
+browser APIs for deeper system details. Tor counters this by modifying
+core browser behavior to ensure internal variables match the spoofed
+profile:</p>
+<ul>
+<li><strong><code>navigator.userAgent</code></strong>: Reports the
+standard standardized Firefox on Windows string.</li>
+<li><strong><code>navigator.platform</code></strong>: Reports
+<code>Win32</code> or <code>Win64</code> regardless of the actual host
+platform (such as macOS, Linux, or Tails OS).</li>
+<li><strong><code>navigator.oscpu</code></strong>: Reports the
+standardized Windows NT version string.</li>
+<li><strong>Hardware Concurrency and Memory</strong>: Masks the true
+number of CPU cores and available system memory to prevent
+hardware-level identification.</li>
+</ul>
+<p>By standardizing both the network headers and the client-side
+JavaScript APIs, Tor removes device-specific variance, neutralizing
+browser fingerprinting and preserving user anonymity across the
+network.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

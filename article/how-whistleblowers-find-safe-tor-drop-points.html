@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Whistleblowers Find Safe Tor Drop Points - tor</title>
+    <meta name="description" content="Whistleblowers rely on Tor drop points—specialized, encrypted web portals hosted on the Tor network—to anonymously submit sensitive information to journalists and regulatory bodies. Finding and verifying these safe submission points requires a combin">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-whistleblowers-find-safe-tor-drop-points">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Whistleblowers Find Safe Tor Drop Points - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-whistleblowers-find-safe-tor-drop-points" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Whistleblowers rely on Tor drop points—specialized, encrypted web portals hosted on the Tor network—to anonymously submit sensitive information to journalists and regulatory bodies. Finding and verifying these safe submission points requires a combin" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-whistleblowers-find-safe-tor-drop-points">How Whistleblowers
+Find Safe Tor Drop Points</h1>
+<p>Whistleblowers rely on Tor drop points—specialized, encrypted web
+portals hosted on the Tor network—to anonymously submit sensitive
+information to journalists and regulatory bodies. Finding and verifying
+these safe submission points requires a combination of trusted
+directories, cryptographic verification, and strict operational security
+to prevent surveillance and interception. This guide explains how
+sources discover authentic drop points, verify their legitimacy, and
+maintain anonymity throughout the leak process.</p>
+<h3 id="understanding-tor-drop-points">Understanding Tor Drop
+Points</h3>
+<p>A Tor drop point is typically an instance of open-source
+whistleblowing software, such as SecureDrop or GlobaLeaks, running as a
+Tor Onion Service (a <code>.onion</code> address). Unlike standard web
+pages, these services route traffic through multiple encrypted nodes,
+concealing both the physical location of the server and the identity and
+IP address of the person submitting the leak.</p>
+<h3 id="how-whistleblowers-discover-verified-drop-points">How
+Whistleblowers Discover Verified Drop Points</h3>
+<p>Because search engines inside the Tor network can be unreliable and
+susceptible to malicious indexing, whistleblowers use specific methods
+to locate authentic drop points:</p>
+<ul>
+<li><strong>Official Newsroom Landing Pages:</strong> Major
+investigative news organizations (such as <em>The Guardian</em>, <em>The
+Washington Post</em>, and <em>The New York Times</em>) publish their
+official <code>.onion</code> addresses directly on their standard,
+HTTPS-secured clearweb websites. Whistleblowers locate these addresses
+through secure browsers on non-associated networks.</li>
+<li><strong>The Freedom of the Press Foundation Directory:</strong> The
+Freedom of the Press Foundation, which manages the SecureDrop project,
+maintains a public directory of verified organizations and news outlets
+that deploy official SecureDrop instances.</li>
+<li><strong>Direct PGP-Signed Communications:</strong> Some
+investigative journalists publish their Tor drop addresses alongside
+their public PGP keys on verified personal domains, allowing potential
+sources to confirm the authenticity of the address.</li>
+</ul>
+<h3 id="verifying-drop-point-authenticity">Verifying Drop Point
+Authenticity</h3>
+<p>Finding an address is only the first step; verifying it prevents
+whistleblowers from falling victim to phishing or man-in-the-middle
+attacks.</p>
+<ul>
+<li><strong>Cross-Referencing Addresses:</strong> A <code>.onion</code>
+address is a string of 56 alphanumeric characters (in Tor v3). Sources
+must compare this exact string across multiple independent, trusted
+publications from the recipient organization to ensure it has not been
+tampered with.</li>
+<li><strong>Cryptographic Signatures:</strong> Organizations frequently
+sign their Onion addresses using their established PGP keys.
+Whistleblowers can import the organization's public key and verify the
+cryptographic signature of the file containing the drop URL.</li>
+<li><strong>Avoiding Unofficial Aggregators:</strong> Relying on
+third-party onion directories or unverified forums introduces the risk
+of spoofed drop points designed to capture metadata and unencrypted
+documents.</li>
+</ul>
+<h3 id="essential-operational-security-for-submissions">Essential
+Operational Security for Submissions</h3>
+<p>Discovering a safe drop point must be paired with strict operational
+security (OpSec) to ensure anonymity:</p>
+<ol type="1">
+<li><strong>Use Dedicated Operating Systems:</strong> Rather than simply
+opening the Tor Browser on a personal or workplace computer, secure
+sources boot a live, amnesic operating system like Tails from a USB
+drive. This ensures no traces of the activity are written to the local
+hard drive.</li>
+<li><strong>Avoid Identifiable Networks:</strong> Submissions should
+never be made from home, school, or workplace internet connections.
+Public Wi-Fi networks without surveillance cameras or login requirements
+provide a safer layer of separation.</li>
+<li><strong>Strip File Metadata:</strong> Before uploading documents to
+a drop point, sources remove embedded metadata (such as author names,
+creation dates, printer tracking dots, and GPS coordinates) to prevent
+forensic identification.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

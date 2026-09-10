@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Fronting in Tor Anti-Censorship Efforts - tor</title>
+    <meta name="description" content="This article explores the critical role domain fronting has played in Tor’s anti-censorship mechanisms, explaining how it enables users in heavily restricted regions to bypass state-level internet firewalls. It covers the underlying mechanics of domain">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/domain-fronting-in-tor-anti-censorship-efforts">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Domain Fronting in Tor Anti-Censorship Efforts - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/domain-fronting-in-tor-anti-censorship-efforts" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explores the critical role domain fronting has played in Tor’s anti-censorship mechanisms, explaining how it enables users in heavily restricted regions to bypass state-level internet firewalls. It covers the underlying mechanics of domain" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="domain-fronting-in-tor-anti-censorship-efforts">Domain Fronting
+in Tor Anti-Censorship Efforts</h1>
+<p>This article explores the critical role domain fronting has played in
+Tor’s anti-censorship mechanisms, explaining how it enables users in
+heavily restricted regions to bypass state-level internet firewalls. It
+covers the underlying mechanics of domain fronting through Tor's
+<code>meek</code> pluggable transport, why it successfully evaded
+censorship, and the challenges that led to its decline and replacement
+with newer circumvention technologies.</p>
+<h3 id="what-is-domain-fronting">What Is Domain Fronting?</h3>
+<p>Domain fronting is a network technique that exploits the architecture
+of Content Delivery Networks (CDNs) and major cloud providers to
+disguise the true destination of internet traffic. When a client
+initiates an HTTPS connection, the outer layer—the Domain Name System
+(DNS) query and the Server Name Indication (SNI) extension in TLS—shows
+a benign, allowed domain (the "front" domain).</p>
+<p>Once the encrypted TLS tunnel is established with the CDN, the inner
+encrypted HTTP request specifies the actual, potentially restricted
+destination (the "target" domain) via the HTTP <code>Host</code> header.
+The CDN unpacks the internal request and routes the traffic to the
+target service.</p>
+<h3 id="how-tor-utilized-domain-fronting-the-meek-transport">How Tor
+Utilized Domain Fronting: The meek Transport</h3>
+<p>The Tor Project integrated domain fronting into its anti-censorship
+toolkit primarily through a pluggable transport called
+<strong><code>meek</code></strong>.</p>
+<ol type="1">
+<li><strong>Client Request:</strong> A Tor user in a censored region
+(such as China or Iran) attempts to connect to the Tor network. Instead
+of connecting directly to a known Tor bridge or relay, <code>meek</code>
+connects to a major CDN service (like Microsoft Azure or Amazon
+CloudFront) using a widely permitted domain name (e.g.,
+<code>ajax.aspnetcdn.com</code>).</li>
+<li><strong>Censor's View:</strong> To an eavesdropper or state
+firewall, the traffic appears identical to routine, legitimate traffic
+to a mainstream cloud provider.</li>
+<li><strong>Internal Routing:</strong> Upon decrypting the TLS layer,
+the CDN reads the internal HTTP <code>Host</code> header and forwards
+the data to a Tor bridge hosted behind that CDN.</li>
+<li><strong>Tor Access:</strong> The bridge receives the data and
+injects it into the broader Tor network, granting the user open access
+to the internet.</li>
+</ol>
+<h3 id="why-domain-fronting-was-effective">Why Domain Fronting Was
+Effective</h3>
+<p>The primary advantage of domain fronting in anti-censorship efforts
+was the concept of <strong>collateral damage</strong>.</p>
+<p>State censors typically block access by IP addresses or SNI domain
+filtering. Because thousands of high-profile, essential websites share
+the same IP pools and CDN infrastructure as the fronted domains,
+blocking the connection to the CDN would require censors to block
+massive swaths of legitimate global commerce, banking, and media. For
+years, this made domain fronting exceptionally resilient against Deep
+Packet Inspection (DPI) and nationwide firewalls.</p>
+<h3 id="limitations-and-the-shift-away-from-domain-fronting">Limitations
+and the Shift Away from Domain Fronting</h3>
+<p>Despite its effectiveness, domain fronting faced significant
+challenges:</p>
+<ul>
+<li><strong>CDN Policy Changes:</strong> In 2018, major cloud providers,
+including Google Cloud and Amazon Web Services (AWS), disabled domain
+fronting by strictly requiring the SNI and HTTP <code>Host</code>
+headers to match. They cited security concerns and potential misuse by
+malicious actors.</li>
+<li><strong>High Bandwidth Costs:</strong> Routing all Tor traffic
+through CDNs incurred substantial bandwidth fees, making long-term
+maintenance expensive for non-profit organizations.</li>
+<li><strong>Modern Successors:</strong> As domain fronting became less
+viable, the Tor Project transitioned to newer pluggable transports.
+These include <strong>Snowflake</strong> (which uses WebRTC to route
+connections through transient volunteer-operated browser proxies) and
+<strong>WebTunnel</strong> (which mimics standard HTTPS connections to
+specific web servers), alongside the emerging deployment of Encrypted
+Client Hello (ECH) to obscure the SNI naturally at the protocol
+level.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

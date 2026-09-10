@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is Tor Hidden Service Client Authorization? - tor</title>
+    <meta name="description" content="Tor hidden service client authorization is an access-control mechanism that restricts who can connect to an onion service by requiring clients to authenticate using cryptographic key pairs. This article covers the core concept of client authorization, ho">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-tor-hidden-service-client-authorization">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is Tor Hidden Service Client Authorization? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-tor-hidden-service-client-authorization" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor hidden service client authorization is an access-control mechanism that restricts who can connect to an onion service by requiring clients to authenticate using cryptographic key pairs. This article covers the core concept of client authorization, ho" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-tor-hidden-service-client-authorization">What Is Tor
+Hidden Service Client Authorization?</h1>
+<p>Tor hidden service client authorization is an access-control
+mechanism that restricts who can connect to an onion service by
+requiring clients to authenticate using cryptographic key pairs. This
+article covers the core concept of client authorization, how it encrypts
+service descriptors to keep onion addresses private, the primary
+security benefits it provides, and how it is configured on both the
+server and client sides.</p>
+<h2 id="understanding-client-authorization">Understanding Client
+Authorization</h2>
+<p>By default, Tor onion services (hidden services) are publicly
+accessible to anyone who possesses the <code>.onion</code> address.
+While the address itself provides a degree of privacy through obscurity,
+anyone who discovers the address can attempt to connect to the
+underlying service.</p>
+<p>Tor's client authorization feature changes this default behavior by
+adding a layer of asymmetric cryptography. It allows a service operator
+to configure a whitelist of authorized clients. If an unauthorized user
+attempts to visit the onion address, they will be unable to locate or
+connect to the service, effectively making it invisible to anyone
+without valid credentials.</p>
+<h2 id="how-tor-client-authorization-works">How Tor Client Authorization
+Works</h2>
+<p>In Tor v3 onion services, client authorization relies on asymmetric
+encryption using Curve25519 (x25519) key pairs:</p>
+<ol type="1">
+<li><strong>Key Generation:</strong> Each authorized client possesses a
+unique key pair—a public key given to the onion service operator and a
+private key retained by the client.</li>
+<li><strong>Descriptor Encryption:</strong> When the onion service
+publishes its descriptor to the Tor distributed hash table (DHT), it
+encrypts the descriptor using the authorized clients' public keys.</li>
+<li><strong>Connection Process:</strong> When an authorized client
+attempts to connect, Tor uses the client's local private key to decrypt
+the descriptor. Decrypting the descriptor reveals the introduction
+points necessary to establish a secure circuit to the onion
+service.</li>
+<li><strong>Unauthorized Requests:</strong> An unauthorized client
+lacking the matching private key cannot decrypt the descriptor. As a
+result, the Tor network reports the service as non-existent or
+unreachable.</li>
+</ol>
+<h2 id="key-security-benefits">Key Security Benefits</h2>
+<ul>
+<li><strong>Resistance to Scanning:</strong> Even if an onion address is
+leaked, unauthorized actors cannot connect to the port or scan the
+underlying web application.</li>
+<li><strong>Denial of Service (DoS) Mitigation:</strong> Because
+unauthorized traffic cannot establish connection circuits through the
+introduction points, the service is shielded from untrusted
+network-level abuse.</li>
+<li><strong>Invisible Services:</strong> The service remains effectively
+nonexistent to anyone not explicitly invited by the operator.</li>
+<li><strong>Decoupled Authentication:</strong> Access control occurs at
+the Tor routing layer before any traffic reaches the application server
+(such as Apache, Nginx, or SSH).</li>
+</ul>
+<h2 id="configuration-overview">Configuration Overview</h2>
+<p>Setting up client authorization requires changes to the
+<code>torrc</code> configuration files for both the server and the
+client.</p>
+<h3 id="server-side-setup">Server-Side Setup</h3>
+<p>The operator specifies an authorization directory in the server's
+<code>torrc</code> file:</p>
+<pre class="text"><code>HiddenServiceDir /var/lib/tor/my_hidden_service/
+HiddenServicePort 80 127.0.0.1:80</code></pre>
+<p>Inside the hidden service directory, an
+<code>authorized_clients</code> folder is created. The operator adds
+client public keys inside this directory using <code>.auth</code> files
+formatted as:</p>
+<pre class="text"><code>&lt;descriptor-type&gt;:key:&lt;base32-encoded-public-key&gt;</code></pre>
+<h3 id="client-side-setup">Client-Side Setup</h3>
+<p>The client configures their local Tor instance to use an
+authorization directory by adding the following directive to their
+<code>torrc</code>:</p>
+<pre class="text"><code>ClientOnionAuthDir /var/lib/tor/onion_auth</code></pre>
+<p>Inside this directory, the client stores a <code>.auth_private</code>
+file mapped to the specific onion address:</p>
+<pre class="text"><code>&lt;onion-address&gt;:descriptor:x25519:&lt;base32-encoded-private-key&gt;</code></pre>
+<p>Once configured and the Tor services are reloaded, the client can
+seamlessly resolve and access the private onion service.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Guard Nodes Mitigate Sybil Attacks - tor</title>
+    <meta name="description" content="Guard nodes serve as a foundational defensive mechanism in the Tor network to protect users against traffic correlation and Sybil attacks. In a standard Tor setup, an adversary launching a Sybil attack floods the network with thousands of malicious relay">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-guard-nodes-mitigate-sybil-attacks">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Guard Nodes Mitigate Sybil Attacks - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-guard-nodes-mitigate-sybil-attacks" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Guard nodes serve as a foundational defensive mechanism in the Tor network to protect users against traffic correlation and Sybil attacks. In a standard Tor setup, an adversary launching a Sybil attack floods the network with thousands of malicious relay" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-guard-nodes-mitigate-sybil-attacks">How Tor Guard Nodes
+Mitigate Sybil Attacks</h1>
+<p>Guard nodes serve as a foundational defensive mechanism in the Tor
+network to protect users against traffic correlation and Sybil attacks.
+In a standard Tor setup, an adversary launching a Sybil attack floods
+the network with thousands of malicious relays to increase the
+statistical likelihood of controlling both the entry and exit points of
+a user's circuit. By enforcing the use of a small, persistent set of
+entry guards rather than choosing random entry relays for every
+connection, Tor drastically reduces a user's exposure to rogue nodes
+over time and raises the operational cost for attackers attempting
+network-wide deanonymization.</p>
+<h3 id="the-threat-of-sybil-attacks-in-tor">The Threat of Sybil Attacks
+in Tor</h3>
+<p>A Sybil attack occurs when an adversary creates a disproportionately
+large number of pseudonymous identities (relays) to gain an outsized
+influence over the network. In onion routing, if an attacker controls
+both the first relay (entry node) and the third relay (exit node) of a
+specific circuit, they can perform end-to-end traffic correlation. By
+matching packet timing and volume entering and leaving the network, the
+attacker can deanonymize the user and discover the destination they are
+accessing.</p>
+<p>If Tor randomly selected an entry relay for every new circuit
+created, a user's probability of choosing an adversary-controlled entry
+relay would scale with the number of circuits built. Over continuous
+browsing sessions, the likelihood of an attacker eventually controlling
+both the entry and exit relays approaches 100%.</p>
+<h3 id="how-guard-nodes-mitigate-the-risk">How Guard Nodes Mitigate the
+Risk</h3>
+<p>To counter this statistical inevitability, Tor introduced guard nodes
+(entry guards). Instead of cycling through random entry relays across
+the entire network, each Tor client selects a small pool of trusted
+guard nodes (typically one primary guard) and uses them persistently for
+months.</p>
+<p>Guard nodes mitigate Sybil attacks through several mechanisms:</p>
+<ul>
+<li><strong>Static Exposure Instead of Continuous Risk:</strong> By
+pinning the entry point to a specific guard, the user faces a one-time
+risk upon choosing the guard rather than a repeated risk on every new
+connection. If the chosen guard is honest, the user cannot be
+deanonymized via entry-exit correlation for the entire duration the
+guard is active, regardless of how many malicious exit nodes exist.</li>
+<li><strong>Raising the Cost of Attack:</strong> An attacker cannot
+simply spin up thousands of ephemeral nodes to immediately intercept
+traffic. To become a guard, a relay must earn the "Guard" flag assigned
+by Tor Directory Authorities. This requires demonstrating high
+bandwidth, high uptime, and long-term stability over weeks or months,
+significantly increasing the resource cost of executing a large-scale
+Sybil attack.</li>
+<li><strong>Limiting Attacker Reach:</strong> Even if an adversary
+controls 20% of the total network capacity, they only have a 20% chance
+of being selected as a user's guard at the initial setup. The remaining
+80% of users will select honest guards and remain protected from
+end-to-end correlation, containing the blast radius of the Sybil
+deployment.</li>
+</ul>
+<p>Through this combination of persistent pinning and strict
+qualification criteria, guard nodes transform the mathematics of relay
+selection from a game of continuous exposure into a robust barrier
+against mass traffic correlation.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Many Nodes Are in a Tor Circuit? - tor</title>
+    <meta name="description" content="A standard Tor circuit typically consists of three nodes designed to protect user privacy through multi-layered encryption. This article provides a straightforward breakdown of how a standard Tor circuit operates, the distinct functions of the Guard, Mid">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-many-nodes-are-in-a-tor-circuit">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Many Nodes Are in a Tor Circuit? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-many-nodes-are-in-a-tor-circuit" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A standard Tor circuit typically consists of three nodes designed to protect user privacy through multi-layered encryption. This article provides a straightforward breakdown of how a standard Tor circuit operates, the distinct functions of the Guard, Mid" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-many-nodes-are-in-a-tor-circuit">How Many Nodes Are in a Tor
+Circuit?</h1>
+<p>A standard Tor circuit typically consists of three nodes designed to
+protect user privacy through multi-layered encryption. This article
+provides a straightforward breakdown of how a standard Tor circuit
+operates, the distinct functions of the Guard, Middle, and Exit nodes,
+and why this three-hop configuration is the default architecture for
+anonymous internet browsing.</p>
+<h3 id="the-three-node-architecture">The Three-Node Architecture</h3>
+<p>When you connect to the internet using the Tor Browser, your traffic
+is routed through three randomized relays before reaching its final
+destination:</p>
+<ol type="1">
+<li><strong>The Entry (Guard) Node:</strong> This is the first stop for
+your encrypted traffic. The entry node knows your real IP address
+because it receives the connection directly from your device. However,
+it cannot see what website you are visiting or read the contents of your
+traffic.</li>
+<li><strong>The Middle Node:</strong> The middle relay sits between the
+entry and exit nodes. It receives traffic from the entry node and
+forwards it to the exit node. It knows neither your real IP address nor
+the final destination server, serving as an essential isolation barrier
+between the two ends of the circuit.</li>
+<li><strong>The Exit Node:</strong> The exit node removes the final
+layer of Tor's encryption and sends the request to the intended
+destination (e.g., a website). The website sees the IP address of the
+exit node rather than your personal IP address. The exit node knows the
+destination server, but it has no knowledge of your identity or IP
+address.</li>
+</ol>
+<h3 id="why-three-nodes-are-used">Why Three Nodes Are Used</h3>
+<p>The three-node model provides a balance between strong anonymity and
+connection speed:</p>
+<ul>
+<li><strong>Collusion Prevention:</strong> If a circuit only used two
+nodes, it would be significantly easier for a single malicious actor
+controlling both relays to correlate the timing and size of the traffic,
+thereby deanonymizing the user.</li>
+<li><strong>Separation of Knowledge:</strong> No single relay ever
+possesses both the origin IP address and the destination IP address
+simultaneously.</li>
+<li><strong>Performance Balance:</strong> Adding more than three nodes
+to a standard circuit introduces severe latency and network overhead
+without offering meaningful improvements to privacy.</li>
+</ul>
+<h3 id="exceptions-to-the-three-node-rule">Exceptions to the Three-Node
+Rule</h3>
+<p>While three nodes are standard for browsing the clear web via Tor,
+certain scenarios use different circuit lengths:</p>
+<ul>
+<li><strong>Onion Services (.onion sites):</strong> Connections to
+Tor-hidden services typically use a six-node circuit. The client builds
+a three-node path to a designated rendezvous point, while the hidden
+service builds its own three-node path to the same point.</li>
+<li><strong>Bridges:</strong> When using a Tor Bridge to bypass
+censorship, the bridge simply replaces the standard Guard node,
+maintaining the total circuit length at three nodes.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

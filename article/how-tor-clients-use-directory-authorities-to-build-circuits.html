@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Clients Use Directory Authorities to Build Circuits - tor</title>
+    <meta name="description" content="Tor clients rely on a trusted directory system to discover active relays and securely construct multi-hop circuits through the network. This article explains the role of directory authorities, how network consensus documents are created and distributed,">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-clients-use-directory-authorities-to-build-circuits">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Clients Use Directory Authorities to Build Circuits - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-clients-use-directory-authorities-to-build-circuits" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor clients rely on a trusted directory system to discover active relays and securely construct multi-hop circuits through the network. This article explains the role of directory authorities, how network consensus documents are created and distributed," />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-clients-use-directory-authorities-to-build-circuits">How
+Tor Clients Use Directory Authorities to Build Circuits</h1>
+<p>Tor clients rely on a trusted directory system to discover active
+relays and securely construct multi-hop circuits through the network.
+This article explains the role of directory authorities, how network
+consensus documents are created and distributed, and the exact
+cryptographic and routing process a Tor client executes to establish an
+anonymous circuit for web traffic.</p>
+<h2 id="what-are-directory-authorities">What Are Directory
+Authorities?</h2>
+<p>Directory authorities are a small set of trusted, geographically
+distributed servers maintained by independent operators within the Tor
+ecosystem. Their primary purpose is to maintain a unified, verifiable
+view of the Tor network.</p>
+<p>Instead of relying on a centralized database that could be easily
+compromised or censored, these authorities continuously measure the
+state of the network, including:</p>
+<ul>
+<li>Which relays are online and reachable</li>
+<li>Available relay bandwidth and uptime</li>
+<li>Relay flags (e.g., <code>Guard</code>, <code>Exit</code>,
+<code>Fast</code>, <code>Stable</code>, <code>BadExit</code>)</li>
+<li>Cryptographic identity keys and supported protocols</li>
+</ul>
+<h2 id="the-network-consensus-mechanism">The Network Consensus
+Mechanism</h2>
+<p>To provide clients with a consistent directory of nodes, directory
+authorities periodically create a signed document known as the
+<strong>consensus</strong>.</p>
+<ol type="1">
+<li><strong>Descriptor Upload:</strong> Every Tor relay periodically
+sends a descriptor containing its IP address, public onion keys, exit
+policies, and self-reported bandwidth to the directory authorities.</li>
+<li><strong>Voting:</strong> Once per hour, the authorities test the
+relays, generate their own individual votes on the state of the network,
+and exchange these votes with each other.</li>
+<li><strong>Consensus Signing:</strong> The authorities compile the
+votes and calculate a single consensus document. If a majority of
+authorities agree on the list and sign it, the consensus becomes
+valid.</li>
+</ol>
+<p>Clients download this consensus, along with microdescriptors
+(condensed versions of relay information), typically from distributed
+directory caches rather than querying the main authorities directly to
+avoid overloading them. The client validates the cryptographic
+signatures of the directory authorities before trusting any relay
+information.</p>
+<h2 id="selecting-relays-for-a-circuit">Selecting Relays for a
+Circuit</h2>
+<p>Once the client has a valid, verified consensus, it chooses the path
+for a standard three-hop circuit:</p>
+<ul>
+<li><strong>Entry Node (Guard Relay):</strong> The client selects a
+relay with the <code>Guard</code> flag. Tor clients use persistent
+"Entry Guards" over several months to mitigate traffic analysis and
+profiling attacks.</li>
+<li><strong>Middle Node:</strong> The client selects a relay with the
+<code>Fast</code> and <code>Running</code> flags that is not in the same
+family or subnet as the Guard or Exit node.</li>
+<li><strong>Exit Node:</strong> For traffic destined for the public
+internet, the client selects an <code>Exit</code> relay whose exit
+policy permits the intended traffic (such as port 443 for HTTPS). For
+Onion Services, the third hop does not need exit capabilities.</li>
+</ul>
+<p>Clients weight their random selection of relays based on bandwidth
+estimates provided in the consensus to ensure balanced network load.</p>
+<h2 id="the-telescoping-circuit-building-process">The Telescoping
+Circuit-Building Process</h2>
+<p>Tor builds circuits incrementally using a process called
+"telescoping," where each hop is negotiated through the previous hops so
+that no single node knows both the origin and destination of the
+connection.</p>
+<h3 id="step-1-establishing-the-guard-hop">Step 1: Establishing the
+Guard Hop</h3>
+<p>The client connects to the Guard node using TLS and sends a
+<code>CREATE2</code> cell containing a public key handshake (using the
+<code>ntor</code> key exchange protocol). The Guard responds with a
+<code>CREATED2</code> cell. The client and Guard now share a symmetric
+encryption key.</p>
+<h3 id="step-2-extending-to-the-middle-node">Step 2: Extending to the
+Middle Node</h3>
+<p>The client encrypts an <code>EXTEND2</code> cell using the Guard's
+shared key and sends it to the Guard. This cell instructs the Guard to
+connect to the chosen Middle relay. The Guard forwards the nested
+<code>CREATE2</code> payload to the Middle relay. The Middle relay
+responds, and the payload is returned to the client via the Guard. The
+client and Middle relay now share a second, distinct symmetric key. The
+Guard cannot read the keys negotiated with the Middle relay.</p>
+<h3 id="step-3-extending-to-the-exit-node">Step 3: Extending to the Exit
+Node</h3>
+<p>The client creates another <code>EXTEND2</code> cell targeting the
+Exit relay. This cell is doubly encrypted: first with the Middle relay's
+key, then with the Guard relay's key. It is sent through the Guard to
+the Middle node, which un-wraps its layer and forwards the payload to
+the Exit node. The Exit node completes the handshake, returning the
+response back through the Middle and Guard to the client. The client and
+Exit relay now share a third symmetric key.</p>
+<h2 id="final-circuit-structure">Final Circuit Structure</h2>
+<p>Once all three hops are negotiated, the circuit is fully operational.
+The client applies three layers of encryption to outgoing packets
+(cells):</p>
+<ol type="1">
+<li>Outer layer: Decrypted by the Guard relay.</li>
+<li>Middle layer: Decrypted by the Middle relay.</li>
+<li>Inner layer: Decrypted by the Exit relay.</li>
+</ol>
+<p>Because the client obtained authentic relay keys from the directory
+authority consensus, it is protected against man-in-the-middle attacks,
+and each relay in the circuit only knows its immediate predecessor and
+successor.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

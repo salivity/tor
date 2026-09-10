@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Tor to Use a Specific Entry Guard - tor</title>
+    <meta name="description" content="You can manually force the Tor client to connect through a specific entry guard by editing your local Tor configuration file (torrc). By setting specific directives such as EntryNodes alongside StrictNodes, you can restrict Tor from building circuits thr">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/force-tor-to-use-a-specific-entry-guard">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Force Tor to Use a Specific Entry Guard - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/force-tor-to-use-a-specific-entry-guard" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="You can manually force the Tor client to connect through a specific entry guard by editing your local Tor configuration file (torrc). By setting specific directives such as EntryNodes alongside StrictNodes, you can restrict Tor from building circuits thr" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="force-tor-to-use-a-specific-entry-guard">Force Tor to Use a
+Specific Entry Guard</h1>
+<p>You can manually force the Tor client to connect through a specific
+entry guard by editing your local Tor configuration file
+(<code>torrc</code>). By setting specific directives such as
+<code>EntryNodes</code> alongside <code>StrictNodes</code>, you can
+restrict Tor from building circuits through any initial hop other than
+the one you designate. While this capability is built into the Tor
+software, utilizing it overrides the network's automated path-selection
+algorithms, making it critical to understand both the configuration
+process and the security implications involved.</p>
+<h3 id="how-to-manually-set-an-entry-guard">How to Manually Set an Entry
+Guard</h3>
+<p>To configure a dedicated entry node, you need the relay's unique
+fingerprint or IP address and access to your <code>torrc</code>
+file.</p>
+<ol type="1">
+<li><p><strong>Obtain the Relay Fingerprint:</strong> Find the
+40-character hexadecimal fingerprint of the desired relay using tools
+like the official Tor Relay Search metrics platform. Using the
+fingerprint is strongly recommended over relay nicknames, as
+fingerprints are unique and cannot be spoofed.</p></li>
+<li><p><strong>Locate the <code>torrc</code> File:</strong></p>
+<ul>
+<li><strong>Tor Browser (Windows):</strong>
+<code>Browser\TorBrowser\Data\Tor\torrc</code></li>
+<li><strong>Tor Browser (macOS):</strong>
+<code>~/Library/Application Support/TorBrowser-Data/Tor/torrc</code></li>
+<li><strong>Tor Browser (Linux):</strong>
+<code>tor-browser_en-US/Browser/TorBrowser/Data/Tor/torrc</code></li>
+<li><strong>Standalone Tor Daemon (Linux/Debian):</strong>
+<code>/etc/tor/torrc</code></li>
+</ul></li>
+<li><p><strong>Add the Configuration Directives:</strong> Open the
+<code>torrc</code> file in a text editor and add the following lines at
+the bottom:</p>
+<pre class="text"><code>EntryNodes $XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+StrictNodes 1</code></pre>
+<p>Replace the <code>X</code> characters with the actual 40-character
+fingerprint of the guard node, keeping the <code>$</code> prefix.</p>
+<ul>
+<li><code>EntryNodes</code>: Specifies the preferred node or list of
+nodes for the first hop.</li>
+<li><code>StrictNodes 1</code>: Forces Tor to strictly use the nodes
+listed in <code>EntryNodes</code>. If set to <code>0</code>, Tor will
+attempt to use your specified node but may fall back to other guards if
+your chosen node is unavailable.</li>
+</ul></li>
+<li><p><strong>Restart Tor:</strong> Save the file and restart the Tor
+service or Tor Browser to apply the changes.</p></li>
+</ol>
+<hr />
+<h3 id="understanding-the-risks-and-trade-offs">Understanding the Risks
+and Trade-offs</h3>
+<p>Tor’s default behavior relies on rotating through a small set of
+randomly assigned, long-term entry guards. This mechanism protects users
+against profiling and traffic correlation attacks. Manually choosing
+your entry guard alters these protections in the following ways:</p>
+<ul>
+<li><strong>Traffic Analysis Vulnerability:</strong> If the entry guard
+you choose is compromised, monitored, or operated by an adversary who
+also monitors your destination exit node, your anonymity can be
+completely compromised through end-to-end correlation.</li>
+<li><strong>Fingerprinting by Configuration:</strong> Running a
+non-standard configuration creates a distinct behavioral fingerprint,
+making your Tor client easier to track and differentiate from standard
+clients.</li>
+<li><strong>Availability Issues:</strong> If your specified entry guard
+goes offline or becomes congested, Tor will fail to build circuits and
+lose internet connectivity entirely if <code>StrictNodes 1</code> is
+enabled.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

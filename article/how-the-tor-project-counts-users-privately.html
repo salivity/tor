@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How the Tor Project Counts Users Privately - tor</title>
+    <meta name="description" content="Measuring the size of an anonymity network presents a unique paradox: how do you count users when the entire system is designed to make them untraceable? The Tor Project solves this by completely avoiding direct user tracking, device fingerprinting, and">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-the-tor-project-counts-users-privately">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How the Tor Project Counts Users Privately - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-the-tor-project-counts-users-privately" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Measuring the size of an anonymity network presents a unique paradox: how do you count users when the entire system is designed to make them untraceable? The Tor Project solves this by completely avoiding direct user tracking, device fingerprinting, and" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-the-tor-project-counts-users-privately">How the Tor Project
+Counts Users Privately</h1>
+<p>Measuring the size of an anonymity network presents a unique paradox:
+how do you count users when the entire system is designed to make them
+untraceable? The Tor Project solves this by completely avoiding direct
+user tracking, device fingerprinting, and IP logging. Instead, it relies
+on decentralized, aggregate statistical reporting from relays and
+mathematical modeling to estimate daily active users while maintaining
+absolute privacy.</p>
+<h3 id="counting-directory-requests-instead-of-people">Counting
+Directory Requests Instead of People</h3>
+<p>Tor clients cannot navigate the network without an updated list of
+available nodes, known as the network consensus directory. To establish
+circuits, every Tor client must periodically download this directory
+from directory mirrors (relays that host directory information).</p>
+<p>Rather than counting individual users, Tor measures how many
+directory requests these relays serve over a given timeframe.</p>
+<h3 id="local-aggregation-and-obfuscation">Local Aggregation and
+Obfuscation</h3>
+<p>To ensure that individual requests cannot be traced back to specific
+users, measurement happens entirely on the relay side through strict
+privacy controls:</p>
+<ul>
+<li><strong>No IP Storage:</strong> Relays resolve incoming IP addresses
+to country codes locally and instantly discard the actual IP
+addresses.</li>
+<li><strong>24-Hour Bins:</strong> Data is collected in 24-hour
+aggregates rather than real-time streams, preventing timing-correlation
+attacks.</li>
+<li><strong>Binning and Noise:</strong> Relays round their request
+counts to the nearest multiple of ten or apply statistical noise before
+reporting, ensuring a single request cannot be isolated.</li>
+</ul>
+<h3 id="extrapolating-network-wide-totals">Extrapolating Network-Wide
+Totals</h3>
+<p>No single directory mirror sees all network traffic. Each relay only
+observes a fraction of the total directory requests based on its
+available bandwidth.</p>
+<p>Relays report their 24-hour aggregate request numbers to the Tor
+Metrics system. Because the network consensus establishes exactly what
+fraction of overall directory traffic each relay is expected to handle,
+Tor Metrics can mathematically extrapolate the total number of requests
+across the entire global network.</p>
+<h3 id="converting-requests-to-estimated-users">Converting Requests to
+Estimated Users</h3>
+<p>Once the total number of daily directory requests is estimated, it is
+converted into a user estimate based on known client behavior.</p>
+<p>Under normal operation, an active Tor client automatically fetches
+directory updates approximately ten times per day. By dividing the total
+estimated daily requests by this expected frequency, Tor calculates the
+estimated number of concurrent daily active users per country.</p>
+<h3 id="measuring-censorship-circumvention-bridges">Measuring
+Censorship-Circumvention Bridges</h3>
+<p>For users connecting through private entry points known as bridges, a
+similar aggregation model is used. Bridges count unique connections per
+country over 24-hour periods, round those numbers down to protect small
+user groups, and report only the obfuscated totals. If fewer than a
+certain threshold of users connect from a specific country, the bridge
+omits that data entirely to prevent deanonymization in low-traffic
+regions.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

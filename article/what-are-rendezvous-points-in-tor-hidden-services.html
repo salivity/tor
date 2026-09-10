@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Are Rendezvous Points in Tor Hidden Services? - tor</title>
+    <meta name="description" content="In the Tor network, a rendezvous point is an intermediate relay chosen by a client to facilitate anonymous, end-to-end communication with an onion service (hidden service). Rendezvous points allow a user and a hidden service to connect and transfer data">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-are-rendezvous-points-in-tor-hidden-services">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Are Rendezvous Points in Tor Hidden Services? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-are-rendezvous-points-in-tor-hidden-services" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In the Tor network, a rendezvous point is an intermediate relay chosen by a client to facilitate anonymous, end-to-end communication with an onion service (hidden service). Rendezvous points allow a user and a hidden service to connect and transfer data" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-are-rendezvous-points-in-tor-hidden-services">What Are
+Rendezvous Points in Tor Hidden Services?</h1>
+<p>In the Tor network, a rendezvous point is an intermediate relay
+chosen by a client to facilitate anonymous, end-to-end communication
+with an onion service (hidden service). Rendezvous points allow a user
+and a hidden service to connect and transfer data securely without
+revealing their physical locations, IP addresses, or network identities
+to each other or to the relay itself.</p>
+<h2 id="the-role-of-a-rendezvous-point">The Role of a Rendezvous
+Point</h2>
+<p>Traditional internet connections require the client to know the
+server's IP address to send requests. Tor hidden services eliminate this
+requirement by using internal circuit routing. Because both the user and
+the service operator wish to remain anonymous, they cannot connect
+directly. Instead, they meet at a neutral, mutually agreed-upon relay:
+the rendezvous point.</p>
+<p>The rendezvous point bridges two separate multi-hop Tor circuits—one
+originating from the client and the other from the hidden
+service—joining them into a single, functional data stream.</p>
+<h2 id="how-the-rendezvous-process-works">How the Rendezvous Process
+Works</h2>
+<p>Establishing a connection through a rendezvous point follows a
+structured multi-step process:</p>
+<ol type="1">
+<li><strong>Client Rendezvous Selection:</strong> When a user requests
+access to an <code>.onion</code> address, the client first builds a
+three-hop Tor circuit to a randomly selected relay and asks it to act as
+the rendezvous point. The client gives this relay a one-time secret
+phrase (rendezvous cookie).</li>
+<li><strong>Introduction:</strong> The client creates a second Tor
+circuit to one of the service’s pre-published <em>introduction
+points</em>. It sends an encrypted introduction message containing the
+address of the chosen rendezvous point and the one-time secret.</li>
+<li><strong>Service Connection:</strong> The hidden service decrypts the
+message, recognizes the request, and builds its own three-hop circuit to
+the specified rendezvous point.</li>
+<li><strong>Verification and Bridging:</strong> The hidden service
+presents the one-time secret to the rendezvous point to verify its
+identity. The rendezvous point then connects the client's circuit to the
+service's circuit.</li>
+<li><strong>Direct End-to-End Communication:</strong> Once connected,
+the rendezvous point forwards encrypted traffic back and forth between
+the two circuits.</li>
+</ol>
+<h2 id="key-security-characteristics">Key Security Characteristics</h2>
+<ul>
+<li><strong>Mutual Anonymity:</strong> The client builds a three-hop
+circuit to the rendezvous point, and the service builds a three-hop
+circuit to the same point. As a result, the total path consists of six
+intermediary relays, preventing either party from uncovering the other’s
+IP address.</li>
+<li><strong>Zero-Knowledge Relay:</strong> The rendezvous point only
+sees encrypted packets passing between two Tor circuits. It does not
+know the identity of the client, the identity of the hidden service, or
+the contents of the payload.</li>
+<li><strong>Ephemeral Operations:</strong> Rendezvous points are chosen
+dynamically per session. If a connection closes or fails, new rendezvous
+points are selected, preventing long-term traffic analysis on a single
+static node.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

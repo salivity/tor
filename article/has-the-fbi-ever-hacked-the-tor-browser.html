@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Has the FBI Ever Hacked the Tor Browser? - tor</title>
+    <meta name="description" content="The Federal Bureau of Investigation (FBI) has successfully compromised Tor Browser users in multiple high-profile operations, primarily by exploiting software vulnerabilities in the browser itself rather than breaking the underlying Tor encryption protoc">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/has-the-fbi-ever-hacked-the-tor-browser">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Has the FBI Ever Hacked the Tor Browser? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/has-the-fbi-ever-hacked-the-tor-browser" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Federal Bureau of Investigation (FBI) has successfully compromised Tor Browser users in multiple high-profile operations, primarily by exploiting software vulnerabilities in the browser itself rather than breaking the underlying Tor encryption protoc" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="has-the-fbi-ever-hacked-the-tor-browser">Has the FBI Ever Hacked
+the Tor Browser?</h1>
+<p>The Federal Bureau of Investigation (FBI) has successfully
+compromised Tor Browser users in multiple high-profile operations,
+primarily by exploiting software vulnerabilities in the browser itself
+rather than breaking the underlying Tor encryption protocol. While the
+core onion routing network remains mathematically secure, the FBI has
+repeatedly deployed custom malware known as Network Investigative
+Techniques (NITs) to exploit zero-day vulnerabilities in the Mozilla
+Firefox code on which the Tor Browser is built. Through these endpoint
+exploits, server takeovers, and operational security failures, federal
+law enforcement has unmasked thousands of dark web users.</p>
+<h3 id="hacking-the-browser-vs-hacking-the-tor-network">Hacking the
+Browser vs. Hacking the Tor Network</h3>
+<p>To understand how the FBI compromises Tor users, it is necessary to
+distinguish between the Tor network and the Tor Browser. The Tor network
+encrypts traffic across multiple decentralized relays (entry, middle,
+and exit nodes), making it virtually impossible for eavesdroppers to
+trace an IP address back to a specific user.</p>
+<p>Rather than attempting to break this multi-layered cryptography, the
+FBI targets the endpoints: the physical servers hosting hidden services
+and the Tor Browser software running on target computers. By attacking
+the browser client directly, the FBI can execute code that bypasses
+Tor's encryption entirely.</p>
+<h3 id="high-profile-fbi-tor-browser-exploits">High-Profile FBI Tor
+Browser Exploits</h3>
+<h4 id="1-operation-torpedo-2012">1. Operation Torpedo (2012)</h4>
+<p>One of the earliest documented uses of an NIT occurred during
+Operation Torpedo. The FBI seized servers hosting dark web child abuse
+sites and modified the code to deploy an exploit targeting software like
+Flash and QuickTime within the user's browser. When activated, the
+exploit forced the user's computer to establish a direct connection to
+an FBI-controlled server outside the Tor network, revealing the user's
+true external IP address.</p>
+<h4 id="2-freedom-hosting-and-the-firefox-zero-day-2013">2. Freedom
+Hosting and the Firefox Zero-Day (2013)</h4>
+<p>In August 2013, the FBI took control of Freedom Hosting, a prominent
+dark web hosting provider. The bureau injected a custom NIT into the
+hosted sites that exploited a zero-day memory corruption vulnerability
+in Firefox (specifically versions 17 through 21), which formed the
+baseline code for the Tor Browser at the time.</p>
+<p>When users visited the compromised hidden services with JavaScript
+enabled, the malicious payload executed locally on their machines. It
+collected the host computer’s MAC address, Windows hostname, and public
+IP address, and immediately transmitted that data back to an FBI server
+in Virginia via an unencrypted HTTP request.</p>
+<h4 id="3-the-playpen-investigation-2015">3. The Playpen Investigation
+(2015)</h4>
+<p>In the 2015 <em>Playpen</em> case, the FBI executed its most
+extensive Tor Browser hacking campaign to date. After seizing the server
+hosting the illicit marketplace, the FBI operated the site from a
+government facility for nearly two weeks.</p>
+<p>During this window, the FBI deployed an advanced NIT utilizing
+another Firefox zero-day exploit. The exploit targeted visitors’ Tor
+Browsers, bypassed their proxy configurations, and reported real IP
+addresses, operating system details, and computer names back to law
+enforcement. This single operation led to the identification of more
+than 8,000 IP addresses in 120 countries.</p>
+<h4 id="4-the-carnegie-mellon-university-node-attack-2014">4. The
+Carnegie Mellon University Node Attack (2014)</h4>
+<p>Beyond client-side exploits, the FBI also leveraged network-level
+research. In 2014, researchers at Carnegie Mellon University's Software
+Engineering Institute (SEI) conducted a traffic correlation attack by
+running a cluster of modified Tor relays. By manipulating relay packets,
+they were able to deanonymize hidden services and visitors. The FBI
+subsequently subpoenaed the SEI data, utilizing it to identify and seize
+the operators of Silk Road 2.0 and various other dark web services
+during Operation Onymous.</p>
+<h3 id="primary-methods-used-to-bypass-tor">Primary Methods Used to
+Bypass Tor</h3>
+<ul>
+<li><strong>JavaScript Zero-Day Exploits:</strong> Delivering malicious
+code via web pages to execute local shellcode on target machines.</li>
+<li><strong>Government-Controlled "Watering Holes":</strong> Seizing
+dark web servers and running them covertly to serve exploits to incoming
+visitors.</li>
+<li><strong>Traffic Analysis and Correlation:</strong> Monitoring timing
+and packet volumes across entry and exit nodes to match traffic
+patterns.</li>
+<li><strong>Operational Security (OpSec) Mistakes:</strong> Exploiting
+administrative server leaks, exposed real IP addresses in server
+headers, or user reuse of public aliases.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>The FBI has never demonstrated the capability to break Tor's core
+onion routing encryption through brute force or cryptographic
+cryptanalysis. However, the bureau has systematically proven that
+targeting vulnerabilities in the Tor Browser, utilizing zero-day
+exploits, and leveraging server-level access are highly effective
+strategies for unmasking anonymous users.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

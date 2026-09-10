@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Websites Bypass Tor Browser NoScript? - tor</title>
+    <meta name="description" content="NoScript is an essential security extension integrated into the Tor Browser to block scripts and mitigate client-side attacks, but it is not an absolute barrier against determined adversaries. While NoScript effectively prevents standard JavaScript-based">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-websites-bypass-tor-browser-noscript">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can Websites Bypass Tor Browser NoScript? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-websites-bypass-tor-browser-noscript" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="NoScript is an essential security extension integrated into the Tor Browser to block scripts and mitigate client-side attacks, but it is not an absolute barrier against determined adversaries. While NoScript effectively prevents standard JavaScript-based" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-websites-bypass-tor-browser-noscript">Can Websites Bypass
+Tor Browser NoScript?</h1>
+<p>NoScript is an essential security extension integrated into the Tor
+Browser to block scripts and mitigate client-side attacks, but it is not
+an absolute barrier against determined adversaries. While NoScript
+effectively prevents standard JavaScript-based exploits, sophisticated
+attackers can leverage alternative vectors such as browser engine
+zero-days, CSS-based tracking, parser vulnerabilities, and social
+engineering to bypass or undermine its protections.</p>
+<h3 id="exploiting-the-browser-engine-beyond-javascript">Exploiting the
+Browser Engine Beyond JavaScript</h3>
+<p>NoScript focuses heavily on blocking JavaScript, Java, and other
+active content. However, the Tor Browser is built on Mozilla Firefox’s
+Gecko rendering engine, which processes various other complex web
+formats. Attackers can target vulnerabilities in how the browser parses
+media files, fonts, SVGs, or WebGL. If an exploit resides within the
+underlying C++ code responsible for rendering images or text, memory
+corruption can occur even when JavaScript execution is completely
+disabled.</p>
+<h3 id="noscript-parser-flaws-and-logic-bugs">NoScript Parser Flaws and
+Logic Bugs</h3>
+<p>Historically, security researchers have identified edge-case bugs
+within NoScript itself. These vulnerabilities often involve cross-site
+scripting (XSS) filters or script-blocking logic being circumvented by
+specially crafted HTML, XML, or nested tags. If a malicious website can
+format code in a way that tricks NoScript into misidentifying a payload
+as benign content, the script may still execute within the browser
+context.</p>
+<h3 id="javascript-free-tracking-and-de-anonymization">JavaScript-Free
+Tracking and De-Anonymization</h3>
+<p>Malicious actors do not always need to execute arbitrary code to
+compromise user privacy. Non-scripting techniques can bypass the
+defensive intentions of NoScript:</p>
+<ul>
+<li><strong>CSS-Based Exfiltration:</strong> Cascading Style Sheets
+(CSS) can be used to track user interactions, such as link clicks,
+hovering, and form input, by triggering background resource requests
+back to the attacker's server.</li>
+<li><strong>HTML5 Media and Canvas Elements:</strong> Certain non-JS
+elements can still query system-level resources or expose rendering
+quirks that assist in browser fingerprinting.</li>
+<li><strong>Font Probing:</strong> Measuring layout shifts caused by
+fallback fonts allows websites to detect locally installed fonts, aiding
+in user tracking without executing code.</li>
+</ul>
+<h3 id="social-engineering-and-security-downgrades">Social Engineering
+and Security Downgrades</h3>
+<p>The weakest link in script blocking is often user intervention. Many
+websites intentionally break functionality to display messages claiming
+the site requires scripts to function properly. By manipulating users
+into lowering their Tor Browser security level from "Safest" to
+"Standard" or whitelisting a malicious domain in NoScript, attackers
+bypass the protection entirely without technical resistance.</p>
+<h3 id="minimizing-the-risk-of-bypasses">Minimizing the Risk of
+Bypasses</h3>
+<p>To minimize exposure to NoScript bypasses:</p>
+<ul>
+<li><strong>Use the "Safest" Security Level:</strong> In Tor Browser,
+setting the global security level to "Safest" disables JavaScript
+completely and restricts media codecs, reducing the attack surface.</li>
+<li><strong>Keep the Browser Updated:</strong> Tor developers regularly
+patch Gecko vulnerabilities and update NoScript to address newly
+discovered bypass methods.</li>
+<li><strong>Avoid Whitelisting Unknown Domains:</strong> Never
+temporarily allow scripts on unverified onion services or suspicious
+clearnet websites.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

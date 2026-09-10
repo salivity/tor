@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is the Arti Project and How It Changes Tor - tor</title>
+    <meta name="description" content="The Arti project is an official, complete rewrite of the Tor network client using the Rust programming language. Designed to replace the legacy C-based implementation, Arti aims to fundamentally improve Tor by eliminating entire classes of security vulne">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-the-arti-project-and-how-it-changes-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is the Arti Project and How It Changes Tor - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-the-arti-project-and-how-it-changes-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Arti project is an official, complete rewrite of the Tor network client using the Rust programming language. Designed to replace the legacy C-based implementation, Arti aims to fundamentally improve Tor by eliminating entire classes of security vulne" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-the-arti-project-and-how-it-changes-tor">What Is the
+Arti Project and How It Changes Tor</h1>
+<p>The Arti project is an official, complete rewrite of the Tor network
+client using the Rust programming language. Designed to replace the
+legacy C-based implementation, Arti aims to fundamentally improve Tor by
+eliminating entire classes of security vulnerabilities, boosting network
+performance, and making Tor much easier to integrate into modern
+third-party applications. This transition represents one of the most
+critical evolutions in Tor’s history, setting a new standard for online
+privacy, reliability, and code maintainability.</p>
+<h2 id="what-is-the-arti-project">What Is the Arti Project?</h2>
+<p>Arti stands for "A Rust Tor Implementation." Initiated by The Tor
+Project, it is a ground-up redesign of the software that connects users
+to the Tor anonymity network.</p>
+<p>For over two decades, the core Tor client has been written in C.
+While C offered the necessary low-level control when Tor was first
+created in the early 2000s, it also brought significant technical debt
+and security risks inherent to manual memory management. Arti recreates
+Tor's client-side functionality using Rust—a modern, memory-safe systems
+programming language.</p>
+<h2 id="why-rust">Why Rust?</h2>
+<p>The decision to migrate from C to Rust addresses several foundational
+challenges:</p>
+<ul>
+<li><strong>Memory Safety:</strong> Rust guarantees memory safety at
+compile time. In traditional C programs, common bugs like buffer
+overflows, use-after-free errors, and dangling pointers can lead to
+severe security exploits. Rust virtually eliminates these
+vulnerabilities without needing a resource-heavy garbage collector.</li>
+<li><strong>Concurrency:</strong> Rust’s strict concurrency model
+prevents data races, allowing developers to write high-performance
+multi-threaded code safely.</li>
+<li><strong>Code Maintainability:</strong> Modern language features,
+robust package management, and strict compiler checks make Rust code
+cleaner, more modular, and easier to audit.</li>
+</ul>
+<h2 id="how-arti-will-change-tor">How Arti Will Change Tor</h2>
+<p>Arti introduces several key improvements that will reshape how both
+end-users and software developers interact with the privacy network:</p>
+<h3 id="1-better-security-and-fewer-zero-days">1. Better Security and
+Fewer Zero-Days</h3>
+<p>Because a large percentage of critical vulnerabilities in C
+applications stem from memory-handling mistakes, Arti drastically
+shrinks Tor’s attack surface. This increases user safety against
+sophisticated exploits and frees Tor developers to focus on new privacy
+features rather than patching low-level memory bugs.</p>
+<h3 id="2-native-embeddability-for-developers">2. Native Embeddability
+for Developers</h3>
+<p>The original C Tor client was designed primarily as a standalone
+background process (daemon). Embedding it into other software, such as
+mobile apps or desktop browsers, required complex workarounds and
+separate process management.</p>
+<p>Arti is built from the ground up as a set of modular, flexible
+software libraries. Third-party developers can now embed Tor
+functionality directly into their applications as a native dependency,
+making private networking seamless on platforms like Android and
+iOS.</p>
+<h3 id="3-improved-performance-and-resource-efficiency">3. Improved
+Performance and Resource Efficiency</h3>
+<p>Arti is engineered to be lighter and faster than its predecessor.
+With better asynchronous execution and modern architecture, Arti reduces
+CPU overhead and memory usage. This efficiency translates to faster
+connection startup times and a smoother browsing experience for
+users.</p>
+<h3 id="4-easier-maintenance-and-modernization">4. Easier Maintenance
+and Modernization</h3>
+<p>Tor's original codebase has accumulated over twenty years of legacy
+patches and workarounds. Arti provides a clean slate, making the
+codebase more accessible to new open-source contributors and allowing
+the Tor Project to roll out protocol enhancements and anti-censorship
+techniques much faster.</p>
+<h2 id="the-path-forward">The Path Forward</h2>
+<p>The transition to Arti is an ongoing, phased process. The primary
+focus has been achieving full client parity with the legacy C
+implementation, enabling standard Tor browsing and client operations via
+Arti. Subsequent phases will expand Arti to support onion services and
+relay operations, eventually allowing the Tor Project to fully retire
+the legacy C codebase.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

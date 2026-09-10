@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is a Tor-Enabled Bitcoin Full Node? - tor</title>
+    <meta name="description" content="A Tor-enabled Bitcoin full node is a computer running the Bitcoin Core software configured to route all peer-to-peer network traffic through the Tor anonymity network. By combining the validation capabilities of a full node with the cryptographic routing">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-a-tor-enabled-bitcoin-full-node">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Is a Tor-Enabled Bitcoin Full Node? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-a-tor-enabled-bitcoin-full-node" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A Tor-enabled Bitcoin full node is a computer running the Bitcoin Core software configured to route all peer-to-peer network traffic through the Tor anonymity network. By combining the validation capabilities of a full node with the cryptographic routing" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-a-tor-enabled-bitcoin-full-node">What Is a Tor-Enabled
+Bitcoin Full Node?</h1>
+<p>A Tor-enabled Bitcoin full node is a computer running the Bitcoin
+Core software configured to route all peer-to-peer network traffic
+through the Tor anonymity network. By combining the validation
+capabilities of a full node with the cryptographic routing of Tor, this
+setup prevents network observers, internet service providers (ISPs), and
+third-party trackers from associating a user's real-world IP address
+with their Bitcoin transactions and wallet balances.</p>
+<h3 id="understanding-the-components">Understanding the Components</h3>
+<p>To understand how a Tor-enabled node works, it helps to separate the
+two underlying technologies:</p>
+<ul>
+<li><strong>Bitcoin Full Node:</strong> A program that downloads and
+independently verifies the entire history of the Bitcoin blockchain. It
+enforces all consensus rules, validates blocks and transactions, and
+relays legitimate data to peer nodes without relying on trusted
+intermediaries.</li>
+<li><strong>The Tor Network:</strong> An open-source network designed to
+enable anonymous communication. It directs internet traffic through a
+free, worldwide overlay network consisting of thousands of relays,
+concealing a user's location and usage from surveillance and traffic
+analysis.</li>
+</ul>
+<h3 id="how-tor-integration-works">How Tor Integration Works</h3>
+<p>Standard Bitcoin nodes communicate using cleartext peer-to-peer
+connections over IPv4 or IPv6. When a standard node broadcasts a
+transaction, the first node to broadcast it can often be identified as
+the origin, revealing the broadcaster's IP address.</p>
+<p>When configured with Tor, the Bitcoin daemon routes its traffic
+through a circuit of three encrypted relays (the guard, middle, and exit
+relays). Furthermore, a Tor-enabled node can host a Tor Hidden Service
+(an address ending in <code>.onion</code>). This allows the node to
+accept inbound connections and make outbound connections entirely within
+the Tor network, eliminating the need to expose an external IP address
+or configure complex router port-forwarding settings.</p>
+<h3 id="key-benefits">Key Benefits</h3>
+<ol type="1">
+<li><strong>IP Anonymity:</strong> When you broadcast your own
+transactions from a Tor-enabled node, external peers cannot determine
+your physical location or internet identity based on your IP
+address.</li>
+<li><strong>Bypassing Network Restrictions:</strong> Tor allows nodes to
+operate behind restrictive firewalls, carrier-grade NATs (CGNAT), or
+within networks where running cryptocurrency software is actively
+monitored or blocked.</li>
+<li><strong>Enhanced P2P Privacy:</strong> By connecting directly to
+other <code>.onion</code> addresses, communication remains entirely
+end-to-end encrypted within the Tor network, preventing intermediary
+ISPs from inspecting Bitcoin traffic patterns.</li>
+<li><strong>Self-Sovereignty:</strong> Users can connect their mobile or
+hardware-backed Bitcoin wallets to their own home Tor node remotely,
+maintaining private verification on the go without revealing their home
+IP address.</li>
+</ol>
+<h3 id="trade-offs-to-consider">Trade-offs to Consider</h3>
+<p>While Tor significantly enhances privacy, it introduces minor
+operational trade-offs. The multi-hop nature of Tor routing adds network
+latency, which can slightly slow down block propagation and initial
+blockchain synchronization compared to direct clearnet connections.
+Consequently, many node operators opt for a "hybrid" approach,
+communicating over both clearnet for performance and Tor for
+privacy-sensitive transaction broadcasting.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Set Tor Exit Nodes to a Specific Country - tor</title>
+    <meta name="description" content="It is entirely possible to configure the Tor network to route your internet traffic exclusively through exit nodes located in a specific country. By modifying the core Tor configuration file, known as torrc, you can specify target countries using two-let">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-set-tor-exit-nodes-to-a-specific-country">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Set Tor Exit Nodes to a Specific Country - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-set-tor-exit-nodes-to-a-specific-country" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="It is entirely possible to configure the Tor network to route your internet traffic exclusively through exit nodes located in a specific country. By modifying the core Tor configuration file, known as torrc, you can specify target countries using two-let" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-set-tor-exit-nodes-to-a-specific-country">How to Set Tor
+Exit Nodes to a Specific Country</h1>
+<p>It is entirely possible to configure the Tor network to route your
+internet traffic exclusively through exit nodes located in a specific
+country. By modifying the core Tor configuration file, known as
+<code>torrc</code>, you can specify target countries using two-letter
+ISO country codes and force the client to strictly adhere to those
+geographical parameters. This guide outlines the exact configuration
+directives required, how to apply them, and the privacy implications of
+doing so.</p>
+<h3 id="step-1-locate-the-torrc-file">Step 1: Locate the
+<code>torrc</code> File</h3>
+<p>To change your exit node settings, you must first locate and edit the
+<code>torrc</code> configuration file on your system.</p>
+<ul>
+<li><strong>Tor Browser (Windows):</strong>
+<code>Browser\TorBrowser\Data\Tor\torrc</code></li>
+<li><strong>Tor Browser (macOS):</strong> Right-click the Tor Browser
+application, select "Show Package Contents", and navigate to
+<code>Contents/Resources/TorBrowser/Tor/torrc</code> (or check
+<code>~/Library/Application Support/TorBrowser-Data/Tor/torrc</code>).</li>
+<li><strong>Tor Browser (Linux):</strong>
+<code>tor-browser_en-US/Browser/TorBrowser/Data/Tor/torrc</code></li>
+<li><strong>Linux (System Daemon):</strong>
+<code>/etc/tor/torrc</code></li>
+</ul>
+<h3 id="step-2-add-country-directives">Step 2: Add Country
+Directives</h3>
+<p>Open the <code>torrc</code> file in a standard plain-text editor
+(such as Notepad, TextEdit, or Nano). Scroll to the bottom of the file
+and add the following lines:</p>
+<pre class="text"><code>ExitNodes {cc}
+StrictNodes 1</code></pre>
+<p>Replace <code>{cc}</code> with the two-letter ISO 3166-1 alpha-2 code
+of your desired country (enclosed in curly braces).</p>
+<h4 id="examples">Examples:</h4>
+<ul>
+<li><strong>United States:</strong>
+<pre class="text"><code>ExitNodes {us}
+StrictNodes 1</code></pre></li>
+<li><strong>Germany:</strong>
+<pre class="text"><code>ExitNodes {de}
+StrictNodes 1</code></pre></li>
+<li><strong>Multiple Countries (e.g., Canada, Switzerland, United
+Kingdom):</strong>
+<pre class="text"><code>ExitNodes {ca},{ch},{gb}
+StrictNodes 1</code></pre></li>
+</ul>
+<h3 id="understanding-the-directives">Understanding the Directives</h3>
+<ul>
+<li><strong><code>ExitNodes</code></strong>: Instructs Tor to prefer
+exit relays located within the specified country codes. You can specify
+single countries, comma-separated lists of countries, or specific relay
+fingerprints.</li>
+<li><strong><code>StrictNodes 1</code></strong>: Forces Tor to strictly
+enforce your node preferences. If set to <code>1</code>, Tor will refuse
+to connect to the internet if no exit nodes are available in your
+specified country. If omitted or set to <code>0</code>, Tor will fall
+back to other countries if your chosen location is unavailable.</li>
+</ul>
+<h3 id="step-3-apply-and-verify">Step 3: Apply and Verify</h3>
+<ol type="1">
+<li>Save the changes to the <code>torrc</code> file.</li>
+<li>Restart the Tor Browser or the Tor daemon service
+(<code>sudo systemctl restart tor</code> on Linux).</li>
+<li>Visit an IP verification site (such as
+<code>check.torproject.org</code> or any standard geolocation service)
+to confirm that your exit IP address is registered to the chosen
+country.</li>
+</ol>
+<h3 id="important-security-considerations">Important Security
+Considerations</h3>
+<p>Restricting your exit nodes to a single country limits the size of
+the relay pool available to your client. This can reduce your overall
+anonymity by making traffic analysis easier for network-level
+adversaries. Additionally, if the specified country has limited Tor exit
+capacity, you may experience slower browsing speeds or connection
+failures.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

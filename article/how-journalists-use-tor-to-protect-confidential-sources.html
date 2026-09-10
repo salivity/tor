@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Journalists Use Tor to Protect Confidential Sources - tor</title>
+    <meta name="description" content="In an era of pervasive digital surveillance, investigative journalism depends heavily on privacy technologies to safeguard whistleblowers and sensitive informants. The Tor network serves as a foundational tool for modern newsrooms by concealing browsing">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-journalists-use-tor-to-protect-confidential-sources">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Journalists Use Tor to Protect Confidential Sources - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-journalists-use-tor-to-protect-confidential-sources" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="In an era of pervasive digital surveillance, investigative journalism depends heavily on privacy technologies to safeguard whistleblowers and sensitive informants. The Tor network serves as a foundational tool for modern newsrooms by concealing browsing" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-journalists-use-tor-to-protect-confidential-sources">How
+Journalists Use Tor to Protect Confidential Sources</h1>
+<p>In an era of pervasive digital surveillance, investigative journalism
+depends heavily on privacy technologies to safeguard whistleblowers and
+sensitive informants. The Tor network serves as a foundational tool for
+modern newsrooms by concealing browsing habits, disguising physical
+locations, and establishing encrypted, untraceable communication
+channels. By integrating Tor into their standard security protocols,
+reporters can investigate sensitive subjects, verify information, and
+communicate with high-risk sources without leaving digital footprints
+that could compromise identities.</p>
+<h3 id="anonymizing-online-research-and-fact-checking">Anonymizing
+Online Research and Fact-Checking</h3>
+<p>Journalists frequently investigate powerful corporations,
+governments, and organized crime networks. Conducting research on these
+entities using standard internet connections can alert the targets of an
+investigation through server logs or Internet Service Provider (ISP)
+tracking.</p>
+<p>Using the Tor Browser, a journalist routes their web traffic through
+three distinct, encrypted relays across the globe. This process, known
+as onion routing, ensures that:</p>
+<ul>
+<li>The visited website only sees the IP address of the Tor exit node,
+not the reporter's actual location or IP address.</li>
+<li>The journalist's ISP only sees that encrypted traffic is passing
+through Tor, but cannot see which websites are being visited or what
+data is being transmitted.</li>
+<li>Search engines cannot build behavioral profiles linking the
+reporter's identity to their investigation subjects.</li>
+</ul>
+<h3 id="receiving-leaks-via-secure-whistleblower-platforms">Receiving
+Leaks via Secure Whistleblower Platforms</h3>
+<p>The most prominent use of Tor in journalism is the deployment of
+dedicated leak platforms, most notably <strong>SecureDrop</strong> and
+<strong>GlobaLeaks</strong>. Major media organizations, including
+<em>The Washington Post</em>, <em>The Guardian</em>, and <em>The New
+York Times</em>, host these systems as Tor hidden services (websites
+ending in <code>.onion</code>).</p>
+<p>These platforms provide several critical safeguards:</p>
+<ol type="1">
+<li><strong>No Identifiable Metadata:</strong> When a source submits
+documents via a <code>.onion</code> address, the server never logs IP
+addresses, browser fingerprints, or timestamps associated with the
+source.</li>
+<li><strong>End-to-End Encryption:</strong> Documents submitted through
+the platform are automatically encrypted using public-key cryptography
+(PGP) before being stored on an isolated, air-gapped server.</li>
+<li><strong>Pseudonymous Communication:</strong> Sources receive a
+generated passphrase that allows them to log back in anonymously to
+answer questions or provide additional context without revealing who
+they are.</li>
+</ol>
+<h3 id="securing-file-transfers-and-communications">Securing File
+Transfers and Communications</h3>
+<p>Beyond public leak platforms, journalists use Tor-integrated tools
+for direct interactions with known sources:</p>
+<ul>
+<li><strong>OnionShare:</strong> This open-source tool allows reporters
+to send and receive large files, host temporary websites, and set up
+anonymous chat rooms directly over the Tor network. Because the
+connection is peer-to-peer and uses ephemeral onion services, no
+third-party cloud provider retains logs of the transfer.</li>
+<li><strong>Tor-Routed Messengers:</strong> When messaging sources,
+reporters often route communication through Tor using tools like Briar
+or specialized settings in privacy-focused messengers to hide
+communication metadata—preventing state-level actors from mapping
+<em>who</em> is speaking to <em>whom</em>, even if message contents are
+encrypted.</li>
+</ul>
+<h3 id="combining-tor-with-isolated-operating-systems">Combining Tor
+with Isolated Operating Systems</h3>
+<p>For maximum security, experienced reporters do not run the Tor
+Browser on their everyday operating systems. Instead, they boot their
+computers using <strong>Tails</strong> (The Amnesic Incognito Live
+System), a portable Linux distribution that runs entirely from a USB
+drive.</p>
+<p>Tails forces all outbound internet connections to route exclusively
+through the Tor network. If a non-Tor connection attempt is made, the
+operating system blocks it automatically. Furthermore, Tails leaves no
+traces on the computer's hard drive after shutdown, ensuring that seized
+hardware cannot reveal the research or communication that took
+place.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

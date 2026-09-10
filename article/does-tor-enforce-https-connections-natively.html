@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does Tor Enforce HTTPS Connections Natively? - tor</title>
+    <meta name="description" content="Tor Browser natively enforces HTTPS connections across all major platforms using its built-in HTTPS-Only Mode. Previously reliant on third-party add-ons, the browser now automatically upgrades web traffic to secure, encrypted connections by default. This">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-tor-enforce-https-connections-natively">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does Tor Enforce HTTPS Connections Natively? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-tor-enforce-https-connections-natively" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Browser natively enforces HTTPS connections across all major platforms using its built-in HTTPS-Only Mode. Previously reliant on third-party add-ons, the browser now automatically upgrades web traffic to secure, encrypted connections by default. This" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-tor-enforce-https-connections-natively">Does Tor Enforce
+HTTPS Connections Natively?</h1>
+<p>Tor Browser natively enforces HTTPS connections across all major
+platforms using its built-in HTTPS-Only Mode. Previously reliant on
+third-party add-ons, the browser now automatically upgrades web traffic
+to secure, encrypted connections by default. This native integration
+significantly reduces security risks associated with unencrypted web
+traffic exiting the Tor network, ensuring that user data remains
+protected between the exit node and the destination server.</p>
+<h3 id="the-transition-to-native-https-enforcement">The Transition to
+Native HTTPS Enforcement</h3>
+<p>For years, the Tor Project bundled the "HTTPS Everywhere"
+extension—developed by the Electronic Frontier Foundation (EFF)—to help
+users automatically navigate to secure versions of websites. However, as
+major web browsers began incorporating native HTTPS-upgrading
+technologies, HTTPS Everywhere was retired. Tor Browser adopted
+Firefox’s native HTTPS-Only Mode starting with Tor Browser version 11.5,
+enabling it by default for desktop and mobile users without requiring
+extra add-ons.</p>
+<h3 id="how-native-https-works-in-tor">How Native HTTPS Works in
+Tor</h3>
+<p>When you enter a web address or click a link, Tor Browser
+automatically attempts to establish an encrypted HTTPS connection.</p>
+<ul>
+<li><strong>Automatic Upgrading:</strong> If a website supports HTTPS,
+the browser silently upgrades the connection from HTTP to HTTPS.</li>
+<li><strong>Security Warnings:</strong> If a website does not support
+HTTPS or if the secure handshake fails, Tor Browser blocks the
+unencrypted connection and displays a warning prompt. The user must
+explicitly choose whether to proceed over an insecure HTTP
+connection.</li>
+<li><strong>Fallback Protection:</strong> This mechanism prevents silent
+fallback to unencrypted communication, thwarting downgrade attacks.</li>
+</ul>
+<h3 id="why-https-enforcement-is-critical-for-tor-users">Why HTTPS
+Enforcement Is Critical for Tor Users</h3>
+<p>While Tor provides multi-layered encryption inside its network,
+traffic traveling between the final "exit node" and an unencrypted HTTP
+website is sent in plain text. A malicious or compromised exit relay
+operator could monitor, log, or tamper with this unencrypted
+traffic.</p>
+<p>By enforcing HTTPS natively:</p>
+<ul>
+<li><strong>Data Privacy:</strong> Exit nodes can only see the IP
+address of the server being contacted, not the actual contents of the
+pages viewed or data submitted (such as passwords or session
+tokens).</li>
+<li><strong>Data Integrity:</strong> Native HTTPS prevents exit nodes
+from injecting malicious scripts, ads, or tracking cookies into web
+pages.</li>
+</ul>
+<h3 id="onion-services-vs-https">Onion Services vs. HTTPS</h3>
+<p>Native HTTPS enforcement primarily targets the traditional "clearnet"
+web. Tor Onion Services (websites ending in <code>.onion</code>) do not
+strictly require HTTPS because the Tor protocol itself provides
+end-to-end encryption and cryptographic authentication between the user
+and the hidden service. However, for standard internet browsing through
+Tor, native HTTPS enforcement acts as a critical second layer of
+defense.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

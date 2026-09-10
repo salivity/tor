@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is SecureDrop and How Does It Integrate with Tor? - tor</title>
+    <meta name="description" content="SecureDrop is an open-source whistleblower submission system designed to facilitate secure, anonymous communication between news organizations and confidential sources. By integrating deeply with the Tor network, SecureDrop ensures that neither the ident">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-is-securedrop-and-how-does-it-integrate-with-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What is SecureDrop and How Does It Integrate with Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-is-securedrop-and-how-does-it-integrate-with-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="SecureDrop is an open-source whistleblower submission system designed to facilitate secure, anonymous communication between news organizations and confidential sources. By integrating deeply with the Tor network, SecureDrop ensures that neither the ident" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-is-securedrop-and-how-does-it-integrate-with-tor">What is
+SecureDrop and How Does It Integrate with Tor?</h1>
+<p>SecureDrop is an open-source whistleblower submission system designed
+to facilitate secure, anonymous communication between news organizations
+and confidential sources. By integrating deeply with the Tor network,
+SecureDrop ensures that neither the identity nor the physical location
+of the source is exposed during the transmission of sensitive
+information. This article explains the fundamentals of SecureDrop, how
+it utilizes Tor onion services to protect metadata, and the end-to-end
+architecture that safeguards journalists and their sources.</p>
+<h2 id="what-is-securedrop">What is SecureDrop?</h2>
+<p>Originally created by the late technologist Aaron Swartz and
+currently maintained by the Freedom of the Press Foundation, SecureDrop
+is a platform used by major news organizations, including <em>The
+Washington Post</em>, <em>The Guardian</em>, and
+<em>ProPublica</em>.</p>
+<p>Traditional methods of communication, such as standard email or phone
+calls, generate extensive metadata (timestamps, IP addresses, phone
+numbers, and geolocation data). SecureDrop eliminates these digital
+footprints, allowing whistleblowers to upload documents and exchange
+messages with reporters without revealing their identities.</p>
+<h2 id="how-securedrop-integrates-with-tor">How SecureDrop Integrates
+with Tor</h2>
+<p>Tor (The Onion Router) is the core privacy layer that makes
+SecureDrop functional and secure. The integration works through several
+key mechanisms:</p>
+<h3 id="1-tor-onion-services">1. Tor Onion Services</h3>
+<p>SecureDrop operates exclusively as a Tor Onion Service (a
+<code>.onion</code> address accessible only through the Tor
+Browser).</p>
+<ul>
+<li><strong>No Public IP Exposure:</strong> Because the SecureDrop
+interface is hosted as an onion service, the server’s true IP address
+remains hidden from the public, protecting the host server from direct
+targeting and distributed denial-of-service (DDoS) attacks.</li>
+<li><strong>No Domain Name System (DNS) Leaks:</strong> Onion addresses
+do not rely on traditional DNS servers, eliminating tracking risks
+associated with domain name lookups.</li>
+</ul>
+<h3 id="2-elimination-of-source-metadata">2. Elimination of Source
+Metadata</h3>
+<p>When a source accesses a SecureDrop instance using the Tor
+Browser:</p>
+<ul>
+<li>The user's internet traffic is routed through three randomized,
+encrypted nodes (Guard, Middle, and Exit/Rendezvous).</li>
+<li>The SecureDrop server never sees the source's real IP address; it
+only sees the encrypted Tor circuit connection.</li>
+<li>Internet Service Providers (ISPs) and local network administrators
+can see that the user is connected to Tor, but they cannot see that the
+user is visiting a specific SecureDrop site or what data is being
+uploaded.</li>
+</ul>
+<h3 id="3-end-to-end-encryption">3. End-to-End Encryption</h3>
+<p>Connections to Tor Onion Services are end-to-end encrypted by default
+using strong cryptographic protocols. This prevents eavesdropping and
+tampering by any intermediary nodes in the network, ensuring that data
+moving between the source's browser and the SecureDrop server remains
+confidential and intact.</p>
+<h2 id="the-multi-server-security-architecture">The Multi-Server
+Security Architecture</h2>
+<p>SecureDrop does not rely on Tor alone; it uses a segmented
+infrastructure to ensure defense-in-depth:</p>
+<ul>
+<li><strong>Source Facing Server:</strong> Runs the Tor Onion Service
+where sources upload encrypted documents and receive a randomized
+pseudonym for future logins.</li>
+<li><strong>Document Server:</strong> An isolated environment that
+stores uploaded submissions, encrypted with the newsroom’s public PGP
+key.</li>
+<li><strong>Journalist Workstation:</strong> A dedicated computer
+running a hardened operating system used exclusively to browse
+submissions via the Tor network.</li>
+<li><strong>Air-Gapped Decryption Station:</strong> A physically
+isolated computer that is never connected to any local network or the
+internet. Journalists transfer encrypted files via secure USB drives to
+this machine, where the private PGP key decrypts the documents, ensuring
+that even if the online servers are compromised, the cryptographic keys
+remain safe.</li>
+</ul>
+<h2 id="why-the-integration-matters">Why the Integration Matters</h2>
+<p>The combination of SecureDrop and Tor shifts the burden of
+operational security from the source to the infrastructure. By obscuring
+network metadata and encrypting data at rest and in transit, the system
+makes it technically infeasible for third parties, telecommunications
+providers, or hostile actors to identify sources through server logs or
+network surveillance.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

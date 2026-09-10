@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Works: The Basics of Onion Routing - tor</title>
+    <meta name="description" content="The Tor network, short for The Onion Router, is an open-source privacy network designed to anonymize internet traffic and protect users from network surveillance and traffic analysis. This article explains how Tor functions on a fundamental level, detail">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-works-the-basics-of-onion-routing">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Works: The Basics of Onion Routing - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-works-the-basics-of-onion-routing" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network, short for The Onion Router, is an open-source privacy network designed to anonymize internet traffic and protect users from network surveillance and traffic analysis. This article explains how Tor functions on a fundamental level, detail" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-works-the-basics-of-onion-routing">How Tor Works: The
+Basics of Onion Routing</h1>
+<p>The Tor network, short for The Onion Router, is an open-source
+privacy network designed to anonymize internet traffic and protect users
+from network surveillance and traffic analysis. This article explains
+how Tor functions on a fundamental level, detailing its multi-layered
+encryption model, the dynamic establishment of three-node circuits, and
+the distinct roles played by entry, middle, and exit relays to decouple
+a user's identity from their online activity.</p>
+<h3 id="the-principle-of-onion-routing">The Principle of Onion
+Routing</h3>
+<p>At the core of Tor is the concept of onion routing. Instead of
+transmitting data directly between a client (your computer) and a
+destination server (a website), Tor routes traffic through a series of
+volunteer-operated servers known as nodes or relays.</p>
+<p>Before transmission, the Tor client wraps the data packet in multiple
+layers of encryption—resembling the layers of an onion. Each layer
+corresponds to a specific node along the path and can only be decrypted
+by that designated node using cryptographic keys negotiated specifically
+for that session.</p>
+<h3 id="the-three-node-circuit">The Three-Node Circuit</h3>
+<p>To achieve anonymity, Tor routes every connection through a path
+composed of three distinct nodes:</p>
+<ol type="1">
+<li><strong>The Entry (Guard) Node:</strong> The first stop in the
+circuit. The entry node receives the packet directly from the user and
+knows the user’s real IP address. It removes the outer layer of
+encryption, which reveals the address of the next node, and forwards the
+packet. The guard node cannot read the original data payload or identify
+the final destination.</li>
+<li><strong>The Middle Relay:</strong> The second stop. This node
+receives the data, strips away the second layer of encryption, and
+learns the address of the exit node. It neither knows the origin IP
+address nor the final destination, acting as a buffer to prevent the
+entry and exit nodes from colluding.</li>
+<li><strong>The Exit Node:</strong> The final relay in the Tor circuit.
+The exit node removes the last layer of encryption to reveal the
+destination IP address and sends the request to the target server. The
+target server sees the request as coming from the exit node's IP address
+rather than the user's actual IP address.</li>
+</ol>
+<h3 id="circuit-creation-and-key-exchange">Circuit Creation and Key
+Exchange</h3>
+<p>Tor relies on directory authorities—trusted servers that maintain an
+up-to-date consensus of all active relays and their public keys.</p>
+<p>When a user initiates a connection, the Tor client queries this
+directory and selects an entry, middle, and exit node. Using the
+Diffie-Hellman key exchange protocol, the client establishes separate,
+unique encryption keys with each node in the path iteratively:</p>
+<ul>
+<li>The client first negotiates a session key with the Entry node.</li>
+<li>It extends the circuit through the Entry node to negotiate a session
+key with the Middle node.</li>
+<li>It extends the circuit through the Middle node to negotiate a
+session key with the Exit node.</li>
+</ul>
+<p>Because these keys are negotiated incrementally, no individual node
+ever possesses the complete set of keys or the full map of the
+circuit.</p>
+<h3 id="anonymity-versus-end-to-end-encryption">Anonymity Versus
+End-to-End Encryption</h3>
+<p>Tor provides anonymity (hiding who is communicating), but it does not
+inherently provide end-to-end data security. Because the exit node
+strips the final Tor encryption layer, it can view the raw transmitted
+data if the underlying connection is not encrypted.</p>
+<p>If a user connects to a standard <code>http://</code> website, the
+exit node can inspect the payload. However, if the user connects to a
+secure <code>https://</code> website, Transport Layer Security (TLS)
+protects the payload from the client directly to the destination server,
+ensuring both privacy from the Tor exit node and anonymity from the
+destination server.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

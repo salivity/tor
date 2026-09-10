@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tails OS and Tor: How They Work Together - tor</title>
+    <meta name="description" content="The Amnesic Incognito Live System (Tails) and the Tor network are fundamentally interconnected privacy technologies designed to provide complete digital anonymity. Tails is a portable Linux-based operating system that routes 100% of its internet traffic">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tails-os-and-tor-how-they-work-together">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tails OS and Tor: How They Work Together - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tails-os-and-tor-how-they-work-together" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Amnesic Incognito Live System (Tails) and the Tor network are fundamentally interconnected privacy technologies designed to provide complete digital anonymity. Tails is a portable Linux-based operating system that routes 100% of its internet traffic" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tails-os-and-tor-how-they-work-together">Tails OS and Tor: How
+They Work Together</h1>
+<p>The Amnesic Incognito Live System (Tails) and the Tor network are
+fundamentally interconnected privacy technologies designed to provide
+complete digital anonymity. Tails is a portable Linux-based operating
+system that routes 100% of its internet traffic through the Tor network
+by default. While Tor provides the decentralized network infrastructure
+required to mask a user's location and identity, Tails provides the
+secure, amnesic local environment that prevents data leaks on the host
+computer.</p>
+<h3 id="mandatory-tor-routing">Mandatory Tor Routing</h3>
+<p>The primary relationship between Tails and Tor is one of strict
+enforcement. Tails is configured so that no application can connect to
+the internet directly. Every outbound connection—whether from a web
+browser, an email client, or a background system service—is
+automatically routed through the Tor network. If an application attempts
+to make a direct connection that bypasses Tor, Tails' built-in firewall
+rules automatically block it to prevent accidental IP address leaks.</p>
+<h3 id="complementary-threat-protection">Complementary Threat
+Protection</h3>
+<p>Tor and Tails solve two distinct halves of the privacy equation:</p>
+<ul>
+<li><strong>Tor protects data in transit:</strong> It encrypts internet
+traffic and bounces it through a global circuit of volunteer-operated
+relays, hiding the user's real IP address from websites, internet
+service providers (ISPs), and network surveillance.</li>
+<li><strong>Tails protects data at rest:</strong> It runs entirely in
+the host computer's RAM without writing to the hard drive. Once shut
+down, the system erases all temporary files and session data, leaving
+zero physical forensic trace on the computer.</li>
+</ul>
+<p>Together, they ensure that neither network observers can trace online
+activity back to the user, nor physical adversaries can recover session
+artifacts from the hardware.</p>
+<h3 id="pre-configured-tor-ecosystem">Pre-Configured Tor Ecosystem</h3>
+<p>Tails serves as a complete, ready-to-use software suite tailored
+specifically for Tor. It comes pre-installed and pre-configured with
+essential Tor-enabled tools, eliminating user configuration errors that
+could compromise privacy:</p>
+<ul>
+<li><strong>Tor Browser:</strong> The default browser, pre-configured
+with security extensions and anti-fingerprinting protections.</li>
+<li><strong>Tor Connection Assistant:</strong> A utility to help users
+bypass censorship in restricted networks by configuring Tor
+bridges.</li>
+<li><strong>OnionShare:</strong> A tool for securely sending files and
+hosting websites via Tor onion services.</li>
+<li><strong>Thunderbird:</strong> An email client pre-configured with
+TorBirdy settings for anonymous email communication.</li>
+</ul>
+<h3 id="close-project-collaboration">Close Project Collaboration</h3>
+<p>Tails is not merely a downstream consumer of Tor; the two open-source
+initiatives work in close technical collaboration. The Tails project
+frequently coordinates with the Tor Project to test new features,
+resolve security vulnerabilities, and ensure that network changes in Tor
+are immediately mirrored in Tails updates.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

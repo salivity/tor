@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can Police Raid a Home Running a Tor Exit Node? - tor</title>
+    <meta name="description" content="Running a Tor exit node routes encrypted traffic from anonymous users onto the clear web, making the operator's IP address appear as the origin of all outgoing traffic. When malicious actors use the Tor network for illegal activities, law enforcement inv">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-police-raid-a-home-running-a-tor-exit-node">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can Police Raid a Home Running a Tor Exit Node? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-police-raid-a-home-running-a-tor-exit-node" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Running a Tor exit node routes encrypted traffic from anonymous users onto the clear web, making the operator's IP address appear as the origin of all outgoing traffic. When malicious actors use the Tor network for illegal activities, law enforcement inv" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-police-raid-a-home-running-a-tor-exit-node">Can Police Raid
+a Home Running a Tor Exit Node?</h1>
+<p>Running a Tor exit node routes encrypted traffic from anonymous users
+onto the clear web, making the operator's IP address appear as the
+origin of all outgoing traffic. When malicious actors use the Tor
+network for illegal activities, law enforcement investigations trace the
+visible IP address directly back to the node's owner. This article
+explores whether police can raid a home running an exit node, why
+warrants are issued, and how operators can protect themselves from legal
+fallout.</p>
+<p>Yes, police can raid the home of someone running a Tor exit node.
+When illegal activity occurs online—such as cyberattacks, fraud, or the
+distribution of illicit material—investigators trace the public IP
+address associated with that traffic. If that IP belongs to a
+residential internet connection running an exit node, law enforcement
+sees the homeowner as the primary suspect, which can result in search
+warrants, physical raids, and the confiscation of digital hardware.</p>
+<p>To conduct a raid, law enforcement must obtain a search warrant from
+a judge by demonstrating probable cause. In many cases, proving that an
+IP address linked to a physical address was involved in a crime is
+sufficient to secure a warrant. Judges and investigators may not know or
+investigate whether an IP address is a Tor relay before executing a
+search. As a result, operators frequently face armed entries and
+property seizures before having the opportunity to explain how the Tor
+network functions.</p>
+<p>From a legal standpoint, exit node operators in many jurisdictions,
+including the United States, are generally protected from liability for
+third-party traffic under safe harbor provisions and common carrier
+principles. However, these legal protections only apply in court. They
+do not prevent law enforcement from initiating an investigation,
+executing a search warrant, or seizing equipment while determining
+whether the homeowner committed the offense.</p>
+<p>Due to the significant risk of police intervention, the Tor Project
+strongly advises against operating exit nodes from a residential
+address. Operators wishing to support the network should run exit relays
+through dedicated servers in data centers, use separate IP addresses
+designated exclusively for Tor, configure reverse DNS to identify the
+server as an exit node, and publish an informational landing page
+explaining the node's purpose.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

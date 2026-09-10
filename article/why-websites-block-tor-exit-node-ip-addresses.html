@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Websites Block Tor Exit Node IP Addresses - tor</title>
+    <meta name="description" content="The Tor network is widely recognized as a powerful tool for maintaining online privacy and bypassing censorship, yet many websites deliberately restrict or block access from Tor exit nodes. This article explains the technical, security, and business reas">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-websites-block-tor-exit-node-ip-addresses">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Websites Block Tor Exit Node IP Addresses - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-websites-block-tor-exit-node-ip-addresses" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network is widely recognized as a powerful tool for maintaining online privacy and bypassing censorship, yet many websites deliberately restrict or block access from Tor exit nodes. This article explains the technical, security, and business reas" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-websites-block-tor-exit-node-ip-addresses">Why Websites
+Block Tor Exit Node IP Addresses</h1>
+<p>The Tor network is widely recognized as a powerful tool for
+maintaining online privacy and bypassing censorship, yet many websites
+deliberately restrict or block access from Tor exit nodes. This article
+explains the technical, security, and business reasons behind these
+blocks, focusing on how malicious traffic, fraud prevention, automated
+abuse, and the publicly visible nature of Tor exit nodes drive web
+administrators to restrict this traffic.</p>
+<h3 id="public-visibility-of-exit-node-ips">Public Visibility of Exit
+Node IPs</h3>
+<p>Unlike private proxies or hidden VPNs, the IP addresses of all active
+Tor exit nodes are publicly listed and updated in real time by the Tor
+project. Security vendors, Content Delivery Networks (CDNs), and web
+administrators can easily download these lists and automatically apply
+firewall rules to drop or challenge any incoming connection originating
+from a known exit node.</p>
+<h3 id="high-volume-of-malicious-activity-and-abuse">High Volume of
+Malicious Activity and Abuse</h3>
+<p>Because Tor guarantees anonymity, it naturally attracts malicious
+actors alongside legitimate privacy-conscious users. Web servers
+routinely face automated attacks originating from Tor exit nodes,
+including:</p>
+<ul>
+<li><strong>Distributed Denial of Service (DDoS):</strong> Overwhelming
+web servers with junk traffic.</li>
+<li><strong>Credential Stuffing and Brute-Force Attacks:</strong>
+Attempting unauthorized logins using leaked username and password
+databases.</li>
+<li><strong>Web Scraping and Vulnerability Scanning:</strong> Automated
+scanning for unpatched security flaws on web applications.</li>
+</ul>
+<p>Blocking Tor exit nodes drastically cuts down automated attack noise,
+allowing security teams to focus on targeted threats.</p>
+<h3 id="spam-and-platform-vandalism">Spam and Platform Vandalism</h3>
+<p>Forums, social media platforms, comment sections, and public wikis
+frequently experience automated spam or coordinated vandalism from users
+seeking to avoid bans. When an abusive user is banned by IP address,
+they can simply switch identities using Tor. Blocking exit nodes
+prevents bad actors from creating infinite anonymous accounts to disrupt
+community platforms.</p>
+<h3 id="financial-fraud-and-payment-security">Financial Fraud and
+Payment Security</h3>
+<p>E-commerce platforms, payment processors, and banking services rely
+heavily on IP reputation and geolocation to verify customer identities.
+An IP address linked to a Tor exit node hides the user's real location,
+making it impossible to detect discrepancies—such as an order placed
+from a different continent than the billing address. To prevent identity
+theft, chargebacks, and credit card fraud, financial institutions almost
+universally block or heavily scrutinize Tor traffic.</p>
+<h3 id="geo-restricted-content-and-legal-compliance">Geo-Restricted
+Content and Legal Compliance</h3>
+<p>Streaming platforms, media outlets, and gambling sites are often
+bound by strict regional licensing agreements or local laws. Because Tor
+obscures the user's physical location, these services cannot reliably
+ensure compliance with local regulations or copyright restrictions,
+prompting them to block access to maintain legal standing.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

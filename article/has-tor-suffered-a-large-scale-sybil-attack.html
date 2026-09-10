@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Has Tor Suffered a Large-Scale Sybil Attack? - tor</title>
+    <meta name="description" content="The Tor network has experienced several large-scale Sybil attacks throughout its history, with varying degrees of success. In a Sybil attack, a single adversary creates and controls a massive number of pseudonymous nodes to gain disproportionate influenc">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/has-tor-suffered-a-large-scale-sybil-attack">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Has Tor Suffered a Large-Scale Sybil Attack? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/has-tor-suffered-a-large-scale-sybil-attack" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network has experienced several large-scale Sybil attacks throughout its history, with varying degrees of success. In a Sybil attack, a single adversary creates and controls a massive number of pseudonymous nodes to gain disproportionate influenc" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="has-tor-suffered-a-large-scale-sybil-attack">Has Tor Suffered a
+Large-Scale Sybil Attack?</h1>
+<p>The Tor network has experienced several large-scale Sybil attacks
+throughout its history, with varying degrees of success. In a Sybil
+attack, a single adversary creates and controls a massive number of
+pseudonymous nodes to gain disproportionate influence over a
+decentralized network. While no single Sybil attack has permanently
+broken Tor's overall infrastructure, major incidents—such as the 2014
+Carnegie Mellon University research operation and the persistent
+2020–2021 "Kax17" campaign—successfully compromised significant portions
+of the network to deanonymize users and manipulate traffic before being
+detected and neutralized.</p>
+<h2 id="how-a-sybil-attack-works-on-tor">How a Sybil Attack Works on
+Tor</h2>
+<p>Tor relies on a three-hop circuit comprising a Guard (entry) node, a
+Middle node, and an Exit node. Tor protects user anonymity through
+layered encryption, meaning no single node knows both the origin and the
+destination of the traffic.</p>
+<p>However, if an attacker operates both the entry Guard and the Exit
+relay in a specific circuit, they can perform statistical traffic
+correlation attacks. By comparing traffic patterns, packet sizes, and
+timestamps entering and exiting the network, the attacker can
+deanonymize the user. A Sybil attack achieves this by flooding the
+network with thousands of malicious relays, increasing the statistical
+probability that a user selects attacker-controlled nodes for both entry
+and exit points.</p>
+<h2 id="major-large-scale-sybil-incidents">Major Large-Scale Sybil
+Incidents</h2>
+<h3 id="the-2014-carnegie-mellon-university-attack">The 2014 Carnegie
+Mellon University Attack</h3>
+<p>Between February and July 2014, researchers from Carnegie Mellon
+University (CMU) deployed a sophisticated Sybil attack on the live Tor
+network. By running a large cluster of modified relays, the researchers
+exploited a flaw in Tor's traffic-tagging mechanism.</p>
+<p>The attack successfully targeted hidden services (onion services) and
+individual users, leading to the deanonymization of numerous Tor users.
+The vulnerability was patched in subsequent Tor releases, and the
+malicious relays were expelled once identified.</p>
+<h3 id="the-20202021-kax17-campaign">The 2020–2021 "Kax17" Campaign</h3>
+<p>One of the largest persistent Sybil attacks on Tor was orchestrated
+by an entity tracked as "Kax17." At its peak, this threat actor operated
+thousands of malicious relays, accounting for roughly 10% to 27% of the
+total network relay capacity at various intervals.</p>
+<p>Kax17 added servers primarily configured as Guard and Middle nodes
+across dozens of autonomous systems worldwide. The scale of this
+deployment strongly suggested an attempt to conduct widespread traffic
+analysis and user deanonymization. The Tor Project systematically
+removed these nodes in batches as they were uncovered throughout 2020
+and late 2021.</p>
+<h3
+id="cryptocurrency-interception-via-malicious-exit-relays">Cryptocurrency
+Interception via Malicious Exit Relays</h3>
+<p>Starting in 2020, security researchers discovered a threat actor
+controlling over 23% of Tor's total exit relay capacity. Rather than
+attempting pure deanonymization, this Sybil attack performed SSL
+stripping on unencrypted web traffic to replace cryptocurrency addresses
+with the attacker's own wallet addresses during transactions. The
+operators generated hundreds of exit nodes over several months before
+the Tor Directory Authorities purged them from the consensus.</p>
+<h2 id="how-tor-mitigates-sybil-attacks">How Tor Mitigates Sybil
+Attacks</h2>
+<p>The Tor Project relies on several architectural defenses to detect,
+reduce, and eliminate the impact of Sybil attacks:</p>
+<ul>
+<li><strong>Directory Authorities:</strong> A small group of trusted
+servers manage the network consensus. These authorities actively monitor
+network health, detect suspicious clusters of relays, and revoke
+consensus status from rogue operators.</li>
+<li><strong>Entry Guard Pinning:</strong> Tor clients select a small set
+of persistent Guard relays to use over an extended period (typically
+months). This reduces the chance that a user constantly rotates into an
+attacker-controlled entry relay.</li>
+<li><strong>Subnet and Family Restrictions:</strong> Clients do not
+construct circuits using multiple relays from the same IP address subnet
+(/16) or relays marked under the same designated "family."</li>
+<li><strong>Network Health Monitoring:</strong> Automated tools analyze
+relay behavior, uptime anomalies, bandwidth inflation, and metadata
+patterns to flag coordinated Sybil networks quickly.</li>
+</ul>
+<p>Tor has never suffered a fatal or permanent Sybil compromise, but it
+remains constantly targeted by large-scale node flooding campaigns
+designed for intelligence gathering, deanonymization, and financial
+theft.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

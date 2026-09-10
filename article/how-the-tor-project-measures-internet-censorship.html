@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How the Tor Project Measures Internet Censorship - tor</title>
+    <meta name="description" content="The Tor Project actively tracks and analyzes global censorship events by combining real-time network telemetry, anomaly detection algorithms, and decentralized network measurement tools. By monitoring changes in user connection patterns, bridge utilizati">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-the-tor-project-measures-internet-censorship">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How the Tor Project Measures Internet Censorship - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-the-tor-project-measures-internet-censorship" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor Project actively tracks and analyzes global censorship events by combining real-time network telemetry, anomaly detection algorithms, and decentralized network measurement tools. By monitoring changes in user connection patterns, bridge utilizati" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-the-tor-project-measures-internet-censorship">How the Tor
+Project Measures Internet Censorship</h1>
+<p>The Tor Project actively tracks and analyzes global censorship events
+by combining real-time network telemetry, anomaly detection algorithms,
+and decentralized network measurement tools. By monitoring changes in
+user connection patterns, bridge utilization, and traffic routed through
+censorship-circumvention technologies, the organization detects when
+governments or internet service providers block access to the internet
+and privacy tools.</p>
+<h3 id="tor-metrics-and-directory-authorities">Tor Metrics and Directory
+Authorities</h3>
+<p>The primary method for measuring global censorship is <strong>Tor
+Metrics</strong>, a publicly accessible analytics platform that collects
+anonymized operational data from the Tor network. Directory
+authorities—the specialized servers that maintain the list of active
+relays—record connection requests from clients worldwide.</p>
+<p>When an authoritarian regime implements a network-level block, Tor
+Metrics immediately registers a sharp decline in direct connections
+originating from that country's IP ranges. Conversely, a simultaneous
+spike in connections via Tor Bridges (unlisted entry relays) indicates
+that users are actively switching to circumvention methods to bypass
+local restrictions.</p>
+<h3 id="pluggable-transport-telemetry">Pluggable Transport
+Telemetry</h3>
+<p>When direct access to the Tor network is blocked, users rely on
+Pluggable Transports—technologies that disguise Tor traffic as ordinary
+web traffic. The Tor Project monitors aggregated usage statistics across
+specific circumvention tools:</p>
+<ul>
+<li><strong>obfs4:</strong> Scrambles traffic to look like random noise,
+preventing deep packet inspection (DPI) from identifying the Tor
+protocol.</li>
+<li><strong>Snowflake:</strong> Routes traffic through temporary WebRTC
+proxies run by volunteers worldwide, making it difficult for censors to
+block dynamic entry points.</li>
+<li><strong>WebTunnel:</strong> Mimics standard HTTPS connections to
+specific web servers.</li>
+</ul>
+<p>Sudden surges in Snowflake or obfs4 adoption from a specific
+geographic region provide direct, measurable evidence of an ongoing
+censorship event.</p>
+<h3 id="the-open-observatory-of-network-interference-ooni">The Open
+Observatory of Network Interference (OONI)</h3>
+<p>Originally launched under the Tor Project, the <strong>Open
+Observatory of Network Interference (OONI)</strong> is a global
+observation network dedicated to detecting internet censorship.
+Volunteers run OONI Probe software on local networks to test for:</p>
+<ul>
+<li><strong>DNS Tampering:</strong> Checking if DNS queries for specific
+websites resolve to incorrect IP addresses or block pages.</li>
+<li><strong>TCP/IP Blocking:</strong> Identifying when connections to
+targeted servers are dropped or reset.</li>
+<li><strong>HTTP/HTTPS Interference:</strong> Detecting transparent
+proxies, TLS handshake resets, or middlebox interference designed to
+intercept encrypted traffic.</li>
+</ul>
+<p>OONI processes millions of network measurements daily, publishing the
+findings in real time to substantiate censorship events with granular,
+technical proof.</p>
+<h3 id="automated-anomaly-detection-and-verification">Automated Anomaly
+Detection and Verification</h3>
+<p>To identify events quickly, the Tor Project employs automated anomaly
+detection systems that flag statistical outliers in country-level
+traffic. When anomalous drops or spikes occur, network researchers
+correlate the data with known geopolitical developments, local news, and
+reports from digital rights advocates on the ground. This combination of
+automated metrics and human verification allows the Tor Project to
+document global censorship events accurately and deploy responsive
+circumvention updates.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

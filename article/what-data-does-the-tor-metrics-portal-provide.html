@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Data Does the Tor Metrics Portal Provide? - tor</title>
+    <meta name="description" content="The Tor Metrics portal serves as the primary public analytics archive for the Tor anonymity network, aggregating and visualizing historical and real-time data regarding the network's ecosystem. This article outlines the specific categories of data availa">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-data-does-the-tor-metrics-portal-provide">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Data Does the Tor Metrics Portal Provide? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-data-does-the-tor-metrics-portal-provide" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor Metrics portal serves as the primary public analytics archive for the Tor anonymity network, aggregating and visualizing historical and real-time data regarding the network's ecosystem. This article outlines the specific categories of data availa" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-data-does-the-tor-metrics-portal-provide">What Data Does
+the Tor Metrics Portal Provide?</h1>
+<p>The Tor Metrics portal serves as the primary public analytics archive
+for the Tor anonymity network, aggregating and visualizing historical
+and real-time data regarding the network's ecosystem. This article
+outlines the specific categories of data available on the portal,
+including user adoption estimates, relay and bridge infrastructure
+metrics, network performance measurements, onion service activity, and
+censorship tracking indicators.</p>
+<h3 id="user-estimates-and-demographics">User Estimates and
+Demographics</h3>
+<p>Tor Metrics does not track individual IP addresses or personal
+identities, but it provides statistical estimates of the total daily
+active user base. Key user-related datasets include:</p>
+<ul>
+<li><strong>Users by Country:</strong> Estimated number of daily
+connecting clients grouped by geographic origin.</li>
+<li><strong>Direct vs. Bridge Connections:</strong> Counts
+distinguishing between users who connect directly to public relays and
+those using unlisted bridges.</li>
+<li><strong>Transport Protocol Usage:</strong> The adoption rate of
+pluggable transports (such as obfs4, Snowflake, and meek) utilized to
+bypass local network censorship.</li>
+</ul>
+<h3 id="relay-and-bridge-infrastructure">Relay and Bridge
+Infrastructure</h3>
+<p>The portal tracks the servers that form the backbone of the Tor
+network, offering comprehensive infrastructure analytics:</p>
+<ul>
+<li><strong>Node Counts:</strong> The total number of running relays,
+exit nodes, and bridges over time.</li>
+<li><strong>Network Bandwidth:</strong> Total advertised bandwidth,
+bandwidth capacity, and actual consumed bandwidth across the entire
+network.</li>
+<li><strong>Geographic and Autonomous System (AS) Distribution:</strong>
+Relay locations by country and hosting provider/AS number.</li>
+<li><strong>Platform Diversity:</strong> Operating system versions and
+Tor software release versions running on active relays.</li>
+<li><strong>Relay Flags:</strong> The distribution of operational roles
+assigned to nodes, including Guard, Exit, Fast, Stable, and HSDir
+flags.</li>
+</ul>
+<h3 id="network-performance">Network Performance</h3>
+<p>To monitor network quality and speed, Tor Metrics uses automated
+testing systems like OnionPerf to collect data on:</p>
+<ul>
+<li><strong>Download Times:</strong> The time required to fetch files of
+various sizes (e.g., 50 KiB, 1 MiB, 5 MiB) over Tor circuits.</li>
+<li><strong>Circuit Latency:</strong> Time to first byte (TTFB) and
+circuit construction latencies.</li>
+<li><strong>Failure Rates:</strong> The percentage of circuit build
+attempts and data transfer requests that fail or time out.</li>
+</ul>
+<h3 id="onion-services">Onion Services</h3>
+<p>Tor Metrics provides aggregate statistics regarding hidden services
+without revealing the identity or location of specific service
+operators:</p>
+<ul>
+<li><strong>Hidden Service Count:</strong> An estimate of the total
+number of active <code>.onion</code> domains present in the
+network.</li>
+<li><strong>Onion Traffic:</strong> The total volume of traffic routed
+to and from onion services, measured in gigabits per second
+(Gbit/s).</li>
+</ul>
+<h3 id="applications-and-censorship-tracking">Applications and
+Censorship Tracking</h3>
+<p>The portal acts as a resource for researchers and advocates
+monitoring digital rights and internet freedom:</p>
+<ul>
+<li><strong>Application Downloads:</strong> Download and update counts
+for the Tor Browser, segmented by operating system and language.</li>
+<li><strong>Anomaly Detection:</strong> Sudden spikes or drops in user
+numbers that correlate with state-sponsored censorship events, network
+blocks, or civil unrest.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

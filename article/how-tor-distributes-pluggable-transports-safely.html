@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Distributes Pluggable Transports Safely - tor</title>
+    <meta name="description" content="Pluggable transports allow Tor users to disguise their traffic and bypass internet censorship, but delivering these private bridge addresses to users without alerting censors presents a major challenge. To prevent adversaries from harvesting and blacklis">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-distributes-pluggable-transports-safely">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Distributes Pluggable Transports Safely - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-distributes-pluggable-transports-safely" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Pluggable transports allow Tor users to disguise their traffic and bypass internet censorship, but delivering these private bridge addresses to users without alerting censors presents a major challenge. To prevent adversaries from harvesting and blacklis" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-distributes-pluggable-transports-safely">How Tor
+Distributes Pluggable Transports Safely</h1>
+<p>Pluggable transports allow Tor users to disguise their traffic and
+bypass internet censorship, but delivering these private bridge
+addresses to users without alerting censors presents a major challenge.
+To prevent adversaries from harvesting and blacklisting every bridge,
+the Tor Project relies on secure distribution backends like BridgeDB and
+its newer system, rdsys (Resource Distribution System). Tor safely
+distributes pluggable transports by partitioning bridges into isolated
+pools, enforcing anti-scraping controls like CAPTCHAs and rate limits,
+and utilizing diverse communication channels including in-browser APIs,
+encrypted messaging bots, and dynamic proxy networks.</p>
+<h2 id="the-bridge-harvesting-dilemma">The Bridge Harvesting
+Dilemma</h2>
+<p>If Tor published a single public directory of all pluggable transport
+bridges (such as obfs4, Snowflake, or WebTunnel), censors could simply
+download the list and block every IP address on it. To prevent this,
+bridge distribution must be decentralized, rate-limited, and resilient
+against automated scraping.</p>
+<h2 id="key-distribution-channels">Key Distribution Channels</h2>
+<p>Tor distributes bridge lines through several dedicated methods
+tailored to different levels of censorship:</p>
+<ul>
+<li><strong>Moat (Tor Browser Integration):</strong> Built directly into
+Tor Browser, Moat allows users to request bridges with a single click.
+It communicates with Tor's backend using domain fronting—a technique
+that disguises the request as ordinary traffic to major content delivery
+networks (CDNs)—and prompts the user with a CAPTCHA to verify they are
+human.</li>
+<li><strong>HTTPS Bridge Database:</strong> Users can visit Tor's bridge
+website to request bridge addresses. The service inspects the
+requester's IP network and serves only a few bridges at a time,
+requiring a CAPTCHA to thwart automated scripts.</li>
+<li><strong>Email Autoresponders (GetTor):</strong> Users can send
+automated emails containing specific keywords (such as "get transport
+obfs4") to Tor's email service. To prevent censors from generating
+millions of fake email addresses to harvest bridges, the system only
+accepts requests from trusted providers that enforce anti-spam controls,
+such as Gmail or Riseup.</li>
+<li><strong>Messaging Platforms:</strong> Official Tor bots deployed on
+encrypted messaging platforms like Telegram provide an alternative
+distribution channel for users in regions where web and email access to
+Tor services is strictly filtered.</li>
+</ul>
+<h2 id="anti-harvesting-and-defense-strategies">Anti-Harvesting and
+Defense Strategies</h2>
+<p>Tor uses several layered defenses to ensure bridge distribution
+remains secure:</p>
+<ul>
+<li><strong>Pool Partitioning:</strong> The master bridge inventory is
+divided into distinct, non-overlapping pools assigned to specific
+distribution methods (HTTPS, Moat, Email, Telegram, and reserved manual
+distributions). If a censor manages to scrape all bridges available via
+email, the bridges distributed via Moat or Telegram remain untouched and
+operational.</li>
+<li><strong>Subnet and Account Rate-Limiting:</strong> Distribution
+systems track requests by IP subnets and email accounts, strictly
+limiting the number of bridges a single entity can obtain within a given
+time window.</li>
+<li><strong>Reputation-Based Assignment:</strong> The newer distribution
+engine, rdsys, can dynamically adjust distribution strategies based on
+bridge health and censorship events, reserving certain high-reliability
+bridges for manual distribution by trusted digital rights
+organizations.</li>
+</ul>
+<h2 id="dynamic-ephemeral-transports">Dynamic Ephemeral Transports</h2>
+<p>In addition to distributing fixed bridge IP addresses, Tor utilizes
+transports like Snowflake that bypass the need for traditional bridge
+distribution entirely. Snowflake pairs censored users with temporary,
+volunteer-run WebRTC proxies via a centralized broker. Because these
+volunteer connections last only minutes and change continuously, censors
+cannot block them through static IP harvesting.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

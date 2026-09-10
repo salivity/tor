@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can a Tor Exit Node Read Unencrypted HTTP Data? - tor</title>
+    <meta name="description" content="When you access a website over the Tor network using an unencrypted HTTP connection, the Tor exit node can read, monitor, and potentially modify all the data you transmit. While Tor effectively conceals your real IP address and encrypts your traffic acro">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-a-tor-exit-node-read-unencrypted-http-data">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can a Tor Exit Node Read Unencrypted HTTP Data? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-a-tor-exit-node-read-unencrypted-http-data" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When you access a website over the Tor network using an unencrypted HTTP connection, the Tor exit node can read, monitor, and potentially modify all the data you transmit. While Tor effectively conceals your real IP address and encrypts your traffic acro" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-a-tor-exit-node-read-unencrypted-http-data">Can a Tor Exit
+Node Read Unencrypted HTTP Data?</h1>
+<p>When you access a website over the Tor network using an unencrypted
+HTTP connection, the Tor exit node can read, monitor, and potentially
+modify all the data you transmit. While Tor effectively conceals your
+real IP address and encrypts your traffic across intermediate relays, it
+only secures the connection within the Tor circuit itself. This article
+explains how Tor exit nodes handle unencrypted traffic, the specific
+security risks involved, and the essential steps required to protect
+your information.</p>
+<h2 id="how-tor-onion-routing-handles-traffic">How Tor Onion Routing
+Handles Traffic</h2>
+<p>The Tor network operates using a layered encryption model known as
+onion routing. When you initiate a request through Tor, your traffic is
+wrapped in three distinct layers of encryption and routed through three
+specific nodes:</p>
+<ol type="1">
+<li><strong>Guard/Entry Node:</strong> Knows your real IP address, peels
+off the first encryption layer, and forwards the packet to the middle
+relay.</li>
+<li><strong>Middle Relay:</strong> Peels off the second encryption layer
+without knowing your IP address or the destination website, forwarding
+the packet to the exit node.</li>
+<li><strong>Exit Node:</strong> Peels off the third and final layer of
+Tor encryption and delivers the request to the destination web
+server.</li>
+</ol>
+<p>Because the exit node must transmit the request to the target web
+server on the open internet, it must decrypt the outermost Tor
+wrapper.</p>
+<h2 id="why-exit-nodes-see-plaintext-http-traffic">Why Exit Nodes See
+Plaintext HTTP Traffic</h2>
+<p>Tor encrypts the path between you and the exit node, but it does not
+encrypt the underlying payload if the protocol itself lacks
+encryption.</p>
+<p>If you connect to a website via standard <strong>HTTP</strong>
+(rather than <strong>HTTPS</strong>), the data leaving the exit node is
+completely unencrypted. Consequently, the operator of the exit node can
+observe:</p>
+<ul>
+<li>Full URLs and visited web pages.</li>
+<li>Usernames, passwords, and form submissions.</li>
+<li>Session cookies and authentication tokens.</li>
+<li>Unencrypted messages, emails, and file transfers.</li>
+</ul>
+<p>While the exit node cannot see your original IP address, it possesses
+full visibility into the contents of the communication.</p>
+<h2 id="the-threats-of-malicious-exit-nodes">The Threats of Malicious
+Exit Nodes</h2>
+<p>Anyone can volunteer to run a Tor exit node, including malicious
+actors, intelligence agencies, or researchers. When unencrypted HTTP
+traffic passes through an adversarial exit node, several threats
+arise:</p>
+<ul>
+<li><strong>Eavesdropping and Sniffing:</strong> Operators can use
+packet-sniffing software like Wireshark or tcpdump to log all plaintext
+credentials and sensitive information automatically.</li>
+<li><strong>Man-in-the-Middle (MitM) Attacks:</strong> A compromised
+exit node can alter the web traffic in transit. It can inject malicious
+scripts, insert fraudulent advertisements, or alter downloadable files
+to deliver malware.</li>
+<li><strong>SSL Stripping:</strong> Some malicious exit nodes attempt to
+downgrade secure connections to insecure HTTP to force the client into
+sending plaintext credentials.</li>
+</ul>
+<h2 id="how-to-prevent-exit-node-snooping">How to Prevent Exit Node
+Snooping</h2>
+<p>To prevent exit nodes from reading your data, you must ensure
+end-to-end encryption between your browser and the destination
+server.</p>
+<ul>
+<li><strong>Use HTTPS:</strong> When using HTTPS, data is encrypted via
+TLS/SSL before it ever enters the Tor network. The exit node only sees
+encrypted ciphertext and cannot read the underlying content or
+credentials.</li>
+<li><strong>Enable HTTPS-Only Mode:</strong> Ensure your Tor Browser has
+HTTPS-Only mode enabled, which forces the browser to upgrade all
+insecure HTTP connections to HTTPS or block them if an encrypted version
+is unavailable.</li>
+<li><strong>Use Onion Services (.onion):</strong> Connecting directly to
+Tor onion services eliminates the need for an exit node entirely.
+Traffic stays inside the Tor network and is end-to-end encrypted from
+the client directly to the host server.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

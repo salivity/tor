@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why JavaScript Threatens Tor Anonymity - tor</title>
+    <meta name="description" content="JavaScript poses a significant deanonymization risk to Tor users because it expands the attack surface of the browser, enabling advanced tracking techniques and opening pathways to direct system exploits. While the Tor network successfully masks network-">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-javascript-threatens-tor-anonymity">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why JavaScript Threatens Tor Anonymity - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-javascript-threatens-tor-anonymity" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="JavaScript poses a significant deanonymization risk to Tor users because it expands the attack surface of the browser, enabling advanced tracking techniques and opening pathways to direct system exploits. While the Tor network successfully masks network-" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-javascript-threatens-tor-anonymity">Why JavaScript Threatens
+Tor Anonymity</h1>
+<p>JavaScript poses a significant deanonymization risk to Tor users
+because it expands the attack surface of the browser, enabling advanced
+tracking techniques and opening pathways to direct system exploits.
+While the Tor network successfully masks network-level identifiers like
+IP addresses, client-side scripts running inside the Tor Browser can
+bypass these protections by collecting unique hardware and software
+identifiers or executing zero-day exploits that force the host device to
+reveal its true identity.</p>
+<h3 id="advanced-browser-fingerprinting">Advanced Browser
+Fingerprinting</h3>
+<p>Tor relies on uniformity: if every user looks identical, individual
+users cannot be tracked. JavaScript undermines this defense by providing
+access to rich APIs capable of extracting granular details about the
+user’s system.</p>
+<p>Through JavaScript, websites can query:</p>
+<ul>
+<li>Canvas and WebGL rendering outputs, which vary depending on the
+device's graphics card and drivers.</li>
+<li>Audio API latency and rendering characteristics.</li>
+<li>System metrics such as screen dimensions, precise window resizing,
+and available system fonts.</li>
+<li>CPU concurrency and hardware performance benchmarks.</li>
+</ul>
+<p>When combined, these data points create a uniquely identifiable
+"fingerprint" that can track a user across different websites and
+sessions, rendering Tor’s routing protections ineffective.</p>
+<h3 id="memory-corruption-and-remote-code-execution">Memory Corruption
+and Remote Code Execution</h3>
+<p>The JavaScript engine within the Tor Browser (built on Mozilla
+Firefox's SpiderMonkey) is a complex piece of software responsible for
+compiling and executing dynamic code. This complexity makes it a
+frequent target for memory corruption vulnerabilities, such as
+use-after-free or buffer overflow flaws.</p>
+<p>An attacker can use malicious JavaScript to trigger a zero-day
+exploit within the browser. Once code execution is achieved, the
+attacker can break out of the browser sandbox and execute arbitrary
+commands on the underlying operating system. At this stage, the malware
+can bypass the Tor proxy entirely, making a direct connection back to
+the attacker's server to expose the user's real public IP address and
+MAC address.</p>
+<h3 id="timing-and-side-channel-attacks">Timing and Side-Channel
+Attacks</h3>
+<p>JavaScript includes high-precision timers that allow scripts to
+measure the exact time it takes to perform various tasks. Threat actors
+can use these timing measurements to conduct side-channel attacks, such
+as:</p>
+<ul>
+<li><strong>Cache timing attacks:</strong> Determining what data or
+files a user has recently accessed.</li>
+<li><strong>Network timing analysis:</strong> Correlating local packet
+arrival times with traffic on Tor exit nodes.</li>
+<li><strong>Clock skew measurement:</strong> Detecting microscopic
+variations in the host machine's hardware clock to identify the physical
+device over time.</li>
+</ul>
+<h3 id="mitigating-the-javascript-threat-in-tor">Mitigating the
+JavaScript Threat in Tor</h3>
+<p>To counteract these risks, the Tor Browser includes built-in security
+levels:</p>
+<ul>
+<li><strong>Standard:</strong> JavaScript is enabled by default across
+all sites for general web compatibility.</li>
+<li><strong>Safer:</strong> JavaScript is disabled on non-HTTPS sites
+and certain performance/rendering features are restricted.</li>
+<li><strong>Safest:</strong> JavaScript is disabled entirely on all
+sites by default.</li>
+</ul>
+<p>For users facing sophisticated adversaries or operating under
+high-threat models, disabling JavaScript via the "Safest" setting
+remains one of the most effective ways to prevent client-side
+deanonymization.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Disguises Traffic as Regular HTTPS - tor</title>
+    <meta name="description" content="The Tor network employs modular tools known as Pluggable Transports to transform, encapsulate, and mask its traffic so that it appears indistinguishable from standard HTTPS web browsing. While standard Tor traffic is already encrypted, network censors us">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-disguises-traffic-as-regular-https">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Disguises Traffic as Regular HTTPS - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-disguises-traffic-as-regular-https" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The Tor network employs modular tools known as Pluggable Transports to transform, encapsulate, and mask its traffic so that it appears indistinguishable from standard HTTPS web browsing. While standard Tor traffic is already encrypted, network censors us" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-disguises-traffic-as-regular-https">How Tor Disguises
+Traffic as Regular HTTPS</h1>
+<p>The Tor network employs modular tools known as Pluggable Transports
+to transform, encapsulate, and mask its traffic so that it appears
+indistinguishable from standard HTTPS web browsing. While standard Tor
+traffic is already encrypted, network censors using Deep Packet
+Inspection (DPI) can easily identify its unique cryptographic handshake
+and packet signatures. To bypass these blocks, Tor uses advanced
+obfuscation, TLS fingerprint spoofing, and domain fronting techniques to
+make Tor connections look like normal, benign secure web traffic.</p>
+<h3 id="pluggable-transports">Pluggable Transports</h3>
+<p>Standard Tor relays use a recognizable TLS handshake that reveals the
+connection is destined for the Tor network. When direct connections are
+blocked, Tor routes traffic through Pluggable Transports (PTs). These
+are specialized software layers that sit between the Tor client and the
+entry node (bridge), transforming the data stream into an unidentifiable
+format or wrapping it in standard web protocols before it leaves the
+user's computer.</p>
+<h3 id="mimicking-the-tls-handshake">Mimicking the TLS Handshake</h3>
+<p>Modern Pluggable Transports closely replicate the TLS handshakes used
+by standard web browsers like Mozilla Firefox and Google Chrome. Tor
+achieves this disguise through several specific methods:</p>
+<ul>
+<li><strong>Cipher Suite Emulation:</strong> When a standard browser
+connects to an HTTPS website, it sends a specific list of supported
+cryptographic algorithms (cipher suites) and TLS extensions. Transports
+emulate the exact order, parameters, and features of these mainstream
+browsers to prevent censors from flagging the handshake anomalies.</li>
+<li><strong>Packet Size and Timing Randomization:</strong> Regular HTTPS
+browsing involves irregular data bursts, whereas raw Tor traffic can
+exhibit predictable packet sizes and intervals. Obfuscation protocols,
+such as <code>obfs4</code>, inject randomized padding and artificial
+delays into data packets. This eliminates recognizable traffic flow
+patterns and prevents censors from identifying Tor via traffic
+analysis.</li>
+</ul>
+<h3 id="domain-fronting-meek">Domain Fronting (<code>meek</code>)</h3>
+<p>One of the most effective ways Tor mimics HTTPS traffic is through
+domain fronting, primarily implemented via the <code>meek</code>
+transport.</p>
+<p>Domain fronting exploits the way Content Delivery Networks (CDNs)
+handle HTTPS requests:</p>
+<ol type="1">
+<li>The client initiates a standard, valid HTTPS connection to an
+unblocked, high-reputation domain hosted on a major CDN (such as
+Microsoft Azure or Amazon CloudFront).</li>
+<li>The initial TLS handshake (specifically the Server Name Indication,
+or SNI) shows the address of the permitted public service.</li>
+<li>Inside the encrypted HTTPS payload—which DPI filters cannot inspect
+without breaking the encryption—the HTTP <code>Host</code> header
+specifies a hidden Tor bridge.</li>
+<li>The CDN unencrypts the request and routes the traffic to the Tor
+bridge internally.</li>
+</ol>
+<p>To an external observer or firewall, the connection is completely
+identical to ordinary HTTPS traffic directed at a major cloud
+provider.</p>
+<h3 id="webrtc-and-ephemeral-proxies-snowflake">WebRTC and Ephemeral
+Proxies (<code>Snowflake</code>)</h3>
+<p>Another method Tor uses to disguise traffic is
+<code>Snowflake</code>. Instead of directly mimicking standard HTTPS
+website traffic, Snowflake disguises Tor traffic as a WebRTC (Web
+Real-Time Communication) peer-to-peer connection. Because WebRTC is
+widely used for legitimate audio, video, and data streaming in modern
+web applications, the traffic blends seamlessly into normal internet
+activity, making selective blocking difficult without disrupting
+standard communication services.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

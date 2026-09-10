@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tor vs I2P: Key Network Differences - tor</title>
+    <meta name="description" content="While both Tor and the Invisible Internet Project (I2P) provide anonymity through multi-layered encryption, they differ fundamentally in design philosophy, routing mechanisms, network architecture, and primary use cases. Tor is primarily engineered to fa">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tor-vs-i2p-key-network-differences">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tor vs I2P: Key Network Differences - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tor-vs-i2p-key-network-differences" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While both Tor and the Invisible Internet Project (I2P) provide anonymity through multi-layered encryption, they differ fundamentally in design philosophy, routing mechanisms, network architecture, and primary use cases. Tor is primarily engineered to fa" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tor-vs-i2p-key-network-differences">Tor vs I2P: Key Network
+Differences</h1>
+<p>While both Tor and the Invisible Internet Project (I2P) provide
+anonymity through multi-layered encryption, they differ fundamentally in
+design philosophy, routing mechanisms, network architecture, and primary
+use cases. Tor is primarily engineered to facilitate anonymous access to
+the public internet (the clearnet), whereas I2P is architected as a
+decentralized, self-contained network designed for peer-to-peer
+communications and internal hidden services.</p>
+<h3 id="primary-purpose-and-ecosystem">Primary Purpose and
+Ecosystem</h3>
+<p>Tor's primary objective is anonymous proxying out to the standard
+internet. While Tor supports internal hidden services (Onion Services),
+the vast majority of its infrastructure focuses on directing traffic
+through exit nodes to clearweb websites.</p>
+<p>In contrast, I2P is designed from the ground up as a true "network
+within a network." Outproxies to the clearweb are scarce, discouraged,
+and not the focus of the network. Instead, I2P is optimized for internal
+destinations, known as "eepsites," as well as decentralized internal
+file sharing, messaging, and peer-to-peer services.</p>
+<h3 id="routing-architecture-onion-vs-garlic-routing">Routing
+Architecture: Onion vs. Garlic Routing</h3>
+<p>Tor uses <strong>onion routing</strong>, where traffic moves along a
+single, bidirectional circuit. The client negotiates a three-hop path
+(Guard, Middle, Exit), and both the request and the response travel
+through the exact same sequence of nodes in reverse order.</p>
+<p>I2P uses <strong>garlic routing</strong>, which introduces two major
+architectural differences:</p>
+<ul>
+<li><strong>Unidirectional Tunnels:</strong> I2P separates inbound and
+outbound traffic. Data sent to a destination travels through an outbound
+tunnel, while the reply returns through an entirely different inbound
+tunnel. This makes traffic analysis and correlation attacks
+significantly more difficult.</li>
+<li><strong>Message Bundling:</strong> Garlic routing allows multiple
+distinct messages (or "cloves") to be bundled into a single encrypted
+container, obfuscating the size and quantity of data transfers.</li>
+</ul>
+<h3 id="network-topology-and-directory-management">Network Topology and
+Directory Management</h3>
+<p>Tor uses a semi-centralized directory model. A small group of trusted
+<strong>Directory Authorities</strong> is responsible for maintaining
+the global list of active relays, checking their status, and
+distributing network consensus documents to all clients.</p>
+<p>I2P operates on a fully distributed model using a Distributed Hash
+Table (DHT). Known as the <strong>Network Database (NetDB)</strong>, I2P
+relies on dynamic floodfill routers to index participants and resolve
+destinations. This eliminates any central point of authority or single
+point of failure in network discovery.</p>
+<h3 id="transport-and-data-handling">Transport and Data Handling</h3>
+<p>Tor is a <strong>stream-oriented</strong> network built directly on
+TCP. It transports continuous data streams, which makes it ideal for
+real-time web browsing, though TCP-over-TCP mechanisms can introduce
+head-of-line blocking and performance bottlenecks during congestion.</p>
+<p>I2P is a <strong>packet- and message-oriented</strong> network. Its
+base layer handles raw, short messages and packet routing over both TCP
+and UDP protocols (such as SSU and NTCP2), with a dedicated streaming
+library built on top for reliable transport. This packet-based
+architecture makes I2P inherently resilient and well-suited for
+high-bandwidth, distributed peer-to-peer applications like
+BitTorrent.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

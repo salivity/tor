@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Bridges Bypass National Firewalls - tor</title>
+    <meta name="description" content="This article explains how the Tor network circumvents state-level internet censorship using hidden relays called bridges. You will learn why standard Tor connections get blocked by national firewalls, how unlisted bridge relays prevent IP-based blacklist">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-bridges-bypass-national-firewalls">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Bridges Bypass National Firewalls - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-bridges-bypass-national-firewalls" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="This article explains how the Tor network circumvents state-level internet censorship using hidden relays called bridges. You will learn why standard Tor connections get blocked by national firewalls, how unlisted bridge relays prevent IP-based blacklist" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-bridges-bypass-national-firewalls">How Tor Bridges
+Bypass National Firewalls</h1>
+<p>This article explains how the Tor network circumvents state-level
+internet censorship using hidden relays called bridges. You will learn
+why standard Tor connections get blocked by national firewalls, how
+unlisted bridge relays prevent IP-based blacklisting, and how advanced
+obfuscation technologies disguise Tor traffic patterns to bypass Deep
+Packet Inspection (DPI).</p>
+<h3 id="the-limitation-of-standard-tor-connections">The Limitation of
+Standard Tor Connections</h3>
+<p>Under normal circumstances, the Tor network relies on a public
+directory of relays. When a user connects to Tor, their client downloads
+this publicly accessible list of entry, middle, and exit nodes.</p>
+<p>National firewalls exploit this public list. Censorship systems—such
+as China's Great Firewall or national filtering systems in Iran and
+Russia—simply download the public list of Tor entry guards and block
+their IP addresses and port numbers. Consequently, any direct connection
+attempt to the standard Tor network fails at the firewall level.</p>
+<h3 id="what-are-tor-bridges">What Are Tor Bridges?</h3>
+<p>Tor bridges are private, unlisted Tor relays. Because bridge IP
+addresses are not published in the main public directory, firewalls
+cannot block them all simultaneously via automated IP blacklists.</p>
+<p>Instead of connecting directly to a known Tor entry guard, a censored
+user configures their client to route initial traffic through one of
+these secret bridge IP addresses. To prevent censors from scraping and
+blocking the entire bridge database, the Tor Project distributes bridge
+addresses in limited quantities through rate-limited interfaces, email
+requests, and automated in-app mechanisms called Moat.</p>
+<h3
+id="bypassing-deep-packet-inspection-dpi-with-pluggable-transports">Bypassing
+Deep Packet Inspection (DPI) with Pluggable Transports</h3>
+<p>Hiding the IP address is often not enough. Modern national firewalls
+use Deep Packet Inspection (DPI) to analyze the structure, timing, and
+cryptographic signatures of data packets. Standard Tor traffic has
+unique packet signatures and TLS handshake behaviors that DPI tools can
+detect and terminate instantly, even if the destination IP is
+unknown.</p>
+<p>To solve this, Tor bridges use <strong>Pluggable
+Transports</strong>—specialized software modules that transform the Tor
+traffic flow into alternate formats. The primary pluggable transports
+include:</p>
+<ul>
+<li><strong>obfs4 (The Obfuscator):</strong> Scrambles the traffic to
+look like completely random, unpatterned byte streams. It also adds
+packet padding to obscure packet sizes and timings, preventing firewalls
+from recognizing the statistical signatures of a Tor handshake.</li>
+<li><strong>Snowflake:</strong> Routes the user's connection through
+temporary, volunteer-run WebRTC proxies running in everyday web
+browsers. Because the connection uses standard WebRTC protocol—the same
+technology used for web-based video calling—firewalls cannot easily
+distinguish Tor traffic from normal video chats.</li>
+<li><strong>Meek:</strong> Utilizes a technique known as domain
+fronting. Meek routes traffic through massive content delivery networks
+(CDNs) like Microsoft Azure or Amazon Web Services. To the national
+firewall, the connection appears to be destined for an essential
+commercial service; blocking it would result in severe collateral
+economic damage.</li>
+</ul>
+<h3 id="summary-of-the-bypass-process">Summary of the Bypass
+Process</h3>
+<ol type="1">
+<li><strong>Distribution:</strong> The user obtains a bridge
+configuration containing an unlisted IP and a specific pluggable
+transport.</li>
+<li><strong>Obfuscation:</strong> The Tor client passes encrypted
+traffic to the pluggable transport, which modifies packet structures,
+metadata, and protocols.</li>
+<li><strong>Transmission:</strong> The traffic passes through the
+national firewall undetected, as it matches the profile of harmless
+background noise, standard HTTPS, or WebRTC data.</li>
+<li><strong>Relaying:</strong> The bridge receives the data, strips away
+the transport layer, and forwards the genuine Tor packets into the
+internal Tor network.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

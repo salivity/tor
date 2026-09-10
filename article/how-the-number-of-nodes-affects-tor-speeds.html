@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How the Number of Nodes Affects Tor Speeds - tor</title>
+    <meta name="description" content="The speed of the Tor network depends heavily on the total number and quality of active nodes, also known as relays. While a larger pool of relays generally increases total network capacity and reduces congestion for all users, your individual browsing sp">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-the-number-of-nodes-affects-tor-speeds">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How the Number of Nodes Affects Tor Speeds - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-the-number-of-nodes-affects-tor-speeds" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The speed of the Tor network depends heavily on the total number and quality of active nodes, also known as relays. While a larger pool of relays generally increases total network capacity and reduces congestion for all users, your individual browsing sp" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-the-number-of-nodes-affects-tor-speeds">How the Number of
+Nodes Affects Tor Speeds</h1>
+<p>The speed of the Tor network depends heavily on the total number and
+quality of active nodes, also known as relays. While a larger pool of
+relays generally increases total network capacity and reduces congestion
+for all users, your individual browsing speed is still constrained by
+the performance of the slowest relay in your specific three-hop circuit.
+Understanding how node count, relay types, and network capacity interact
+clarifies why simply adding more nodes improves reliability and scale,
+but does not necessarily guarantee instant, high-speed connections.</p>
+<h3 id="network-capacity-and-congestion-reduction">Network Capacity and
+Congestion Reduction</h3>
+<p>When the total number of volunteer-operated nodes increases, the Tor
+network's aggregate bandwidth expands. When node counts are low relative
+to user demand, individual relays experience heavy traffic queues,
+packet loss, and high latency. A higher quantity of nodes distributes
+the collective load of millions of concurrent users, preventing
+widespread network bottlenecks and keeping baseline speeds stable.</p>
+<h3 id="the-three-hop-circuit-bottleneck">The Three-Hop Circuit
+Bottleneck</h3>
+<p>Tor routes every user connection through three distinct relays: the
+Guard (entry) node, the Middle relay, and the Exit node. Your actual
+connection speed is determined by the slowest node among those three,
+often called the "weakest link" principle.</p>
+<ul>
+<li><strong>Total nodes vs. Selected nodes:</strong> Having 10,000
+active nodes increases the probability of selecting fast relays, but
+your individual connection only utilizes three at any given time.</li>
+<li><strong>Geographical distance:</strong> More nodes globally mean the
+Tor directory can build circuits with geographically closer relays,
+reducing physical round-trip time (RTT).</li>
+</ul>
+<h3 id="the-critical-role-of-exit-and-guard-relays">The Critical Role of
+Exit and Guard Relays</h3>
+<p>Not all nodes affect speed equally. Tor requires specialized
+designations for the entry and exit points of a circuit:</p>
+<ol type="1">
+<li><strong>Exit Nodes:</strong> These relays handle the outgoing
+traffic to the clear web and face the highest legal and administrative
+scrutiny. Consequently, exit nodes represent a small fraction of the
+total node pool. A shortage of exit nodes creates severe bottlenecks.
+Increasing the number of exit nodes provides the most noticeable speed
+improvements across the entire network.</li>
+<li><strong>Guard Nodes:</strong> These entry relays require high uptime
+and verified bandwidth to protect against correlation attacks. A higher
+count of fast guard nodes ensures that users establish strong,
+high-bandwidth entry points into the network.</li>
+<li><strong>Middle Relays:</strong> Middle relays are the most common
+and easiest to run. While helpful for capacity, an excess of middle
+relays without a proportional increase in guard and exit capacity yields
+diminishing returns for user speed.</li>
+</ol>
+<h3 id="latency-vs-throughput">Latency vs. Throughput</h3>
+<p>Increasing the number of nodes primarily improves throughput
+(bandwidth capacity), but it has a limited impact on latency. Because
+Tor inherently encrypts data in multiple layers and routes it across
+three separate physical locations, latency remains naturally higher than
+standard direct internet connections. More nodes ensure that traffic
+queues move quickly, but the physical requirement of routing through
+three disparate servers remains the primary limit on interactive
+responsiveness.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

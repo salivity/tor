@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Metadata Risks for Journalists Using Tor - tor</title>
+    <meta name="description" content="While the Tor network provides robust protection for internet traffic and physical IP addresses, it does not alter or sanitize the contents of the files transmitted through it. If a journalist or whistleblower sends a file containing embedded metadata vi">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/file-metadata-risks-for-journalists-using-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="File Metadata Risks for Journalists Using Tor - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/file-metadata-risks-for-journalists-using-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While the Tor network provides robust protection for internet traffic and physical IP addresses, it does not alter or sanitize the contents of the files transmitted through it. If a journalist or whistleblower sends a file containing embedded metadata vi" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="file-metadata-risks-for-journalists-using-tor">File Metadata
+Risks for Journalists Using Tor</h1>
+<p>While the Tor network provides robust protection for internet traffic
+and physical IP addresses, it does not alter or sanitize the contents of
+the files transmitted through it. If a journalist or whistleblower sends
+a file containing embedded metadata via Tor, that metadata can directly
+compromise their identity, location, and hardware information.
+Understanding the boundary between network anonymity and file-level
+privacy is critical for maintaining operational security.</p>
+<h3 id="the-difference-between-network-anonymity-and-payload-data">The
+Difference Between Network Anonymity and Payload Data</h3>
+<p>Tor functions at the network transport layer. It wraps data in
+multiple layers of encryption and routes it through a decentralized
+series of relays, preventing network observers and recipient servers
+from seeing the sender's real IP address.</p>
+<p>However, Tor treats the payload—the actual file being sent—as a black
+box. If an attached file contains identifiable data within its internal
+structure, the recipient (or anyone intercepting the decrypted exit
+traffic) can extract that information directly from the file itself.</p>
+<h3 id="common-types-of-deanonymizing-metadata">Common Types of
+Deanonymizing Metadata</h3>
+<p>Files frequently store hidden information generated automatically by
+software and hardware:</p>
+<ul>
+<li><strong>Images (EXIF Data):</strong> Photos taken on smartphones and
+modern cameras often store exact GPS coordinates, camera serial numbers,
+device models, and timestamps.</li>
+<li><strong>Documents (Word, PDF, OpenDocument):</strong> Office
+documents routinely retain author names, company names, file paths,
+operating system usernames, printer tracking codes, and complete
+revision histories that reveal prior drafts and deleted text.</li>
+<li><strong>Audio and Video Files:</strong> Media files can contain
+software identifiers, recording device details, and embedded thumbnail
+caches.</li>
+<li><strong>Archive Files (ZIP, TAR):</strong> Archives often preserve
+original file creation dates, user IDs, and local directory
+structures.</li>
+</ul>
+<h3 id="how-metadata-compromises-sources-and-journalists">How Metadata
+Compromises Sources and Journalists</h3>
+<p>If a journalist receives a leaked document via a SecureDrop instance
+running on Tor, or sends an investigative piece to an editor via a
+Tor-routed email, the network privacy remains intact. However, if the
+document’s internal properties list the journalist's or source's actual
+name, computer username, or local network path, the Tor connection
+becomes irrelevant.</p>
+<p>Adversaries do not need to break Tor's encryption to identify the
+creator of a document; they simply read the metadata embedded within the
+file structure.</p>
+<h3 id="how-to-mitigate-file-metadata-risks">How to Mitigate File
+Metadata Risks</h3>
+<p>To prevent metadata leaks when using Tor, journalists must sanitize
+all files prior to transmission:</p>
+<ul>
+<li><strong>Use Metadata Stripping Tools:</strong> Programs like
+Metadata Anonymisation Toolkit 2 (MAT2) or Dangerzone convert complex,
+potentially compromised documents into safe, flattened formats while
+stripping hidden attributes.</li>
+<li><strong>Export to Plain Formats:</strong> Converting documents to
+plain text (<code>.txt</code>) removes document properties and revision
+histories entirely.</li>
+<li><strong>Strip Image EXIF Data:</strong> Dedicated command-line tools
+like <code>exiftool</code> can remove all metadata tags from images
+before distribution, or users can take a clean screenshot of the image
+to discard the original file's metadata container.</li>
+<li><strong>Utilize Specialized Operating Systems:</strong>
+Privacy-focused operating systems like Tails route all traffic through
+Tor by default and include built-in metadata cleaning tools to sanitize
+files before they are shared.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

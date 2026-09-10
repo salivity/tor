@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Does the NSA Monitor Tor Traffic? - tor</title>
+    <meta name="description" content="The National Security Agency (NSA) monitors Tor traffic not by breaking the network's underlying multi-layered encryption directly, but by employing side-channel techniques, global network surveillance, endpoint exploitation, and statistical traffic anal">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-does-the-nsa-monitor-tor-traffic">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Does the NSA Monitor Tor Traffic? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-does-the-nsa-monitor-tor-traffic" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The National Security Agency (NSA) monitors Tor traffic not by breaking the network's underlying multi-layered encryption directly, but by employing side-channel techniques, global network surveillance, endpoint exploitation, and statistical traffic anal" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-does-the-nsa-monitor-tor-traffic">How Does the NSA Monitor
+Tor Traffic?</h1>
+<p>The National Security Agency (NSA) monitors Tor traffic not by
+breaking the network's underlying multi-layered encryption directly, but
+by employing side-channel techniques, global network surveillance,
+endpoint exploitation, and statistical traffic analysis. By observing
+the points where data enters and exits the Tor network, intercepting
+internet backbone infrastructure, and targeting vulnerabilities in the
+user's browser, the agency attempts to correlate encrypted traffic and
+deanonymize users.</p>
+<h3 id="traffic-correlation-and-timing-attacks">Traffic Correlation and
+Timing Attacks</h3>
+<p>Tor routes traffic through three randomized nodes: the guard (entry)
+node, the middle relay, and the exit node. While the payload remains
+encrypted between these hops, the NSA leverages its vast access to
+global internet infrastructure to perform traffic-confirmation attacks.
+By recording the precise timing, packet volume, and data throughput
+entering a guard node and simultaneously measuring traffic exiting
+toward a destination server, the agency uses statistical correlation to
+match the two streams. If the patterns match with high probability, the
+user's real IP address is linked to their online destination.</p>
+<h3 id="upstream-backbone-surveillance">Upstream Backbone
+Surveillance</h3>
+<p>Through signals intelligence programs such as Fairview, Stormbrew,
+and Blarney, the NSA intercepts raw data flowing through undersea
+fiber-optic cables, major switching centers, and Tier-1 Internet Service
+Providers (ISPs). This massive vantage point allows the agency to see a
+significant portion of global internet traffic. When a user connects to
+a public Tor relay, the NSA can identify that a connection to the Tor
+network has been established, even if they cannot immediately read the
+encrypted payload inside.</p>
+<h3 id="endpoint-and-browser-exploitation">Endpoint and Browser
+Exploitation</h3>
+<p>Recognizing that breaking Tor’s cryptographic implementation is
+computationally impractical, the NSA often bypasses network encryption
+entirely by targeting the user's local machine. The agency has
+historically used man-on-the-side attacks, automated through systems
+like QUANTUMINSERT, to redirect Tor users visiting unencrypted websites
+to classified exploit servers (such as FOXACID). These servers deliver
+zero-day exploits targeting vulnerabilities in the underlying Tor
+Browser (which is based on Mozilla Firefox), executing remote code that
+forces the target's machine to bypass Tor and beacon its real IP address
+back to the agency.</p>
+<h3 id="operating-and-targeting-tor-relays">Operating and Targeting Tor
+Relays</h3>
+<p>Anonymity on Tor relies on trust distribution across independent
+relays. To increase the odds of observing both ends of a circuit,
+intelligence agencies can deploy their own high-bandwidth guard and exit
+relays or compromise existing ones. If an adversary simultaneously
+controls or monitors the first and last node in a specific user's
+three-hop circuit, identifying the user and the destination becomes
+trivial through direct traffic matching.</p>
+<h3 id="exploiting-operational-security-failures">Exploiting Operational
+Security Failures</h3>
+<p>The NSA systematically scans for configuration errors and metadata
+leaks. Users who run outdated software, enable compromised browser
+extensions, download files that bypass proxy settings, or mix anonymous
+browsing with identifiable personal accounts inadvertently expose their
+identities. The NSA cross-references these identity leaks with
+intercepted connection logs to associate pseudo-anonymous activities
+with real-world profiles.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

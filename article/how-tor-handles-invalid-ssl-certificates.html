@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Handles Invalid SSL Certificates - tor</title>
+    <meta name="description" content="Tor Browser relies on strict end-to-end TLS/SSL verification inherited from Mozilla Firefox to handle invalid certificates. When a user encounters an invalid, expired, self-signed, or untrusted certificate while routing traffic through the Tor network, t">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-handles-invalid-ssl-certificates">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Handles Invalid SSL Certificates - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-handles-invalid-ssl-certificates" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Browser relies on strict end-to-end TLS/SSL verification inherited from Mozilla Firefox to handle invalid certificates. When a user encounters an invalid, expired, self-signed, or untrusted certificate while routing traffic through the Tor network, t" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-handles-invalid-ssl-certificates">How Tor Handles
+Invalid SSL Certificates</h1>
+<p>Tor Browser relies on strict end-to-end TLS/SSL verification
+inherited from Mozilla Firefox to handle invalid certificates. When a
+user encounters an invalid, expired, self-signed, or untrusted
+certificate while routing traffic through the Tor network, the browser
+terminates the standard connection process and displays a prominent
+security warning. This rigid handling ensures that malicious
+intermediate relays, particularly exit nodes, cannot secretly intercept,
+decrypt, or alter user traffic.</p>
+<h3 id="end-to-end-encryption-and-the-role-of-exit-nodes">End-to-End
+Encryption and the Role of Exit Nodes</h3>
+<p>When accessing regular clearnet websites (HTTP/HTTPS) over Tor,
+traffic is encrypted through three relays: the guard node, the middle
+relay, and the exit node. The exit node decrypts the Tor layer and
+forwards the request to the destination web server.</p>
+<p>Because the exit node has visibility over unencrypted traffic, HTTPS
+is essential for privacy and security. The TLS/SSL handshake occurs
+directly between the user's Tor Browser and the destination server, not
+the exit node. If an exit node attempts a Man-in-the-Middle (MitM)
+attack by presenting a counterfeit SSL certificate, Tor Browser checks
+the certificate against its built-in Certificate Authority (CA) root
+store, detects the mismatch, and blocks the connection.</p>
+<h3 id="how-tor-browser-responds-to-certificate-errors">How Tor Browser
+Responds to Certificate Errors</h3>
+<p>When Tor Browser encounters an invalid SSL certificate, it triggers
+the standard Firefox certificate error interface (such as
+<code>SEC_ERROR_UNKNOWN_ISSUER</code> or
+<code>SSL_ERROR_BAD_CERT_DOMAIN</code>). The behavior includes:</p>
+<ul>
+<li><strong>Blocking Content:</strong> The page content is completely
+blocked from loading until the security issue is resolved or
+bypassed.</li>
+<li><strong>Disabling Automatic Fallbacks:</strong> Tor Browser does not
+silently downgrade connections from HTTPS to insecure HTTP.</li>
+<li><strong>Warning Pages:</strong> The user is shown an interstitial
+warning detailing the specific reason for failure, such as domain name
+mismatch, expired validity dates, or an untrusted root issuer.</li>
+</ul>
+<p>While users technically retain the ability to manually add security
+exceptions for self-signed or invalid certificates, doing so over the
+Tor network carries high risk, as there is no out-of-band way to verify
+whether the certificate originates from the actual site or a compromised
+exit relay.</p>
+<h3 id="ssl-handling-on-tor-onion-services-onion">SSL Handling on Tor
+Onion Services (.onion)</h3>
+<p>Tor Onion Services operate differently from standard clearnet
+websites. Onion addresses are self-authenticating cryptographic keys
+(using Ed25519 public keys in v3 onion services). End-to-end encryption
+and authentication are built directly into the Tor protocol itself,
+rendering traditional CA-issued SSL certificates technically redundant
+for traffic encryption.</p>
+<p>However, some onion services implement HTTPS alongside Tor encryption
+to provide an additional layer of security or domain identity. If an
+onion service configures an SSL certificate that is invalid or expired,
+Tor Browser enforces the same strict certificate validation rules and
+displays an error page, preventing access until the certificate
+configuration is corrected.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

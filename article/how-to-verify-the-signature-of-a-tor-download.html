@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Verify the Signature of a Tor Download - tor</title>
+    <meta name="description" content="Verifying the digital signature of a Tor Browser download is a crucial security practice that ensures your installer is authentic, unaltered, and issued directly by the Tor Project developers. This guide provides a straightforward, step-by-step method to">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-verify-the-signature-of-a-tor-download">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Verify the Signature of a Tor Download - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-verify-the-signature-of-a-tor-download" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Verifying the digital signature of a Tor Browser download is a crucial security practice that ensures your installer is authentic, unaltered, and issued directly by the Tor Project developers. This guide provides a straightforward, step-by-step method to" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-verify-the-signature-of-a-tor-download">How to Verify the
+Signature of a Tor Download</h1>
+<p>Verifying the digital signature of a Tor Browser download is a
+crucial security practice that ensures your installer is authentic,
+unaltered, and issued directly by the Tor Project developers. This guide
+provides a straightforward, step-by-step method to download the required
+signature files, import the Tor Project's cryptographic signing keys,
+and verify the integrity of the software on your system using GnuPG.</p>
+<h3 id="1-download-the-installer-and-signature-file">1. Download the
+Installer and Signature File</h3>
+<p>When downloading the Tor Browser from the official Tor Project
+website, you must download two files into the same directory:</p>
+<ul>
+<li>The installation file for your operating system (e.g.,
+<code>.exe</code> for Windows, <code>.dmg</code> for macOS, or
+<code>.tar.xz</code> for Linux).</li>
+<li>The matching signature file ending in <code>.asc</code> (located
+next to the download link as "Signature").</li>
+</ul>
+<h3 id="2-install-gnupg-gpg">2. Install GnuPG (GPG)</h3>
+<p>To check cryptographic signatures, you need GnuPG installed on your
+system:</p>
+<ul>
+<li><strong>Linux:</strong> Open your terminal and install GPG using
+your package manager (e.g., <code>sudo apt install gnupg</code> on
+Debian/Ubuntu or <code>sudo dnf install gnupg</code> on Fedora).</li>
+<li><strong>macOS:</strong> Install GPG Suite via Homebrew using
+<code>brew install gpg-suite</code> or download it directly from
+GPGTools.</li>
+<li><strong>Windows:</strong> Download and install Gpg4win, which
+includes the necessary command-line and graphical GPG tools.</li>
+</ul>
+<h3 id="3-fetch-the-tor-developers-signing-key">3. Fetch the Tor
+Developers Signing Key</h3>
+<p>Before verifying, you must import the Tor Browser developer signing
+key into your GPG keyring. Open your command line interface (Terminal or
+Command Prompt) and run the following command:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--auto-key-locate</span> nodefault,wkd <span class="at">--locate-keys</span> torbrowser@torproject.org</span></code></pre></div>
+<p>Alternatively, you can manually import the key using its
+fingerprint:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--keyserver</span> keys.openpgp.org <span class="at">--recv-keys</span> <span class="st">&quot;EF6E 286D DA85 EA8E 4757 D533 D148 3FA6 C3C0 7136&quot;</span></span></code></pre></div>
+<p>Verify that the key was successfully imported by checking its
+fingerprint:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--fingerprint</span> torbrowser@torproject.org</span></code></pre></div>
+<p>Ensure the output matches the official fingerprint:
+<code>EF6E 286D DA85 EA8E 4757 D533 D148 3FA6 C3C0 7136</code>.</p>
+<h3 id="4-verify-the-downloaded-file">4. Verify the Downloaded File</h3>
+<p>Navigate to the directory containing both the installer and the
+<code>.asc</code> signature file. Run the verification command
+corresponding to your operating system:</p>
+<p><strong>Linux:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--verify</span> tor-browser-linux64-<span class="pp">*</span>.tar.xz.asc tor-browser-linux64-<span class="pp">*</span>.tar.xz</span></code></pre></div>
+<p><strong>macOS:</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--verify</span> TorBrowser-<span class="pp">*</span>.dmg.asc TorBrowser-<span class="pp">*</span>.dmg</span></code></pre></div>
+<p><strong>Windows:</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gpg</span> <span class="at">--verify</span> tor-browser-windows-x86_64-<span class="pp">*</span>.exe.asc tor-browser-windows-x86_64-<span class="pp">*</span>.exe</span></code></pre></div>
+<p><em>(Note: Replace the file names with the exact names of the files
+you downloaded.)</em></p>
+<h3 id="5-interpret-the-output">5. Interpret the Output</h3>
+<p>Review the terminal output to confirm verification status:</p>
+<ul>
+<li><strong>Successful Verification:</strong> The output will state
+<code>gpg: Good signature from "Tor Browser Developers (signing key) &lt;torbrowser@torproject.org&gt;"</code>.</li>
+<li><strong>Trust Warning:</strong> You may see a warning stating
+<code>gpg: WARNING: This key is not certified with a trusted signature!</code>.
+This is normal and simply means you have not personally established a
+web-of-trust path to the key. As long as you see
+<code>Good signature</code> and the key ID matches, the download is
+verified and safe to use.</li>
+<li><strong>Failed Verification:</strong> If the output displays
+<code>BAD signature</code>, do not run or install the file. Delete it
+immediately and attempt the download again from the official
+website.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tor Hidden Services vs I2P Eepsites Comparison - tor</title>
+    <meta name="description" content="Tor hidden services (now called onion services) and I2P eepsites are two leading technologies for hosting anonymous, censorship-resistant websites. While both hide the server's IP address and encrypt traffic through multiple intermediary nodes, they are">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tor-hidden-services-vs-i2p-eepsites-comparison">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tor Hidden Services vs I2P Eepsites Comparison - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tor-hidden-services-vs-i2p-eepsites-comparison" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor hidden services (now called onion services) and I2P eepsites are two leading technologies for hosting anonymous, censorship-resistant websites. While both hide the server's IP address and encrypt traffic through multiple intermediary nodes, they are" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tor-hidden-services-vs-i2p-eepsites-comparison">Tor Hidden
+Services vs I2P Eepsites Comparison</h1>
+<p>Tor hidden services (now called onion services) and I2P eepsites are
+two leading technologies for hosting anonymous, censorship-resistant
+websites. While both hide the server's IP address and encrypt traffic
+through multiple intermediary nodes, they are built on fundamentally
+different network architectures. Tor utilizes centralized directory
+authorities and bidirectional circuits designed primarily for anonymous
+access to the public internet, whereas I2P uses a fully decentralized,
+packet-based garlic routing model designed from the ground up for hidden
+internal services.</p>
+<h3 id="core-architecture-and-routing">Core Architecture and
+Routing</h3>
+<p>Tor uses onion routing, where data is wrapped in multiple layers of
+encryption and sent along a single, bidirectional virtual circuit. For
+onion services, both the client and the server build separate three-hop
+circuits to a shared rendezvous point. Tor relies on a set of trusted
+directory authorities to maintain and distribute the network's consensus
+state.</p>
+<p>In contrast, I2P uses garlic routing, an evolution of onion routing
+that bundles multiple distinct messages together to obscure traffic
+patterns. I2P creates separate unidirectional tunnels for inbound and
+outbound traffic. Furthermore, I2P does not rely on central directory
+authorities; it uses a decentralized Distributed Hash Table (DHT) known
+as the Network Database (NetDB) to track peers and eepsite
+locations.</p>
+<h3 id="protocol-support-and-use-cases">Protocol Support and Use
+Cases</h3>
+<p>Tor is designed primarily for TCP traffic and low-latency
+interaction. This makes Tor onion services particularly effective for
+hosting standard HTTP/HTTPS websites, instant messaging applications,
+and remote administrative connections like SSH.</p>
+<p>I2P natively supports both TCP and UDP-like protocols over a
+packet-switched network. Because of its peer-to-peer design and
+unidirectional multihop tunnels, I2P is optimized for high-bandwidth
+internal services such as peer-to-peer file sharing, BitTorrent,
+decentralized storage, and resilient internal forums, rather than simple
+web hosting.</p>
+<h3 id="performance-and-latency">Performance and Latency</h3>
+<p>Tor onion services generally offer lower latency and faster
+connection setup times compared to I2P. This provides a more
+traditional, responsive web browsing experience.</p>
+<p>I2P eepsites typically experience higher latency due to the overhead
+of the NetDB lookup and the creation of dynamic, unidirectional inbound
+and outbound tunnels. However, I2P can handle sustained, high-bandwidth
+transfers better than Tor because traffic can be distributed across
+multiple parallel tunnels simultaneously.</p>
+<h3 id="security-and-attack-surfaces">Security and Attack Surfaces</h3>
+<p>Both networks provide strong anonymity, but they mitigate threats
+differently:</p>
+<ul>
+<li><strong>Traffic Analysis:</strong> I2P’s garlic routing and
+unidirectional paths provide stronger theoretical resistance against
+global traffic correlation attacks than Tor’s bidirectional
+streams.</li>
+<li><strong>Denial of Service (DoS):</strong> Tor rendezvous points can
+become bottlenecks or targets for DoS attacks. I2P’s decentralized
+routing makes it harder to take down an eepsite by targeting network
+infrastructure, as traffic paths are dynamically distributed.</li>
+<li><strong>Network Size:</strong> Tor has a significantly larger user
+base and node network, providing a larger anonymity set. I2P has a
+smaller user base, which can make traffic analysis theoretically easier
+if an adversary monitors a substantial portion of the network.</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<p>Tor hidden services are best suited for interactive, low-latency web
+hosting and applications that require a large anonymity set. I2P
+eepsites are better suited for decentralized peer-to-peer applications,
+internal network communication, and services where high-bandwidth
+distribution is more critical than low latency.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Selects Middle Relays for Circuits - tor</title>
+    <meta name="description" content="When building an encrypted three-hop circuit, Tor relies on a consensus-weighted selection algorithm to choose an optimal middle relay. Positioned securely between the entry guard and the exit node, the middle relay processes traffic without knowing the">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-selects-middle-relays-for-circuits">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Selects Middle Relays for Circuits - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-selects-middle-relays-for-circuits" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When building an encrypted three-hop circuit, Tor relies on a consensus-weighted selection algorithm to choose an optimal middle relay. Positioned securely between the entry guard and the exit node, the middle relay processes traffic without knowing the" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-selects-middle-relays-for-circuits">How Tor Selects
+Middle Relays for Circuits</h1>
+<p>When building an encrypted three-hop circuit, Tor relies on a
+consensus-weighted selection algorithm to choose an optimal middle
+relay. Positioned securely between the entry guard and the exit node,
+the middle relay processes traffic without knowing the origin IP or the
+final destination. To preserve user anonymity and maintain network
+balance, Tor filters all candidate relays against strict diversity
+constraints—including subnet restrictions, operator family declarations,
+and bandwidth capacities—ensuring traffic is distributed efficiently and
+cannot be easily intercepted by a single entity.</p>
+<h3 id="the-role-of-the-middle-relay">The Role of the Middle Relay</h3>
+<p>A standard Tor circuit consists of three nodes: the guard (entry),
+the middle (relay), and the exit. The middle relay's sole purpose is to
+separate the guard node from the exit node. By isolating these two
+points, the entry guard knows who the user is but not where they are
+going, while the exit node knows the destination but not the user's
+identity. The middle relay knows only the IP addresses of the guard and
+the exit.</p>
+<h3 id="bandwidth-weighting-via-the-consensus">Bandwidth Weighting via
+the Consensus</h3>
+<p>Tor does not choose middle relays at random. Instead, directory
+authorities continuously measure relay capacities and publish a global
+consensus document containing "bandwidth weights."</p>
+<p>Clients select relays with a probability proportional to their
+weighted bandwidth. This mechanism balances network load across
+thousands of volunteer servers. High-capacity relays process more
+circuits, while lower-capacity nodes are assigned fewer circuits,
+preventing performance bottlenecks and improving connection speed.</p>
+<h3 id="node-availability-and-flags">Node Availability and Flags</h3>
+<p>Before a relay is considered for the middle position, it must meet
+basic status requirements defined in the consensus:</p>
+<ul>
+<li><strong>Running:</strong> The node must currently be online and
+responding to network checks.</li>
+<li><strong>Valid:</strong> The node's identity key and software version
+must be verified by directory authorities.</li>
+<li><strong>Role Reservation:</strong> To optimize scarce network
+resources, nodes designated with the "Guard" or "Exit" flags are
+prioritized for entry and exit roles, reducing the likelihood of them
+being used as standard middle relays unless bandwidth distribution
+requires it.</li>
+</ul>
+<h3 id="path-selection-constraints-and-diversity-rules">Path Selection
+Constraints and Diversity Rules</h3>
+<p>To prevent adversaries from controlling multiple nodes in the same
+circuit—an attack known as a correlation attack—Tor applies strict
+exclusion rules during the middle relay selection process:</p>
+<ul>
+<li><strong>Distinct /16 IPv4 Subnets:</strong> Tor will not select a
+middle relay that shares the same <code>/16</code> IPv4 subnet (or
+<code>/32</code> for IPv6) with the circuit's guard or exit relay. This
+ensures that nodes hosted within the same data center or network block
+cannot be used together.</li>
+<li><strong>The "MyFamily" Declaration:</strong> Node operators who run
+multiple relays are required to configure a <code>MyFamily</code>
+setting linking their servers. Tor treats all relays in a declared
+family as a single entity, ensuring no two nodes from the same operator
+appear in the same path.</li>
+<li><strong>No Duplicate Nodes:</strong> A relay cannot occupy more than
+one position within a single circuit.</li>
+</ul>
+<p>Once all candidate relays violating these diversity rules are
+filtered out, the Tor client makes a weighted probabilistic choice from
+the remaining valid nodes to finalize the three-hop path.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

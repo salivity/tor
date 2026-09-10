@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can a Global Passive Adversary Deanonymize Tor? - tor</title>
+    <meta name="description" content="A global passive adversary (GPA)—an entity capable of observing all network traffic across the globe without altering it—theoretically possesses the capability to deanonymize virtually all Tor users. Because Tor is a low-latency anonymity network des">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/can-a-global-passive-adversary-deanonymize-tor">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Can a Global Passive Adversary Deanonymize Tor? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/can-a-global-passive-adversary-deanonymize-tor" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="A global passive adversary (GPA)—an entity capable of observing all network traffic across the globe without altering it—theoretically possesses the capability to deanonymize virtually all Tor users. Because Tor is a low-latency anonymity network des" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="can-a-global-passive-adversary-deanonymize-tor">Can a Global
+Passive Adversary Deanonymize Tor?</h1>
+<p>A global passive adversary (GPA)—an entity capable of observing all
+network traffic across the globe without altering it—theoretically
+possesses the capability to deanonymize virtually all Tor users. Because
+Tor is a low-latency anonymity network designed for real-time web
+browsing, it does not obscure the timing or volume of data packets. This
+fundamental design choice makes Tor vulnerable to end-to-end traffic
+correlation attacks if an adversary can simultaneously monitor the entry
+and exit points of a connection.</p>
+<h3 id="understanding-the-global-passive-adversary">Understanding the
+Global Passive Adversary</h3>
+<p>A global passive adversary is a theoretical threat actor with
+comprehensive visibility over all communication links worldwide.
+"Passive" means the adversary does not actively modify, drop, or inject
+packets; it merely observes and records metadata, such as packet
+timestamps, sizes, and communication endpoints.</p>
+<h3 id="why-tor-cannot-defend-against-a-gpa">Why Tor Cannot Defend
+Against a GPA</h3>
+<p>Tor relies on onion routing, which encrypts data in layers and routes
+it through three random relays: the Guard (entry) node, the Middle node,
+and the Exit node. While intermediate nodes cannot see both the source
+and destination, a GPA observes the entire network from above.</p>
+<p>Tor is vulnerable to a GPA due to the following structural
+factors:</p>
+<ul>
+<li><strong>Low-Latency Requirements:</strong> High-latency mix networks
+(such as mixnets used for anonymous email) introduce artificial delays,
+reorder packets, and generate dummy traffic to thwart statistical
+analysis. Tor prioritizes performance to enable usable web browsing,
+meaning packets travel through the network almost instantaneously.</li>
+<li><strong>Traffic Confirmation Attacks:</strong> When a user sends
+data, it creates a distinct "fingerprint" of packet sizes and
+inter-packet arrival times. Even though the payload is strongly
+encrypted, the shape and timing of the traffic entering the Guard node
+match the traffic leaving the Exit node. A GPA can use statistical
+correlation algorithms to match these patterns across the network in
+near-real-time.</li>
+</ul>
+<h3 id="tors-threat-model">Tor's Threat Model</h3>
+<p>The developers of Tor have explicitly stated in the network's design
+specifications that Tor is not engineered to withstand a global passive
+adversary. Protecting against a GPA would require substantial bandwidth
+overhead, constant dummy traffic, and high latency, which would make
+typical interactive internet usage impractical.</p>
+<h3 id="theory-vs-real-world-capability">Theory vs. Real-World
+Capability</h3>
+<p>In a purely theoretical scenario where an adversary monitors 100% of
+all internet traffic ingress and egress, that adversary has the ability
+to deanonymize all Tor users.</p>
+<p>In practice, no single entity possesses total visibility over every
+autonomous system, internet exchange point (IXP), and satellite link
+across every geopolitical jurisdiction. However, large nation-state
+intelligence agencies and surveillance coalitions (such as the Five Eyes
+alliance) can achieve <em>partial</em> passive global visibility. By
+monitoring major internet backbones and running significant numbers of
+relay nodes, these entities can deanonymize a substantial percentage of
+Tor traffic targeting specific individuals without needing complete
+global coverage.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

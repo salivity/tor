@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Ensure Tor Browser Is Free of Spyware - tor</title>
+    <meta name="description" content="For whistleblowers, digital privacy is a matter of personal safety. Ensuring that the Tor Browser is completely free of spyware requires a multi-layered approach: obtaining the software exclusively from official sources, cryptographically verifying its a">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-ensure-tor-browser-is-free-of-spyware">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Ensure Tor Browser Is Free of Spyware - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-ensure-tor-browser-is-free-of-spyware" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="For whistleblowers, digital privacy is a matter of personal safety. Ensuring that the Tor Browser is completely free of spyware requires a multi-layered approach: obtaining the software exclusively from official sources, cryptographically verifying its a" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-ensure-tor-browser-is-free-of-spyware">How to Ensure Tor
+Browser Is Free of Spyware</h1>
+<p>For whistleblowers, digital privacy is a matter of personal safety.
+Ensuring that the Tor Browser is completely free of spyware requires a
+multi-layered approach: obtaining the software exclusively from official
+sources, cryptographically verifying its authenticity, operating within
+a secure and isolated operating system like Tails, keeping security
+settings at their highest levels, and strictly avoiding modifications or
+third-party add-ons.</p>
+<h3 id="1-download-exclusively-from-the-official-source">1. Download
+Exclusively from the Official Source</h3>
+<p>Never download Tor Browser from third-party websites, software
+repositories, or unverified links. Attackers frequently create clone
+websites distributing trojanized versions of Tor embedded with spyware.
+Always navigate directly to the official Tor Project website or use
+their official GetTor email responder service if the main site is
+blocked in your jurisdiction.</p>
+<h3 id="2-verify-cryptographic-signatures-gpgpgp">2. Verify
+Cryptographic Signatures (GPG/PGP)</h3>
+<p>Downloading the file over HTTPS is not enough. To guarantee the
+software has not been tampered with by an adversary or a compromised
+network, verify the digital signature before running the installer:</p>
+<ul>
+<li>Download the installation package along with its corresponding
+<code>.asc</code> signature file.</li>
+<li>Import the official Tor Browser Developers signing key.</li>
+<li>Use GNU Privacy Guard (GPG) to verify that the signature matches the
+binary.</li>
+<li>If the signature check fails or returns a warning that the key is
+invalid, do not execute the file.</li>
+</ul>
+<h3 id="3-use-an-amnesic-live-operating-system-tails">3. Use an Amnesic
+Live Operating System (Tails)</h3>
+<p>Even a genuine, verified copy of Tor Browser will be compromised if
+the underlying operating system contains keyloggers, rootkits, or
+spyware. To eliminate host-level surveillance:</p>
+<ul>
+<li>Boot from a live USB containing <strong>Tails</strong> (The Amnesic
+Incognito Live System).</li>
+<li>Tails routes all Internet traffic through the Tor network by default
+and leaves no trace on the computer's hard drive after shutdown.</li>
+<li>Because it runs entirely in RAM, any malware acquired during a
+session is wiped out as soon as the computer is powered down.</li>
+</ul>
+<h3 id="4-maximize-built-in-security-settings">4. Maximize Built-in
+Security Settings</h3>
+<p>Tor Browser comes pre-configured with defensive settings that should
+be optimized for high-risk activities:</p>
+<ul>
+<li><strong>Set the Security Level to "Safest":</strong> This disables
+JavaScript by default on all sites, blocks certain fonts and math
+symbols, and prevents media from playing automatically. Most
+browser-based zero-day exploits rely on JavaScript execution.</li>
+<li><strong>Never install additional add-ons or extensions:</strong>
+Third-party extensions can bypass Tor routing, execute malicious code,
+or uniquely fingerprint your browser.</li>
+<li><strong>Do not change default settings:</strong> Altering canvas
+permissions, window dimensions, or advanced configuration options makes
+your browser unique and easier to track across sessions.</li>
+</ul>
+<h3 id="5-maintain-strict-hardware-and-network-isolation">5. Maintain
+Strict Hardware and Network Isolation</h3>
+<p>Software integrity depends heavily on physical and network
+operational security:</p>
+<ul>
+<li>Never use a computer provided by an employer, government entity, or
+shared network where monitoring software may already be deployed at the
+firmware or BIOS level.</li>
+<li>Perform sensitive actions over public or non-attributable Wi-Fi
+networks rather than a home or workplace network.</li>
+<li>Physically disable or tape over built-in webcams and microphones on
+the device being used.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

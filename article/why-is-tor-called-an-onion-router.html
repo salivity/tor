@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Is Tor Called an Onion Router? - tor</title>
+    <meta name="description" content="The name "onion router" originates from the core security mechanism powering the network: layered encryption. In the Tor network—short for "The Onion Router"—data is wrapped in multiple layers of cryptographic protection, closely resembling the physi">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/why-is-tor-called-an-onion-router">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Why Is Tor Called an Onion Router? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/why-is-tor-called-an-onion-router" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The name "onion router" originates from the core security mechanism powering the network: layered encryption. In the Tor network—short for "The Onion Router"—data is wrapped in multiple layers of cryptographic protection, closely resembling the physi" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="why-is-tor-called-an-onion-router">Why Is Tor Called an Onion
+Router?</h1>
+<p>The name "onion router" originates from the core security mechanism
+powering the network: layered encryption. In the Tor network—short for
+"The Onion Router"—data is wrapped in multiple layers of cryptographic
+protection, closely resembling the physical layers of an onion. As data
+travels through a sequence of volunteer-operated servers, each
+intermediate server peels away a single layer of encryption to reveal
+only the necessary routing instructions for the next hop, ensuring the
+sender, receiver, and data payload remain anonymous.</p>
+<h3 id="the-origin-of-the-name">The Origin of the Name</h3>
+<p>The concept of onion routing was initially developed in the mid-1990s
+by mathematician Paul Syverson and computer scientists Michael G. Reed
+and David Goldschlag at the U.S. Naval Research Laboratory. The goal was
+to create a system that would allow intelligence communications to
+traverse the internet without revealing the identity or location of the
+sender. The layered cryptographic structure they designed naturally led
+to the name "Onion Routing," which later became the Tor Project.</p>
+<h3 id="how-layered-encryption-works">How Layered Encryption Works</h3>
+<p>When a user transmits information through the Tor network, the client
+software automatically selects a path consisting of three distinct nodes
+(relays): the Entry (Guard) node, the Middle node, and the Exit
+node.</p>
+<p>Before the data leaves the user's device, the Tor client encrypts the
+message three times using the public keys of all three nodes:</p>
+<ol type="1">
+<li><strong>Outer Layer:</strong> Encrypted with the Entry node's
+key.</li>
+<li><strong>Middle Layer:</strong> Encrypted with the Middle node's
+key.</li>
+<li><strong>Inner Layer:</strong> Encrypted with the Exit node's
+key.</li>
+</ol>
+<h3 id="the-peeling-process">The "Peeling" Process</h3>
+<p>As the data packet moves through the Tor circuit, each node performs
+a specific, isolated task:</p>
+<ul>
+<li><strong>The Entry Node:</strong> Receives the fully encrypted packet
+from the user. It uses its private key to peel off the outermost layer.
+This reveals the address of the Middle node. The Entry node knows the
+user's original IP address, but it cannot read the actual message or see
+the final destination.</li>
+<li><strong>The Middle Node:</strong> Receives the packet from the Entry
+node and removes the second layer of encryption using its own private
+key. This reveals the address of the Exit node. The Middle node knows
+neither the sender's IP address nor the final destination.</li>
+<li><strong>The Exit Node:</strong> Receives the packet, decrypts the
+final layer, and reads the destination address. It then forwards the
+original, unencrypted request (or HTTPS request) to the destination
+website. The Exit node knows the destination and the content (if not
+using HTTPS), but it has no knowledge of the original sender's IP
+address.</li>
+</ul>
+<h3 id="the-privacy-advantage">The Privacy Advantage</h3>
+<p>The onion model ensures that no single server along the route ever
+possesses complete information about the communication. An attacker who
+compromises a single node cannot trace the connection from end to end
+because no individual relay knows both where the traffic came from and
+where it is ultimately going. This layered, peel-by-peel architecture is
+why the technology is known as onion routing.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tor Onion Routing vs I2P Garlic Routing Explained - tor</title>
+    <meta name="description" content="While both Tor and the Invisible Internet Project (I2P) provide anonymous networking through layered encryption, Tor uses traditional onion routing, whereas I2P uses an evolved mechanism called garlic routing. The primary difference lies in how data is p">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/tor-onion-routing-vs-i2p-garlic-routing-explained">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tor Onion Routing vs I2P Garlic Routing Explained - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/tor-onion-routing-vs-i2p-garlic-routing-explained" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="While both Tor and the Invisible Internet Project (I2P) provide anonymous networking through layered encryption, Tor uses traditional onion routing, whereas I2P uses an evolved mechanism called garlic routing. The primary difference lies in how data is p" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="tor-onion-routing-vs-i2p-garlic-routing-explained">Tor Onion
+Routing vs I2P Garlic Routing Explained</h1>
+<p>While both Tor and the Invisible Internet Project (I2P) provide
+anonymous networking through layered encryption, Tor uses traditional
+onion routing, whereas I2P uses an evolved mechanism called garlic
+routing. The primary difference lies in how data is packaged and how
+network paths are established: Tor sends individual messages through
+bidirectional circuits primarily designed for accessing the open
+internet, while I2P bundles multiple messages into encrypted "cloves"
+and routes them through separate unidirectional tunnels optimized for an
+internal peer-to-peer network.</p>
+<h3 id="tor-and-onion-routing">Tor and Onion Routing</h3>
+<p>Tor relies on onion routing, a technique where data is wrapped in
+multiple layers of encryption like the layers of an onion. A Tor client
+builds a circuit typically consisting of three nodes: an entry/guard
+node, a middle relay, and an exit node.</p>
+<ul>
+<li><strong>Bidirectional Circuits:</strong> Tor uses the exact same
+path for both sending and receiving traffic. If you send a request
+through relays A, B, and C, the response travels back through C, B, and
+A.</li>
+<li><strong>Single Message Streams:</strong> Each onion packet contains
+a single message or payload destined for a specific endpoint.</li>
+<li><strong>Clearnet Focus:</strong> Tor is heavily optimized for
+"outproxying," allowing users to browse the public World Wide Web
+anonymously via exit nodes.</li>
+</ul>
+<h3 id="i2p-and-garlic-routing">I2P and Garlic Routing</h3>
+<p>Garlic routing is an extension of onion routing developed by I2P.
+Instead of treating each message individually, garlic routing bundles
+multiple discrete messages into a single encrypted container called a
+"garlic," where individual messages are referred to as "cloves."</p>
+<ul>
+<li><strong>Unidirectional Tunnels:</strong> I2P separates outbound and
+inbound traffic. Data sent to a destination travels through an outbound
+tunnel, while incoming responses travel back through a completely
+different inbound tunnel.</li>
+<li><strong>Message Bundling (Cloves):</strong> A single garlic packet
+can contain multiple encrypted cloves. These cloves can include data
+payloads, routing instructions, or network status requests, and they can
+be directed to different recipients along the path.</li>
+<li><strong>Internal Network Focus:</strong> I2P is designed primarily
+as a closed, self-contained network for internal services (known as
+"eepsites") rather than an outproxy tool for the public web.</li>
+</ul>
+<h3 id="key-architectural-differences">Key Architectural
+Differences</h3>
+<ol type="1">
+<li><strong>Traffic Analysis Defense:</strong> Because I2P bundles
+multiple cloves into one garlic packet and uses separate inbound and
+outbound paths, it makes timing attacks and traffic analysis
+significantly more difficult for an adversary compared to Tor’s
+bidirectional streams.</li>
+<li><strong>Bandwidth and Performance:</strong> Tor operates with lower
+latency, making it better suited for interactive web browsing. I2P’s
+packet-switched architecture and tunnel construction introduce slightly
+higher latency but provide robust peer-to-peer file sharing and
+decentralized internal communication.</li>
+<li><strong>Tunnel Management:</strong> Tor circuits are centralized
+around directory authorities that maintain the network state. I2P
+operates on a fully distributed network database (NetDB) using a
+modified Kademlia Distributed Hash Table (DHT) to build and maintain its
+garlic tunnels.</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

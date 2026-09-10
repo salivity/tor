@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Happens When a Tor Entry Guard Goes Offline? - tor</title>
+    <meta name="description" content="When your assigned Tor entry guard goes offline, your Tor client automatically detects the failure and seamlessly switches to another guard node from its internal list to maintain your connection. Tor uses persistent entry guards to shield your traffic a">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/what-happens-when-a-tor-entry-guard-goes-offline">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="What Happens When a Tor Entry Guard Goes Offline? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/what-happens-when-a-tor-entry-guard-goes-offline" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When your assigned Tor entry guard goes offline, your Tor client automatically detects the failure and seamlessly switches to another guard node from its internal list to maintain your connection. Tor uses persistent entry guards to shield your traffic a" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="what-happens-when-a-tor-entry-guard-goes-offline">What Happens
+When a Tor Entry Guard Goes Offline?</h1>
+<p>When your assigned Tor entry guard goes offline, your Tor client
+automatically detects the failure and seamlessly switches to another
+guard node from its internal list to maintain your connection. Tor uses
+persistent entry guards to shield your traffic against network
+correlation attacks, and its guard selection algorithm is specifically
+designed to handle node outages gracefully. This ensures that a
+temporary downtime or permanent departure of your primary guard node
+will not break your anonymity or require manual intervention to restore
+your connection.</p>
+<h3 id="how-tor-detects-an-offline-guard">How Tor Detects an Offline
+Guard</h3>
+<p>When you launch the Tor Browser or the Tor daemon, the client
+attempts to establish a three-hop circuit starting with your primary
+entry guard. If the guard is offline, the connection will fail to
+complete the initial TLS handshake, or the connection will time out.</p>
+<p>Tor's consensus mechanism continuously updates every hour,
+broadcasting the current status of all relays on the network. If the
+directory authorities mark your guard as offline or drop its "Guard"
+flag, your client notes this status change during its next consensus
+update.</p>
+<h3 id="the-fallback-mechanism-how-a-new-guard-is-selected">The Fallback
+Mechanism: How a New Guard Is Selected</h3>
+<p>Tor does not randomly choose a brand-new relay the instant your
+primary guard fails, as frequent switching would increase vulnerability
+to path-bias and traffic-analysis attacks. Instead, it follows a
+structured process:</p>
+<ol type="1">
+<li><strong>Checking Secondary Guards:</strong> Tor maintains a small,
+persistent set of sampled guards (stored in your Tor state file). If the
+primary guard is unreachable, Tor temporarily falls back to the next
+eligible guard already present in your sampled list.</li>
+<li><strong>Confirming Failure:</strong> The client marks the
+unreachable guard as temporarily down rather than immediately discarding
+it, attempting to reconnect periodically in case the outage is
+short-lived.</li>
+<li><strong>Promoting a New Primary Guard:</strong> If the original
+guard remains unreachable for an extended period or is permanently
+removed from the public consensus, Tor promotes a secondary guard to
+primary status.</li>
+<li><strong>Sampling New Relays:</strong> If your entire active guard
+list becomes unavailable or exhausts its validity period, Tor samples a
+fresh set of reliable relays that hold the "Guard" and "Fast" flags from
+the active consensus.</li>
+</ol>
+<h3 id="impact-on-user-experience">Impact on User Experience</h3>
+<ul>
+<li><strong>Brief Delay:</strong> You may notice a slight delay or a
+temporary connection freeze for a few seconds while Tor recognizes the
+dropped connection and builds a new circuit using the backup guard.</li>
+<li><strong>Automatic Recovery:</strong> No configuration changes,
+restarts, or identity resets are required by the user.</li>
+<li><strong>Circuit Rebuilding:</strong> All existing circuits routed
+through the offline guard are torn down and rebuilt using the
+operational backup guard.</li>
+</ul>
+<h3 id="security-and-anonymity-protection">Security and Anonymity
+Protection</h3>
+<p>Tor’s guard management algorithm (known as Guardfraction and Guard
+Selection Specification) prevents adversaries from forcing you to switch
+guards repeatedly until you land on a malicious node. Because your
+client strictly cycles through its pre-sampled guard list rather than
+picking blindly at random during an outage, your exposure to malicious
+entry relays remains strictly bounded.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

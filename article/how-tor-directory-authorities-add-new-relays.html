@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Directory Authorities Add New Relays - tor</title>
+    <meta name="description" content="When a new Tor relay joins the network, it must be discovered, verified, and officially listed before it can route user traffic. This process involves the relay performing self-reachability tests, publishing a cryptographic descriptor, and submitting it">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-directory-authorities-add-new-relays">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Directory Authorities Add New Relays - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-directory-authorities-add-new-relays" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="When a new Tor relay joins the network, it must be discovered, verified, and officially listed before it can route user traffic. This process involves the relay performing self-reachability tests, publishing a cryptographic descriptor, and submitting it" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-directory-authorities-add-new-relays">How Tor Directory
+Authorities Add New Relays</h1>
+<p>When a new Tor relay joins the network, it must be discovered,
+verified, and officially listed before it can route user traffic. This
+process involves the relay performing self-reachability tests,
+publishing a cryptographic descriptor, and submitting it to a trusted
+group of servers known as Directory Authorities (DirAuths). These
+authorities independently verify the relay's availability, vote on its
+status, and publish an hourly network consensus document that Tor
+clients use to build circuits.</p>
+<h3 id="1-relay-initialization-and-self-testing">1. Relay Initialization
+and Self-Testing</h3>
+<p>Before contacting the network, a newly configured relay generates its
+long-term identity keys and onion keys. It then attempts a self-test by
+opening connections to its own configured Onion Router Port (ORPort) and
+Directory Port (DirPort). The relay will not attempt to register with
+the network until it confirms that its ports are publicly reachable from
+the outside internet.</p>
+<h3 id="2-descriptor-generation-and-upload">2. Descriptor Generation and
+Upload</h3>
+<p>Once reachability is self-confirmed, the relay builds a signed
+document called a "server descriptor." This document contains essential
+metadata, including:</p>
+<ul>
+<li>Public encryption and identity keys</li>
+<li>IP address and port numbers</li>
+<li>Bandwidth capacity declarations</li>
+<li>Exit policies (defining what outbound traffic the relay
+permits)</li>
+</ul>
+<p>The relay automatically uploads this signed descriptor via HTTP/HTTPS
+to the hardcoded list of Tor Directory Authorities.</p>
+<h3 id="3-authority-verification-and-probing">3. Authority Verification
+and Probing</h3>
+<p>Upon receiving the descriptor, each Directory Authority independently
+tests the new relay to confirm it is not spoofed or offline. An
+authority attempts to establish an encrypted TLS connection to the
+relay's ORPort.</p>
+<p>If the connection succeeds and the cryptographic identity matches the
+descriptor, the authority marks the relay as reachable and valid. If the
+probe fails, the authority drops the descriptor and will not vote to
+include the relay.</p>
+<h3 id="4-hourly-voting-process">4. Hourly Voting Process</h3>
+<p>Directory Authorities do not maintain a single static database;
+instead, they operate on a decentralized voting cycle once every
+hour.</p>
+<p>During the voting phase:</p>
+<ol type="1">
+<li>Each authority compiles a list of all relays it believes are
+currently running and reachable.</li>
+<li>The authority assigns status flags to the relays (such as
+<code>Running</code>, <code>Valid</code>, <code>Fast</code>,
+<code>Guard</code>, or <code>Exit</code>).</li>
+<li>The authorities exchange their individual vote documents with one
+another.</li>
+</ol>
+<h3 id="5-consensus-compilation">5. Consensus Compilation</h3>
+<p>After exchanging votes, the Directory Authorities compute a single
+deterministic document called the "network consensus." A relay is
+included in the consensus only if a majority of the authorities agree
+that the relay is valid and online. The consensus establishes the
+official network state, including the relay's assigned bandwidth weight
+and trust flags.</p>
+<h3 id="6-client-retrieval-and-lifecycle">6. Client Retrieval and
+Lifecycle</h3>
+<p>Once a majority of authorities sign the consensus document, it is
+published across the network and mirrored by directory caches. Tor
+clients download the updated consensus during their regular polling
+cycles.</p>
+<p>A newly added relay begins with low traffic allocation. Bandwidth
+authorities continuously measure its performance over several days or
+weeks, gradually ramping up its consensus weight as it demonstrates
+sustained reliability and uptime.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

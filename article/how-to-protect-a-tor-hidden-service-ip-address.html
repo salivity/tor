@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Protect a Tor Hidden Service IP Address - tor</title>
+    <meta name="description" content="Operating a Tor onion service requires strict security practices to ensure the hosting server's real IP address is never exposed to the public. Because Tor is designed to obscure routing, IP leaks almost always originate from misconfigurations within the">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-protect-a-tor-hidden-service-ip-address">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Protect a Tor Hidden Service IP Address - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-protect-a-tor-hidden-service-ip-address" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Operating a Tor onion service requires strict security practices to ensure the hosting server's real IP address is never exposed to the public. Because Tor is designed to obscure routing, IP leaks almost always originate from misconfigurations within the" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-protect-a-tor-hidden-service-ip-address">How to Protect a
+Tor Hidden Service IP Address</h1>
+<p>Operating a Tor onion service requires strict security practices to
+ensure the hosting server's real IP address is never exposed to the
+public. Because Tor is designed to obscure routing, IP leaks almost
+always originate from misconfigurations within the operating system, web
+server software, or backend applications. This guide details the
+essential technical measures needed to prevent identity leaks, harden
+server architecture, and keep your Tor hidden service entirely
+anonymous.</p>
+<h3 id="1-bind-services-exclusively-to-localhost">1. Bind Services
+Exclusively to Localhost</h3>
+<p>Web servers and backend applications must never listen on public IP
+addresses (<code>0.0.0.0</code>). Configure your server software (such
+as Nginx or Apache) to listen exclusively on <code>127.0.0.1</code> or,
+preferably, a UNIX domain socket.</p>
+<p>For Nginx, configure your site configuration file to use local
+sockets:</p>
+<pre class="nginx"><code>listen unix:/var/run/tor-service.sock;</code></pre>
+<p>For Apache, specify the loopback interface:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode apache"><code class="sourceCode apache"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Listen<span class="st"> 127.0.0.1:8080</span></span></code></pre></div>
+<p>The Tor daemon can then forward incoming onion traffic directly to
+this local interface, preventing any direct clearnet connections to the
+application.</p>
+<h3 id="2-block-all-inbound-clearnet-traffic">2. Block All Inbound
+Clearnet Traffic</h3>
+<p>A Tor hidden service does not require any inbound ports open on the
+public network interface. Tor establishes outbound connections to the
+Tor network to build rendezvous circuits.</p>
+<p>Use <code>iptables</code> or <code>nftables</code> to drop all
+inbound traffic on external interfaces:</p>
+<ul>
+<li>Set default incoming policy to <code>DROP</code>.</li>
+<li>Allow loopback traffic on <code>lo</code>.</li>
+<li>Allow established and related outbound connections.</li>
+<li>Restrict direct management access (such as SSH) strictly through a
+dedicated Tor onion service or an encrypted, IP-whitelisted VPN.</li>
+</ul>
+<h3
+id="3-implement-network-isolation-with-whonix-or-multi-vm-architecture">3.
+Implement Network Isolation with Whonix or Multi-VM Architecture</h3>
+<p>The most effective way to eliminate IP leaks is architectural
+isolation. Running the Tor daemon and the application server on the same
+operating system creates a single point of failure.</p>
+<ul>
+<li><strong>Split Gateway and Workstation:</strong> Use a two-tiered
+system such as Whonix or Qubes-Whonix. The Workstation VM hosts the web
+server and has no direct network access; it can only communicate through
+an internal virtual network to the Gateway VM.</li>
+<li><strong>Leak Prevention:</strong> Even if the web application is
+fully compromised via a Remote Code Execution (RCE) exploit, the
+attacker cannot read the real IP address from the operating system
+network interfaces, as the Workstation only sees internal private IP
+addresses.</li>
+</ul>
+<h3 id="4-sanitize-application-responses-and-server-headers">4. Sanitize
+Application Responses and Server Headers</h3>
+<p>Web applications and server software often leak system details that
+allow attackers to correlate an onion service with a public clearnet
+server.</p>
+<ul>
+<li><strong>Disable Server Signatures:</strong> Remove headers like
+<code>Server</code>, <code>X-Powered-By</code>, and
+<code>X-AspNet-Version</code>.</li>
+<li><strong>Disable Diagnostic Modules:</strong> Turn off server status
+pages, such as Apache's <code>mod_status</code>, which can expose the
+public IP and active connection metadata.</li>
+<li><strong>Remove Absolute Clearnet Links:</strong> Ensure no content
+(scripts, stylesheets, fonts, or images) is loaded from public clearnet
+CDNs or IP addresses. All assets must be served locally over the
+<code>.onion</code> domain.</li>
+<li><strong>Standardize Error Pages:</strong> Custom error pages or
+standard default web server landing pages can reveal specific software
+versions and unique fingerprintable hashes.</li>
+</ul>
+<h3 id="5-prevent-outbound-information-leaks-ssrf">5. Prevent Outbound
+Information Leaks (SSRF)</h3>
+<p>Server-Side Request Forgery (SSRF) vulnerabilities allow attackers to
+force your server to make external requests to attacker-controlled
+clearnet endpoints, instantly exposing the server's public IP
+address.</p>
+<ul>
+<li>Block all clearnet outbound traffic from the application layer using
+strict firewall rules.</li>
+<li>If outbound internet access is required, route all outbound traffic
+through the Tor SOCKS proxy (<code>127.0.0.1:9050</code>) or use a
+dedicated network namespace.</li>
+<li>Disable application-level functions that fetch remote URLs, such as
+webhook triggers, image proxying, or automated link previews.</li>
+</ul>
+<h3 id="6-eliminate-clearnet-dns-requests">6. Eliminate Clearnet DNS
+Requests</h3>
+<p>Standard DNS resolution bypasses Tor by default and communicates with
+clearnet DNS resolvers configured in <code>/etc/resolv.conf</code>,
+which leaks queries and reveals the host server's location.</p>
+<ul>
+<li>Direct all system DNS queries through Tor's built-in
+<code>DNSPort</code> or disable system-wide clearnet DNS lookups
+entirely.</li>
+<li>In <code>/etc/tor/torrc</code>, configure:</li>
+</ul>
+<pre class="text"><code>DNSPort 5353
+AutomapHostsOnResolve 1</code></pre>
+<ul>
+<li>Ensure no backend components or database drivers attempt clearnet
+domain resolutions.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

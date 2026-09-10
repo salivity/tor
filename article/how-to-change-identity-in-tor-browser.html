@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Change Identity in Tor Browser - tor</title>
+    <meta name="description" content="Changing your identity in the Tor Browser allows you to reset your online footprint by acquiring a new IP address, establishing fresh routing circuits, and wiping temporary browsing data. Tor provides two distinct features for managing your identity: "Ne">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-to-change-identity-in-tor-browser">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to Change Identity in Tor Browser - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-to-change-identity-in-tor-browser" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Changing your identity in the Tor Browser allows you to reset your online footprint by acquiring a new IP address, establishing fresh routing circuits, and wiping temporary browsing data. Tor provides two distinct features for managing your identity: "Ne" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-to-change-identity-in-tor-browser">How to Change Identity in
+Tor Browser</h1>
+<p>Changing your identity in the Tor Browser allows you to reset your
+online footprint by acquiring a new IP address, establishing fresh
+routing circuits, and wiping temporary browsing data. Tor provides two
+distinct features for managing your identity: "New Identity," which
+completely restarts your browser session and clears all active data, and
+"New Tor Circuit for this Site," which changes your route for a specific
+webpage without interrupting your other open tabs. This guide explains
+how both features work, when to use them, and the step-by-step methods
+to trigger them.</p>
+<h2 id="understanding-the-two-identity-options">Understanding the Two
+Identity Options</h2>
+<p>Tor Browser separates identity management into two tools depending on
+how thorough of a reset you require:</p>
+<ul>
+<li><strong>New Identity:</strong> This is a full reset. It closes all
+open tabs and windows, clears all cookies, cache, and browsing history,
+and builds a completely new Tor circuit. Any open downloads or active
+web sessions will be terminated.</li>
+<li><strong>New Tor Circuit for this Site:</strong> This is a partial
+reset. It keeps your current session, tabs, and cookies intact, but
+requests a new sequence of relays (including a new exit node)
+specifically for the active tab.</li>
+</ul>
+<h2 id="how-to-use-new-identity">How to Use "New Identity"</h2>
+<p>Use this option when you want to ensure that your subsequent browsing
+activity cannot be linked to what you were previously doing.</p>
+<ol type="1">
+<li><strong>Toolbar Icon:</strong> Click the <strong>Broom icon</strong>
+located in the top-right corner of the browser toolbar (next to the
+hamburger menu).</li>
+<li><strong>Menu Navigation:</strong> Click the <strong>Application
+menu</strong> (three horizontal lines in the top right), then select
+<strong>New Identity</strong>.</li>
+<li><strong>Keyboard Shortcut:</strong> Press
+<code>Ctrl + Shift + U</code> on Windows and Linux, or
+<code>Cmd + Shift + U</code> on macOS.</li>
+</ol>
+<p>After selecting this option, Tor Browser will prompt you to confirm.
+Once confirmed, the browser will restart automatically with a fresh
+circuit and cleared session data.</p>
+<h2 id="how-to-use-new-tor-circuit-for-this-site">How to Use "New Tor
+Circuit for this Site"</h2>
+<p>Use this option if a specific website is blocking your current exit
+node, loading slowly, or presenting excessive CAPTCHAs, but you do not
+want to close your other open tabs.</p>
+<ol type="1">
+<li><strong>Menu Navigation:</strong> Click the <strong>Application
+menu</strong> (three horizontal lines), then select <strong>New Tor
+Circuit for this Site</strong>.</li>
+<li><strong>URL Bar:</strong> Click the <strong>Circuit Display</strong>
+icon (the padlock or onion icon to the left of the address bar) and
+click the <strong>New Circuit for this Site</strong> button.</li>
+<li><strong>Keyboard Shortcut:</strong> Press
+<code>Ctrl + Shift + L</code> on Windows and Linux, or
+<code>Cmd + Shift + L</code> on macOS.</li>
+</ol>
+<p>The active tab will reload using a new path through the Tor network
+while keeping all other tabs unaffected.</p>
+<h2 id="key-considerations">Key Considerations</h2>
+<ul>
+<li><strong>Active Downloads:</strong> Triggering "New Identity" cancels
+all active file downloads immediately.</li>
+<li><strong>Website Logins:</strong> Logging back into the same personal
+account after requesting a new identity will link your new IP address to
+your existing account profile.</li>
+<li><strong>Browser Fingerprint:</strong> Tor maintains an identical
+browser fingerprint across all users; changing your identity resets
+network circuits and session storage, not the underlying browser
+configuration.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

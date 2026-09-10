@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Tor BadExit Flag - tor</title>
+    <meta name="description" content="The BadExit flag is a critical security mechanism within the Tor directory system used to identify and isolate exit relays that are misconfigured, malicious, or actively interfering with user traffic. When Directory Authorities assign this flag to a rela">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/understanding-the-tor-badexit-flag">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding the Tor BadExit Flag - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/understanding-the-tor-badexit-flag" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="The BadExit flag is a critical security mechanism within the Tor directory system used to identify and isolate exit relays that are misconfigured, malicious, or actively interfering with user traffic. When Directory Authorities assign this flag to a rela" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="understanding-the-tor-badexit-flag">Understanding the Tor
+BadExit Flag</h1>
+<p>The BadExit flag is a critical security mechanism within the Tor
+directory system used to identify and isolate exit relays that are
+misconfigured, malicious, or actively interfering with user traffic.
+When Directory Authorities assign this flag to a relay, it signals Tor
+clients across the network to stop using that specific node for exiting
+to the open internet. This article explains how Directory Authorities
+detect problematic exit nodes, how the BadExit flag is distributed
+through the network consensus, and the direct impact it has on relay
+operations and user privacy.</p>
+<h3 id="purpose-of-the-badexit-flag">Purpose of the BadExit Flag</h3>
+<p>Exit relays serve as the final bridge between the encrypted Tor
+network and the public internet. Because exit traffic is decrypted as it
+leaves the node, bad actors may attempt to run rogue exit relays to
+snoop on unencrypted protocols, inject malicious code, alter DNS
+responses, or perform Man-in-the-Middle (MitM) attacks.</p>
+<p>The Tor network uses the <code>BadExit</code> flag to mark relays
+that violate the network's integrity policies without necessarily
+kicking them off the network entirely.</p>
+<h3 id="how-directory-authorities-assign-the-flag">How Directory
+Authorities Assign the Flag</h3>
+<p>The Tor network is governed by a small group of trusted servers known
+as Directory Authorities (DirAuths). These authorities continuously
+monitor, test, and vote on the status of all relays in the network.</p>
+<ol type="1">
+<li><strong>Detection and Reporting:</strong> Automated scanning tools
+(such as exit scanners) and network administrators test exit relays for
+malicious behavior, such as SSL stripping, DNS tampering, port blocking,
+or payload modification.</li>
+<li><strong>Voting Consensus:</strong> Every hour, Directory Authorities
+vote on relay statuses to generate a unified network status consensus
+document. If a majority of the authorities agree that an exit node is
+malfunctioning or hostile, they append the <code>BadExit</code> flag to
+that relay's entry in the consensus.</li>
+</ol>
+<h3 id="impact-on-client-routing-and-relays">Impact on Client Routing
+and Relays</h3>
+<p>Once the consensus containing the <code>BadExit</code> flag is
+published, the following changes take effect immediately across the
+network:</p>
+<ul>
+<li><strong>Exit Exclusion:</strong> Tor clients download the updated
+consensus and automatically filter out flagged relays when constructing
+exit paths. No client will choose a <code>BadExit</code> relay as the
+final hop for internet-bound traffic.</li>
+<li><strong>Middle and Guard Relaying:</strong> Unlike a full ban (or
+the <code>Reject</code> status), a relay with only the
+<code>BadExit</code> flag can still function as an entry guard or a
+middle hop in a three-hop circuit, provided it is otherwise healthy.
+Traffic passing through middle hops remains encrypted in layers,
+preventing the node from inspecting or tampering with the underlying
+data.</li>
+<li><strong>Flag Removal:</strong> If the node's owner resolves the
+underlying configuration issues or proves the malicious behavior was a
+false positive, the Directory Authorities can remove the flag during
+subsequent voting cycles, restoring the relay's full exit status.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

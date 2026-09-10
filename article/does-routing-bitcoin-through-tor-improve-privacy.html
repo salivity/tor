@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does Routing Bitcoin Through Tor Improve Privacy? - tor</title>
+    <meta name="description" content="Routing Bitcoin node traffic through the Tor network significantly enhances network-level privacy by masking your IP address from peers, internet service providers, and network observers. While Tor prevents observers from linking a broadcasted transactio">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-routing-bitcoin-through-tor-improve-privacy">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does Routing Bitcoin Through Tor Improve Privacy? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-routing-bitcoin-through-tor-improve-privacy" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Routing Bitcoin node traffic through the Tor network significantly enhances network-level privacy by masking your IP address from peers, internet service providers, and network observers. While Tor prevents observers from linking a broadcasted transactio" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-routing-bitcoin-through-tor-improve-privacy">Does Routing
+Bitcoin Through Tor Improve Privacy?</h1>
+<p>Routing Bitcoin node traffic through the Tor network significantly
+enhances network-level privacy by masking your IP address from peers,
+internet service providers, and network observers. While Tor prevents
+observers from linking a broadcasted transaction to your physical
+location or network identity, it does not alter or obscure the public
+transaction data recorded on the blockchain. To achieve comprehensive
+privacy, Tor must be understood as a transport-layer shield rather than
+a complete privacy solution for on-chain activity.</p>
+<h2 id="network-privacy-vs-on-chain-privacy">Network Privacy vs.
+On-Chain Privacy</h2>
+<p>To understand the benefits of Tor, it is essential to distinguish
+between the two layers of Bitcoin privacy: the peer-to-peer (P2P)
+network layer and the public blockchain ledger layer.</p>
+<ul>
+<li><strong>Network Layer:</strong> When a standard Bitcoin node
+broadcasts a transaction over clearnet (standard IPv4 or IPv6), it
+connects directly to other nodes. Anyone monitoring traffic or running
+analytical listening nodes can map the transaction back to the
+originating IP address.</li>
+<li><strong>Ledger Layer:</strong> Once confirmed, the transaction's
+inputs, outputs, amounts, and public addresses remain permanently
+visible on the public blockchain for anyone to inspect.</li>
+</ul>
+<p>Tor exclusively operates at the network layer. It routes your node's
+internet traffic through a decentralized overlay network of encrypted
+relays, hiding your real IP address and replacing it with a Tor exit
+node or an anonymous <code>.onion</code> hidden service address.</p>
+<h2 id="how-tor-improves-transaction-privacy">How Tor Improves
+Transaction Privacy</h2>
+<ol type="1">
+<li><strong>IP Masking and Origin Obfuscation:</strong> By hiding your
+node's true IP, Tor prevents passive network observers, internet service
+providers (ISPs), and surveillance nodes from identifying your node as
+the initial broadcaster of a transaction.</li>
+<li><strong>Preventing ISP Snooping:</strong> Your ISP will only see
+that you are using Tor, not that you are interacting with the Bitcoin
+network or broadcasting financial transactions.</li>
+<li><strong>Inbound Connection Privacy (Hidden Services):</strong>
+Running a node as a Tor onion service allows you to accept inbound
+connections and sync the blockchain without exposing any public port or
+static IP address to the network.</li>
+</ol>
+<h2 id="limitations-and-risks">Limitations and Risks</h2>
+<p>While Tor provides strong network anonymity, it has specific
+limitations:</p>
+<ul>
+<li><strong>On-Chain Tracking Remains Effective:</strong> Tor does not
+hide your transaction amounts, change outputs, or address reuse. If you
+spend funds previously linked to your identity (such as coins bought on
+a KYC-compliant exchange), blockchain analysis can still track the flow
+of funds regardless of whether you broadcast via Tor.</li>
+<li><strong>Eclipse and Sybil Attacks:</strong> Because Tor nodes
+represent a smaller subset of the overall Bitcoin network, attackers can
+spin up multiple malicious Tor nodes to surround your node (a Sybil
+attack), potentially isolating you from the honest network (an Eclipse
+attack).</li>
+<li><strong>Exit Node Sniffing:</strong> If you connect to non-Tor peers
+via exit nodes rather than strictly using native onion addresses,
+malicious exit node operators can analyze unencrypted P2P traffic.</li>
+</ul>
+<h2 id="best-practices-for-optimal-privacy">Best Practices for Optimal
+Privacy</h2>
+<p>To maximize privacy when broadcasting Bitcoin transactions:</p>
+<ul>
+<li><strong>Run a Dedicated Full Node over Tor:</strong> Configure your
+node to run natively as a Tor hidden service to handle both block
+propagation and transaction broadcasting.</li>
+<li><strong>Use Mixed-Mode Connections:</strong> Many modern node
+implementations (such as Bitcoin Core) support running clearnet and Tor
+simultaneously to reduce susceptibility to network partitioning and
+eclipse attacks while routing sensitive broadcasts through Tor.</li>
+<li><strong>Combine with On-Chain Privacy Tools:</strong> Pair Tor with
+privacy-preserving UTXO management, CoinJoin protocols, or
+pay-to-endpoint techniques to ensure privacy on both the network layer
+and the ledger layer.</li>
+</ul></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

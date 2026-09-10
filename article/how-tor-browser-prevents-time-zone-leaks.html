@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Tor Browser Prevents Time Zone Leaks - tor</title>
+    <meta name="description" content="Tor Browser protects user anonymity by neutralizing browser fingerprinting techniques, including the detection of a device's local time zone. This article explains the mechanisms Tor Browser uses to prevent websites from querying your local clock and geo">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-tor-browser-prevents-time-zone-leaks">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How Tor Browser Prevents Time Zone Leaks - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-tor-browser-prevents-time-zone-leaks" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Browser protects user anonymity by neutralizing browser fingerprinting techniques, including the detection of a device's local time zone. This article explains the mechanisms Tor Browser uses to prevent websites from querying your local clock and geo" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-tor-browser-prevents-time-zone-leaks">How Tor Browser
+Prevents Time Zone Leaks</h1>
+<p>Tor Browser protects user anonymity by neutralizing browser
+fingerprinting techniques, including the detection of a device's local
+time zone. This article explains the mechanisms Tor Browser uses to
+prevent websites from querying your local clock and geographic time
+offset, ensuring all users share a uniform configuration by
+standardizing time outputs to Coordinated Universal Time (UTC).</p>
+<h3 id="the-threat-of-time-zone-fingerprinting">The Threat of Time Zone
+Fingerprinting</h3>
+<p>Standard web browsers allow websites to query the underlying
+operating system for regional settings using JavaScript APIs. Methods
+such as <code>Date.prototype.getTimezoneOffset()</code> and the
+<code>Intl.DateTimeFormat().resolvedOptions().timeZone</code> interface
+return the host machine's exact UTC offset and regional time zone
+identifier (e.g., <code>America/New_York</code> or
+<code>Europe/Berlin</code>). When combined with other system attributes,
+this geographic data significantly narrows down a user's identity and
+physical location, bypassing the location-masking benefits of the Tor
+network.</p>
+<h3 id="forcing-utc-across-javascript-apis">Forcing UTC Across
+JavaScript APIs</h3>
+<p>Tor Browser mitigates time zone leaks primarily through its built-in
+fingerprinting resistance framework, originally developed for Tor and
+upstreamed to Firefox under the
+<code>privacy.resistFingerprinting</code> architecture.</p>
+<p>Within this framework, Tor Browser intercepts all JavaScript-based
+date and time requests:</p>
+<ul>
+<li><strong>Zero Offset Emulation:</strong> The
+<code>getTimezoneOffset()</code> function is hardcoded to return
+<code>0</code>, indicating zero minutes of deviation from UTC,
+regardless of the host machine's actual time zone.</li>
+<li><strong>Standardized Locale Information:</strong> The
+<code>Intl</code> API returns generic UTC-equivalent values rather than
+the system's localized time zone string.</li>
+<li><strong>Clock Spoofing:</strong> Any function creating a new
+<code>Date</code> object generates values referenced strictly against
+UTC, preventing scripts from calculating regional offsets based on the
+difference between client-rendered time and server time.</li>
+</ul>
+<h3 id="decoupling-from-the-host-operating-system">Decoupling from the
+Host Operating System</h3>
+<p>Tor Browser isolates the browsing environment from the host operating
+system's locale and clock settings. While the underlying device
+continues to run in its local time zone for the user's convenience, the
+browser process runs in an emulated UTC environment. This prevents
+external web servers from discerning whether a user is operating in
+Tokyo, London, or San Francisco.</p>
+<h3 id="normalizing-http-headers-and-network-metadata">Normalizing HTTP
+Headers and Network Metadata</h3>
+<p>Beyond JavaScript APIs, time metadata can occasionally leak through
+network protocols. Tor Browser standardizes network-level headers and
+disables non-essential features that might transmit local timing
+data:</p>
+<ul>
+<li>Timestamps generated during cryptographic handshakes (such as TLS)
+are randomized or normalized where applicable.</li>
+<li>HTTP request headers are stripped of localized time or regional
+identifiers, presenting a uniform browser profile across all Tor
+users.</li>
+</ul>
+<p>By enforcing uniform UTC reporting across all scripts, APIs, and
+network requests, Tor Browser eliminates time zone data as a viable
+vector for tracking and deanonymization.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

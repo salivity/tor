@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does Tor Warn You If a Site Lacks HTTPS? - tor</title>
+    <meta name="description" content="Tor Browser actively warns you whenever you attempt to access an unencrypted HTTP website on the regular web. Utilizing a built-in HTTPS-Only Mode, the browser automatically attempts to upgrade every connection to secure HTTPS. If an encrypted connection">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/does-tor-warn-you-if-a-site-lacks-https">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Does Tor Warn You If a Site Lacks HTTPS? - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/does-tor-warn-you-if-a-site-lacks-https" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="Tor Browser actively warns you whenever you attempt to access an unencrypted HTTP website on the regular web. Utilizing a built-in HTTPS-Only Mode, the browser automatically attempts to upgrade every connection to secure HTTPS. If an encrypted connection" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="does-tor-warn-you-if-a-site-lacks-https">Does Tor Warn You If a
+Site Lacks HTTPS?</h1>
+<p>Tor Browser actively warns you whenever you attempt to access an
+unencrypted HTTP website on the regular web. Utilizing a built-in
+HTTPS-Only Mode, the browser automatically attempts to upgrade every
+connection to secure HTTPS. If an encrypted connection cannot be
+established, Tor blocks the page and displays a prominent warning screen
+asking if you want to proceed over an insecure connection.</p>
+<h3 id="how-tor-handles-plain-http-websites">How Tor Handles Plain HTTP
+Websites</h3>
+<p>Tor Browser is built on Mozilla Firefox ESR and comes with HTTPS-Only
+Mode enabled by default. When you enter a URL or click a link that uses
+plain <code>http://</code>, the browser takes the following steps:</p>
+<ol type="1">
+<li><strong>Automatic Upgrade:</strong> Tor attempts to establish a
+secure <code>https://</code> connection with the server.</li>
+<li><strong>Failure Detection:</strong> If the web server does not
+support HTTPS or has an invalid SSL/TLS certificate, the connection
+fails.</li>
+<li><strong>Warning Screen:</strong> Instead of silently loading the
+unencrypted site, Tor presents an alert stating "Secure Connection Not
+Available."</li>
+<li><strong>User Choice:</strong> You must explicitly click a button to
+accept the risk and proceed to the HTTP version, or choose to go
+back.</li>
+</ol>
+<h3 id="why-https-warnings-are-critical-in-tor">Why HTTPS Warnings Are
+Critical in Tor</h3>
+<p>When browsing the regular web (clearnet) through the Tor network,
+your traffic is encrypted between your device and the Tor relay nodes.
+However, traffic between the final relay—known as the <strong>exit
+node</strong>—and the destination website is not encrypted by Tor.</p>
+<ul>
+<li><strong>With HTTPS:</strong> The traffic between the exit node and
+the website is encrypted with TLS. The exit node operator cannot see
+your passwords, session cookies, or page content.</li>
+<li><strong>Without HTTPS (Plain HTTP):</strong> The exit node operator
+can monitor, read, and even modify the data you send and receive (e.g.,
+injecting malicious scripts or intercepting login credentials).</li>
+</ul>
+<p>Because of this vulnerability, the warning alert serves as a vital
+safeguard to prevent accidental exposure of sensitive data to exit node
+operators.</p>
+<h3 id="how-onion-sites-differ">How .onion Sites Differ</h3>
+<p>The rules are slightly different for Tor Onion Services (addresses
+ending in <code>.onion</code>):</p>
+<ul>
+<li><strong>Native End-to-End Encryption:</strong> Onion services use
+Tor's internal routing protocol, which encrypts traffic directly from
+the user to the host without relying on exit nodes.</li>
+<li><strong>No Mandatory HTTPS Warning:</strong> Because
+<code>.onion</code> connections are already cryptographically secured
+and end-to-end encrypted by design, Tor Browser does not require them to
+have an HTTPS certificate to protect your data.</li>
+</ul>
+<h3 id="managing-https-settings-in-tor-browser">Managing HTTPS Settings
+in Tor Browser</h3>
+<p>You can check or customize these warning settings directly within the
+browser:</p>
+<ol type="1">
+<li>Open <strong>Settings</strong> from the main menu.</li>
+<li>Select <strong>Privacy &amp; Security</strong> from the left-hand
+menu.</li>
+<li>Scroll to the <strong>HTTPS-Only Mode</strong> section.</li>
+<li>Choose whether to enable HTTPS-Only Mode in all windows, enable it
+only in private windows, or disable it entirely (not recommended).</li>
+</ol></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How NoScript Enhances Tor Browser Security - tor</title>
+    <meta name="description" content="NoScript is an essential security extension built directly into the Tor Browser to defend users against web-based vulnerabilities and deanonymization attacks. By giving users granular control over active web scripts, NoScript eliminates the primary attac">
+    <link rel="canonical" href="https://salivity.github.io/tor/article/how-noscript-enhances-tor-browser-security">
+    <link rel="search" type="application/opensearchdescription+xml" title="tor" href="/tor/opensearch.xml">
+    <link rel="icon" href="/tor/favicon.ico">
+    <link rel="stylesheet" href="/tor/css/style.css">
+    <link media="print" rel="stylesheet" href="/tor/css/print.css">
+    <script src="/tor/js/fuse.min.js"></script>
+    <script src="/tor/js/script.js"></script>
+    <script id="MathJax-script" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-chtml.min.js" defer></script>
+    <script src="/monetize/monetize.js"></script>
+    <script src="/social/social.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How NoScript Enhances Tor Browser Security - tor" />
+    <meta property="og:url" content="https://salivity.github.io/tor/article/how-noscript-enhances-tor-browser-security" />
+    <meta property="og:image:url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:secure_url" content="https://salivity.github.io/tor/images/open-graph/default.webp" />
+    <meta property="og:image:width" content="1120" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:description" content="NoScript is an essential security extension built directly into the Tor Browser to defend users against web-based vulnerabilities and deanonymization attacks. By giving users granular control over active web scripts, NoScript eliminates the primary attac" />
+    <link rel="manifest" href="/tor/pwa/manifest.json" />
+</head>
+<body>
+    <header>
+        <a href="/tor/" aria-label="Go To Home Page" title="Go To Home Page" id="logo">
+            <span>salivity.github.io/</span><span>tor</span>
+        </a>
+        <nav>
+            <ul class="header-links">
+                <li><a href="/tor/search" title="Search" aria-label="Go To Search Page"><svg class="svg-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></a></li>
+                <li><a id="theme-toggle" title="Theme" href="javascript:void(0);" aria-label="Toggle Website Theme"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article><h1 id="how-noscript-enhances-tor-browser-security">How NoScript
+Enhances Tor Browser Security</h1>
+<p>NoScript is an essential security extension built directly into the
+Tor Browser to defend users against web-based vulnerabilities and
+deanonymization attacks. By giving users granular control over active
+web scripts, NoScript eliminates the primary attack vectors used by
+malicious actors to bypass Tor's network routing. This article explains
+the technical mechanisms behind NoScript and how its integration with
+Tor protects user identity, neutralizes remote exploits, and prevents
+digital fingerprinting.</p>
+<h3 id="mitigating-javascript-based-deanonymization">Mitigating
+JavaScript-Based Deanonymization</h3>
+<p>The primary threat to a Tor user’s privacy is
+deanonymization—revealing the user's true IP address. While the Tor
+network effectively encrypts and bounces traffic across multiple relays,
+standard web browsers remain vulnerable to remote code execution at the
+application layer. Malicious websites often employ complex JavaScript
+payloads designed to exploit browser memory bugs. Once triggered, these
+exploits can bypass the Tor proxy and communicate directly with an
+external server using the host operating system's native network stack.
+NoScript prevents this by blocking executable scripts from running
+automatically, rendering such browser-level exploits ineffective.</p>
+<h3 id="preventing-device-and-browser-fingerprinting">Preventing Device
+and Browser Fingerprinting</h3>
+<p>Tor Browser aims to make all users look identical to prevent tracking
+across different websites. However, advanced tracking scripts utilize
+JavaScript to query hardware specifications, canvas rendering, WebGL
+capabilities, installed fonts, and screen dimensions to generate a
+unique digital fingerprint. NoScript restricts the execution of these
+data-gathering scripts, preserving the uniform identity of Tor users and
+preventing third-party trackers from correlating browsing activity
+across multiple sessions.</p>
+<h3 id="providing-granular-execution-control">Providing Granular
+Execution Control</h3>
+<p>NoScript allows users to define trust boundaries for individual
+domains. Instead of an all-or-nothing approach to website functionality,
+it isolates potentially unsafe elements. Key control mechanisms
+include:</p>
+<ul>
+<li><strong>Default Deny Policy:</strong> Scripts, Java, Flash, and
+other executable plugins are blocked by default unless explicitly
+permitted by the user.</li>
+<li><strong>Per-Site Permissions:</strong> Users can temporarily or
+permanently allow trusted domains to execute scripts while keeping
+third-party tracking scripts blocked.</li>
+<li><strong>Granular Object Blocking:</strong> In addition to
+JavaScript, NoScript can block HTML5 media, web fonts, and frames on
+untrusted sites.</li>
+</ul>
+<h3 id="powering-tors-security-levels">Powering Tor's Security
+Levels</h3>
+<p>The Tor Browser relies on NoScript as the underlying engine for its
+built-in Security Levels:</p>
+<ol type="1">
+<li><strong>Standard:</strong> All browser and website features are
+enabled. NoScript operates in the background with minimal
+restrictions.</li>
+<li><strong>Safer:</strong> Disables JavaScript on non-HTTPS sites and
+blocks fonts and math symbols that could be used for fingerprinting.
+Some media formats are turned into click-to-play.</li>
+<li><strong>Safest:</strong> JavaScript is disabled globally by default
+on all sites. Media, fonts, and icons are heavily restricted to minimize
+the attack surface entirely.</li>
+</ol>
+<h3 id="cross-site-scripting-xss-and-clickjacking-protection">Cross-Site
+Scripting (XSS) and Clickjacking Protection</h3>
+<p>NoScript includes built-in protection against client-side web attacks
+such as Cross-Site Scripting (XSS) and Clickjacking (UI redressing). Its
+anti-XSS filter inspects suspicious cross-site requests to prevent
+malicious code from executing within the context of a legitimate
+session. Additionally, the ClearClick feature prevents hidden or
+disguised interface elements from tricking users into clicking on
+malicious links or approving sensitive permissions.</p></article>
+        <div id="comments-container"></div>
+
+        <script>
+            const utterancesScript = document.createElement('script');
+            
+            utterancesScript.setAttribute('src', 'https://utteranc.es/client.js');
+            utterancesScript.setAttribute('repo', 'salivity/tor'); 
+            utterancesScript.setAttribute('issue-term', 'pathname'); 
+            utterancesScript.setAttribute('theme', localStorage.getItem('theme') === 'dark' ? 'github-dark' : 'github-light'); 
+            utterancesScript.setAttribute('crossorigin', 'anonymous');
+            utterancesScript.async = true;
+
+            document.getElementById('comments-container').appendChild(utterancesScript);
+        </script>
+    
+    </main>
+    <footer>
+        <nav>
+            <ul class="social-links">
+            </ul>
+        </nav>
+        <nav>
+            <ul class="footer-links">
+                <li><a href="/tor/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/tor/terms-and-conditions">Terms and Conditions</a></li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            Copyright &copy; <span id="current-year"></span>
+        </div>
+    </footer>
+</body>
+</html>
